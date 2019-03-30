@@ -35,6 +35,7 @@
 	</languages>
         <updateservers> 
             <server type="extension" name="mod_multimodule" priority="1">//explorer-office.ru/modules/mod_multimodule_update.xml</server>
+            <server type="extension" name="mod_multimodule" priority="2">//raw.githubusercontent.com/korenevskiy/mod_multimodule/master/mod_multimodule_update.xml</server>
         </updateservers>
 <!--
         <scriptfile>script.php</scriptfile>
