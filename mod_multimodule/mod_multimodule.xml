@@ -1,0 +1,1834 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension  type="module" version="3" method="upgrade" client="site">
+	<name>_Multi module</name>
+	<author>Korenevskiy Sergei</author>
+	<creationDate>May 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>korenevskiys@ya.ru</authorEmail>
+	<authorUrl>//www.explorer-office.ru</authorUrl>
+	<version>3.10</version>
+        <description>&lt;span  class="badge badge-info" &gt;[[%1:]]:[[%2:]] / [[%3:]]:[[%4:]]&lt;/span&gt;,JVersion,3.10.010,JDate,2019-03-30</description>
+             
+     <!--     <customContent /> -->
+        
+	<files>
+		<filename module="mod_multimodule">mod_multimodule.php</filename>
+		<filename>mod_multimodule.xml</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+                
+		<folder>assets</folder>
+		<folder>language</folder>
+		<folder>img</folder>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>media</folder>
+		<folder>tmpl</folder>
+		<folder>fields</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_multimodule.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_multimodule.sys.ini</language>
+		<language tag="ru-RU">language/ru-RU/ru-RU.mod_multimodule.ini</language>
+		<language tag="ru-RU">language/ru-RU/ru-RU.mod_multimodule.sys.ini</language>
+	</languages>
+        <updateservers> 
+            <server type="extension" name="mod_multimodule" priority="1">//explorer-office.ru/modules/mod_multimodule_update.xml</server>
+        </updateservers>
+<!--
+        <scriptfile>script.php</scriptfile>
+        <install>
+            <sql>
+                <file driver="mysql" charset="utf8">sql/mysql/install.mysql.utf8.sql</file>
+                <file driver="sqlazure" charset="utf8">sql/sqlazure/install.sqlazure.utf8.sql</file>
+            </sql>
+        </install>
+        <uninstall>
+            <sql>
+                <file driver="mysql" charset="utf8">sql/mysql/uninstall.mysql.utf8.sql</file>
+                <file driver="sqlazure" charset="utf8">sql/sqlazure/uninstall.sqlazure.utf8.sql</file>
+            </sql>
+        </uninstall>
+        <update> 
+            <schemas>
+                <schemapath type="mysql">sql/mysql/updates</schemapath> 
+                <schemapath type="sqlazure">sql/sqlazure/updates</schemapath> 
+            </schemas> 
+        </update>
+--> 
+
+        <config>
+            <fields name="params">
+                <fieldset name="basic">   
+
+                    <field
+                        type="spacer"
+                        default=""
+                        label="
+╔═════════════════════════════════════════════════════════════════════════════╗&lt;br>
+║                                                  ↓ Please buy FULL version this product.↓ This the Free version.↓                                           ║&lt;br>
+╚═════════════════════════════════════════════════════════════════════════════╝&lt;br>"
+                        description=""
+                        showon="myfile!:use.php"
+                    />
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+				<field
+					name="moduleclass_sfx2"
+					type="textarea"
+					label="[[%1:]] 2,COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
+  
+ 
+                    <field name="module_tag2" type="list"
+                           label="[[%1:]] 2,COM_MODULES_FIELD_MODULE_TAG_LABEL"
+                           description="COM_MODULES_FIELD_MODULE_TAG_DESC"
+                           default="">
+                        <option value=""> - - - - - </option>
+                        <option value="div">&lt;div></option>
+                        <option value="address">&lt;address></option>
+                        <option value="nav">&lt;nav></option>
+                        <option value="aside">&lt;aside></option>
+                        <option value="header">&lt;header></option>
+                        <option value="main">&lt;main></option>
+                        <option value="footer">&lt;footer></option>
+                        <option value="section">&lt;section></option>
+                        <option value="details">&lt;details></option>
+                        <option value="summary">&lt;summary></option>
+                    </field>  
+<!-- 
+                    <field
+                        name="modules_ordering"
+                        type="radio"   
+                        class="btn-group btn-group-yesno "
+                        label="MOD_MULTIMODULE_FIELD_SORTING_LABEL"
+                        description="ДА:в порядке менеджера модулей,  НЕТ: в порядке выбора поля"
+                        default="0">
+                            <option value="1">JYES</option>
+                            <option value="0">JNO</option>
+                    </field>
+
+                    <field
+                        name="tagclass_sfx"
+                        type="text"
+                        label="Suffix class Tag"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+                    />
+                    
+				<field
+					name="ordering"
+					type="list"
+					default="a.publish_up"
+					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC"
+				>
+					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
+					<option value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>
+					<option value="a.ordering">MOD_ARTICLES_NEWS_FIELD_ORDERING_ORDERING</option>
+					<option value="a.hits">JGLOBAL_HITS</option>
+					<option value="rand()">MOD_ARTICLES_NEWS_FIELD_ORDERING_RANDOM</option>
+				</field>
+
+				<field
+					name="direction"
+					type="list"
+					default="1"
+					label="JGLOBAL_ORDER_DIRECTION_LABEL"
+					description="JGLOBAL_ORDER_DIRECTION_DESC"
+				>
+					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
+					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
+				</field>
+-->
+                    <field
+                        name="prepare_content"
+                        type="radio"  
+                        class="btn-group -btn-group-yesno     "
+                        label="[[%1:]] &lt;b&gt; &lt;/b&gt; &lt;del&gt;&lt;/del&gt;,MOD_MULTIMODULE_FIELD_CONTENT_PREPARE_LABEL" 
+                        default="0"> 
+                            <option value="onContentPrepare">JYES</option>
+                          <!--   <option value="onContentPrepare">onContentPrepare</option>
+                            <option value="onAfterRender">onAfterRender</option>-->
+                            <option value="0">JNO</option>
+                    </field>
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    
+                    
+                    
+                    
+                    <field name="title_alt" type="text" default=" " label="MOD_MULTIMODULE_FIELD_ALTERNATIVETITLE_LABEL" description="" size="10" filter="raw"/>
+                    <field
+                        name="link_show"
+                        type="radio"
+                        class="btn-group "
+                        label="MOD_MULTIMODULE_FIELD_TITLE_LINK_LABEL"
+                        description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
+                        default="0"> 
+                            <option value="ha">[[%1:]] , &lt; h*> &lt; a/&gt; </option>  
+                            <option value="ah">[[%1:]] , &lt; a&gt; &lt; h*/> </option>  
+                            <option value="0">JNO</option>
+                    </field>                    
+                    <field name="link" type="url" default=" " label="MOD_MULTIMODULE_FIELD_TITLEURL_LABEL" description="" size="10" 
+                           showon="link_show:ha[OR]link_show:ah[OR]link_show:1"/>
+                    <field name="link_menu" type="menuitem" default="0" label="MOD_MULTIMODULE_FIELD_TITLELINKMENU_LABEL" description="Select a menu item" 
+                           
+                            showon="link_show:ha[OR]link_show:ah[OR]link_show:1" >
+                            <option value="0">MOD_MULTIMODULE_FIELD_TITLELINKMENU_OPT</option>
+                    </field>
+
+ 
+    
+                            
+                            
+                                                
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field name="note033" type="note" label="MOD_MULTIMODULE_FIELD_IMAGE_LABEL" description="" /> 
+                    <field
+                        name="image_show"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        
+                        label="[[%1:]] [[%2:]],JSHOW,MOD_MULTIMODULE_FIELD_IMAGE_LABEL"
+                        description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
+                        default="0">
+                            <option value="1">JENABLED</option>
+                            <option value="0">JDISABLED</option>
+                    </field>    
+                    <field name="image_order" type="number" default="1" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1" showon="image_show:1"/> 
+                    <field name="image" type="media"
+                           label="JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE" description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC"  showon="image_show:1"/> 
+
+                            
+                    <field 
+                        type="spacer"
+                        label="______________________________________________________________________________________________________________________________"
+                            hr="false" 
+                    />	                             
+                    <field 
+                        type="spacer"
+                        label="______________________________________________________________________________________________________________________________"
+                            hr="false" 
+                    />	 
+                    
+                    <field name="note033x" type="note" label="MOD_MULTIMODULE_FIELD_ELEMENTS_LABEL" description="" /> 
+                     
+                  <!--   <field
+			name="modules_tag3x"
+			type="list" 
+			default="div"
+			label="HTML-Tag element"
+			description="MOD_PRODCALENDAR_FIELD_ORDERING_DESC"> 
+                        
+                            <option value="div">&lt;div> -> Empty</option>
+                            <option value="div_div">&lt;div> -> DIV</option>
+                            <option value="default"> - - Default - - </option> 
+                            
+                            
+                            <option value="empty"> - -Empty - - </option>
+                            
+                            <option value="div_html5">&lt;div> -> html5</option>
+                            <option value="div_table">&lt;div> -> table</option>
+                            <option value="div_horz">&lt;div> -> horz</option>
+                            <option value="div_xhtml">&lt;div> -> xhtml</option>
+                            <option value="div_rounded">&lt;div> -> rounded</option>
+                            <option value="div_outline">&lt;div> -> outline</option>
+                            
+                            
+                            <option value="dl">&lt;dl> - List dt,dd</option>
+                            <option value="figure_outline">&lt;figure> -> figcaption</option>
+                            <option value="ul">&lt;ul> - List</option>
+                            <option value="table-v">&lt;table> - Table-Vertical</option>
+                            
+                        
+                            <option value="label">&lt;label></option>
+                            <option value="article">&lt;article></option>
+                            <option value="section">&lt;section></option>
+                            <option value="aside">&lt;aside></option>
+                            <option value="address">&lt;address></option>
+                            <option value="nav">&lt;nav></option>
+                    </field> -->
+                    <!--
+    //details summary x
+    //figure  figcaption x
+    //fieldset legend x
+    //dl dt dd
+    //list($tag_title, $tag_block, $tag_container, $tag_item) = explode('_', $tag); -->
+    
+    
+                    <field
+                        name="disable_module_empty_count" 
+                        type="radio"    required="false" 
+                        class="btn-group btn-group-yesno " 
+                        label="MOD_MULTIMODULE_FIELD_HIDEIFNOT_LABEL" 
+                        description="MOD_MULTIMODULE_FIELD_HIDEIFNOT_DESC"
+                        default="1">
+                            <option value="1">JYES</option>
+                            <option value="0">JNO</option>
+                    </field>
+    
+                    <field name="modules_tag3" type="list" default="//div"
+                           label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_MODULES_TAG_LABEL"
+                           description="COM_MODULES_FIELD_MODULE_TAG_DESC"
+                           >
+                        <option value=" ">JOPTION_DO_NOT_USE</option>
+                   <!--     <option value="/div">&lt;$module/ ></option> -->
+                        <option value="//div">&lt;div/></option>
+                        <option value="/div/div">&lt;div>&lt;div/></option>
+                        <option value="/ul/li">&lt;ul>&lt;li/></option>
+                        <option value="/address">&lt;address/></option>
+                        <option value="/nav">&lt;nav/></option>
+                        <option value="/aside">&lt;aside/></option>
+                        <option value="/header">&lt;header/></option>
+                        <option value="/main">&lt;main/></option>
+                        <option value="/footer">&lt;footer/></option>
+                        <option value="/section">&lt;section/></option>
+                        <option value="summary//details">&lt;details>&lt;summary/>&lt;$module/ ></option>
+                        <option value="legend//fieldset">&lt;fieldset>&lt;legend/>&lt;$module/ ></option>
+                        <option value="figcaption//figure">&lt;figure>&lt;figcaption/>&lt;$module/ ></option>
+                        <option value="dt/dd//dl">&lt;dl >&lt;dt/>&lt;dd/></option>
+                        <option value="th/table/tr/td">&lt;table>&lt;tr>&lt;th/>&lt;td/></option>
+                    </field> 
+                    
+				<field
+					name="style_tag3"
+					type="chromestyle"
+                                        default="System-none" 
+					label="[[%1:]] ↓,COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+					description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
+				>
+                                    <option value="inset">X_JYES</option>
+                                </field>  
+                                
+                    <field name="header_tag3" 
+                           type="list" 
+                           default="default"  showon="style_tag3!:0" 
+                           label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_TITLE_TAG3_LABEL"
+                           description="Tags heads/titles items: &lt;br/> 
+                                        &lt; DIV/ &gt; - Tag headers/titles &lt;br/>
+                                       '[[%1:]]' - Not show heads/titles &lt;br/>  
+                                       '[[%2:]]' - Headtag from modules &lt;br/>  
+                                       '[[%3:]]' - Show only if in module enabled show title,JDISABLED,MOD_MULTIMODULE_OPTION_TAG_MODULE,JOPTION_USE_DEFAULT" >
+                        <option value="default">JOPTION_USE_DEFAULT</option> 
+                        <option value="item">MOD_MULTIMODULE_OPTION_TAG_MODULE</option>
+                        <option value="0">JDISABLED</option>  
+                <!--      -->            <!--      <option value="">JOPTION_DO_NOT_USE</option>-->
+                        <option value="h1">&lt; h1/ &gt;</option>
+                        <option value="h2">&lt; h2/ &gt;</option>
+                        <option value="h3">&lt; h3/ &gt;</option>
+                        <option value="h4">&lt; h4/ &gt;</option>
+                        <option value="h5">&lt; h5/ &gt;</option>
+                        <option value="h6">&lt; h6/ &gt;</option>
+                        <option value="p"> &lt; p/ &gt;</option>
+                        <option value="span"> &lt; span/ &gt;</option>
+                        <option value="label"> &lt; label/ &gt;</option>
+                        <option value="title"> &lt; title/ &gt;</option>
+                        <option value="div">&lt; div/ &gt;</option>
+                    </field>
+                    
+                    <field name="content_tag3" type="list" default="0"
+                           label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_CONTENT_TAG3_LABEL"
+                           description="COM_MODULES_FIELD_MODULE_TAG_DESC"   showon="style_tag3!:0" 
+                           >
+                        <option value="0">JOPTION_DO_NOT_USE</option>
+                        <option value="item">MOD_MULTIMODULE_OPTION_FROM_MODULE</option>
+                        <option value="default">JOPTION_USE_DEFAULT</option> 
+                <!--            <option value="default">JOPTION_USE_DEFAULT</option>   -->
+                        <option value="none">JDISABLED</option>
+                   <!--     <option value="/div">&lt;$module/ ></option> -->
+                        <option value="p">&lt;p/></option>
+                        <option value="span">&lt;span/></option>
+                        <option value="label">&lt;label/></option>
+                        <option value="div">&lt;div/></option>
+                        <option value="address">&lt;address/></option>
+                        <option value="nav">&lt;nav/></option>
+                        <option value="aside">&lt;aside/></option>
+                        <option value="section">&lt;section/></option>
+                        <option value="header">&lt;header/></option>
+                        <option value="main">&lt;main/></option>
+                        <option value="footer">&lt;footer/></option>  
+                    </field> 
+                    
+                    
+                    
+                    <field
+                        name="items_link" 
+                        type="radio"    required="false" 
+                        class="btn-group  " 
+                        label="MOD_MULTIMODULE_FIELD_ITEMS_LINK_TITLE_LABEL" 
+                        description=""   showon="style_tag3!:0" 
+                        default="0">
+                            <option value="ha">[[%1:]] , &lt; h*> &lt; a/&gt; </option>  
+                            <option value="ah">[[%1:]] , &lt; a&gt; &lt; h*/> </option>  
+                            <option value="0">JHIDE</option>
+                    </field>
+                    <field
+                        name="items_image" 
+                        type="radio"    required="false" 
+                        class="btn-group  " 
+                        label="MOD_MULTIMODULE_FIELD_ITEMS_IMAGE_LABEL" 
+                        description=""   showon="style_tag3!:0" 
+                        default="di">
+                            <option value="ai">[[%1:]] , &lt; a> &lt; img&gt; </option>
+                            <option value="di">[[%1:]] ,  &lt; div> &lt; img&gt; </option>
+                            <option value="i">[[%1:]] , &lt; img&gt; </option>
+                            <option value="0">JHIDE</option>
+                    </field>
+                     
+                     
+                      
+                       
+                        
+                          
+                    
+                    <field
+                        name="type_module"
+                        type="hidden" 
+                        default="positions" 
+                        
+				> 
+                        <!--
+                                        <option value="positions">COM_MODULES_FIELD_POSITION_LABEL</option>
+					<option value="modules">COM_MODULES_MODULE</option>
+
+                                        <option value="menu">Menu</option>
+					<option value="article">Select Article</option>
+					<option value="0">Empty</option> -->
+                    </field>  
+               
+                    <field
+                        type="spacer"
+                        default=""
+                        label="______________________________________________________________________________________________________________________________"
+                        description=""
+                    />	  
+                    
+                    <field name="note03" type="note" label="COM_MODULES_CUSTOM_POSITION" description="" /> 
+                    
+                    <field
+                        name="position_show"
+                        type="radio"
+                        class="btn-group  "
+                        default="0"
+                        label="JSHOW"
+                        description="COM_MODULES_OPTION_SELECT_MODULE" 
+                        
+				>
+                                        <option value="position_module">[[%1:]] 1,COM_MODULES_FIELD_POSITION_LABEL</option>
+					<option value="position_modules">[[%1:]] 2,COM_MODULES_FIELD_POSITION_LABEL</option> 
+                                        <option value="0">JDISABLED</option>
+                    </field> 
+
+<!-- COM_MODULES_HEADING_POSITION -->       
+                    <field name="position_order" type="number" default="2" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
+                            class="_chzn-color"
+                            showon="position_show:position_module[OR]position_show:position_modules"
+                        /> 
+                    <!--<field name="position_tag" type="moduletag"
+                        label="HTML-Tag"
+                        description=""
+                        default="div" />-->
+                    
+                    <field
+                        name="position_module" 
+                        type="moduleposition"
+                        class="chzn-custom-value  chzn-custom-value"
+                        label="[[%1:]] 1,COM_MODULES_FIELD_POSITION_LABEL"
+                        description="COM_MODULES_FIELD_POSITION_DESC" 
+                        default="_multiposition_1" 
+                        maxlength="150"	
+                        showon="position_show:position_module"                    />
+                    <field
+                        name="position_modules"
+                        type="sql"
+                        label="[[%1:]] 2,COM_MODULES_FIELD_POSITION_LABEL"
+                        multiple="true"    
+						key_field="position" 
+						value_field="title" required="false"
+                        default=""
+                        maxlength="250"	
+						width="250"
+                        query="SELECT position, CONCAT(IF(position='','---',position),' -: ', GROUP_CONCAT(title ORDER BY ordering SEPARATOR ', ')) AS title FROM (
+                            SELECT position, ordering, CONCAT(title,' (',id,': ',module,')', IF(published=1,'☺','♯'),IF(showtitle=1,'+','-')) AS title FROM #__modules WHERE client_id=0 /*AND module!='mod_multimodule'*/ AND position!='' ORDER BY ordering
+                        ) AS tbl GROUP BY position;"	
+                        showon="position_show:position_modules"  />             
+<!-- 
+                    <field  
+                        name="position_name1" 
+                        type="modulesposition" 
+                        size="5" 
+                        multiple="true"   
+                        class="chzn-custom-value custom"
+                        default="_multiposition_1"
+                        label="COM_MODULES_CHANGE_POSITION_BUTTON" 
+                        description="COM_MODULES_CHANGE_POSITION_BUTTON" 
+                        addfieldpath="/administrator/components/com_content/models/fields/modal"
+                    >
+                        <option value="_multiposition_1">_MultiPosition_1</option>
+                    </field>  
+
+
+                    
+                    <field  
+                        name="position_name3" 
+                        type="Position" 
+                        size="5" 
+                        default=""                    
+                        label="COM_MODULES_CHANGE_POSITION_BUTTON" 
+                        description="COM_CONTENT_CHANGE_ARTICLE" 
+                        addfieldpath="/modules/mod_multimodule/fields"
+                    /> 
+-->
+<!-- 
+                    query="SELECT id AS value, CONCAT(title,' (',module,':',id,')', IF(published=0,'☺','🚫'),IF(showtitle=1,'+','-'),'   ', position,'') AS modules FROM #__modules WHERE client_id=0" />                                
+-->
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field name="note04" type="note" label="COM_MODULES_MODULES" description="" />  
+                    <field
+                        name="modules_show"
+                        type="radio"
+                        class="btn-group  "
+                        default="0"
+                        label="JSHOW"
+                        description="COM_MODULES_OPTION_SELECT_MODULE" 
+                    >
+                        <option value="1">JENABLED</option>
+                        <option value="0">JDISABLED</option>
+                    </field>    
+                    <field name="modules_order" type="number" default="3" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1" 
+                        showon="modules_show:1"/> 
+                    <!--<ield name="modules_tag" type="moduletag"
+                        label="HTML-Tag"
+                        description=""
+                        default="div" />-->
+                    <field
+                        name="modules"
+                        type="sql"
+                        default=""
+                        label="Select a Modules"
+                        multiple="true"   
+                        query="SELECT id AS value, CONCAT( title,' (',id,':',module,')', IF(published=1,'☺','🚫'),IF(showtitle=1,'+','-'),' ', IF(position='','no_pos',position),'') AS modules FROM #__modules WHERE client_id=0 /*AND module!='mod_multimodule'*/ ORDER BY position, ordering" 
+                        showon="modules_show:1"/>                                
+                     
+ <!--
+                    <field  
+                        name="modulesids" 
+                        type="ModulesModule" 
+                        size="5" 
+                        default=""     
+                        multiple="true"               
+                        label="COM_MODULES_MODULE_ASSIGN" 
+                        description="" 
+                        addfieldpath="/administrator/components/com_content/models/fields/modal"
+                    /> 
+                    --> 
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+					
+                    <field  type="note" label="MOD_MULTIMODULE_FIELD_MENU_LABEL" description="" /> 
+                    
+                    <field
+                        name="menu_show"
+                        type="radio"
+                        class="btn-group  btn-group-yesno "
+                        default="0"
+                        label="JSHOW"
+                        description="COM_MODULES_OPTION_SELECT_MODULE" 
+                    >
+                        <option value="1">JENABLED</option>
+                        <option value="0">JDISABLED</option>
+                    </field>    
+                    <field name="menu_order" type="number" default="4" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1" 
+                             showon="menu_show:1"/> 
+                    <!--<field name="menu_tag" type="moduletag"
+                        label="HTML-Tag"
+                        description=""
+                        default="div" />    -->
+                     
+                    <field name="menu" type="menu" default="mainmenu" label="MOD_MULTIMODULE_FIELD_MENUSELECT_LABEL"   showon="menu_show:1"/>
+                    
+                    <field
+                        name="menu_img_show"
+                        type="radio"
+                        class="btn-group  btn-group-yesno"
+                        label="MOD_MULTIMODULE_FIELD_SHOWITEMIMAGE_LABEL"
+                        description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
+                        default="0"
+                        showon="menu_show:1">
+                            <option value="out">Out &lt; A/&gt;</option>
+                            <option value="in">In &lt; A/&gt;</option>
+                            <option value="0">JNO</option>
+                    </field>   
+                   
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                      <field type="note" label="MOD_MULTIMODULE_FIELD_CATEGORYSELECT_LABEL"   />
+                    <field
+                        name="categories_show"
+                        type="radio"
+                        class="btn-group  "
+                        default="0"
+                        label="JSHOW"
+                        description="COM_MODULES_OPTION_SELECT_MODULE" 
+                    >
+                        <option value="full">Full</option>
+                        <option value="intro">Intro</option>
+                        <option value="content">Content</option>
+                        <option value="0">JDISABLED</option>
+                    </field>    
+                    <field name="categories_order" type="number" default="5" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
+                           showon="categories_show:full[OR]categories_show:intro[OR]categories_show:content"/> 
+                    <field
+                        name="categories_id"
+                        type="category"
+			label="JCATEGORY"
+			description="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_DESC"
+			extension="com_content"
+			multiple="true"
+			size="5" 
+                        showon="categories_show:full[OR]categories_show:intro[OR]categories_show:content"
+			>
+                            <option value="">JOPTION_ALL_CATEGORIES</option>
+                    </field>
+                     
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                      
+                      <field  type="note" label="MOD_MULTIMODULE_FIELD_ARTICLESELECT_LABEL" description="" />
+                            
+<!--
+                    <field
+                        type="spacer"
+                        default=""
+                        label="Select Article" 
+                        description=""
+                    /> 
+-->                    
+                    <field
+                        name="article_show"
+                        type="radio"
+                        class="btn-group  "
+                        default="0"
+                        label="JSHOW"
+                        description="COM_MODULES_OPTION_SELECT_MODULE" 
+                    >
+                        <option value="full">Full</option>
+                        <option value="intro">Intro</option>
+                        <option value="content">Content</option>
+                        <option value="0">JDISABLED</option>
+                    </field>    
+                    <field name="article_order" type="number" default="6" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
+                           showon="article_show:full[OR]article_show:intro[OR]article_show:content"/> 
+                    <!--<field name="article_tag" type="moduletag"
+                        label="HTML-Tag"
+                        description=""
+                        default="div" />     -->
+                    <field  
+                        name="article_id" 
+                        type="article"  hiddenLabel="true" 
+                        size="5" 
+                        default=""                    
+                        label="COM_MODULES_FIELD_SHOWTITLE_LABEL" 
+                        description="COM_CONTENT_CHANGE_ARTICLE" 
+                        addfieldpath="/modules/mod_multimodule/fields"
+                           showon="article_show:full[OR]article_show:intro[OR]article_show:content"
+                    />          
+
+                    
+                    
+                    
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                      
+                      <field  type="note" label="MOD_MULTIMODULE_FIELD_IMAGES_LABEL" description="" /> 
+-->                    
+                    <field
+                        name="images_show"
+                        type="radio"
+                        class="btn-group  btn-group-yesno "
+                        default="0"
+                        label="JSHOW"
+                        description="COM_MODULES_OPTION_SELECT_MODULE" 
+                    > 
+                        <option value="sort">Sort</option>
+                        <option value="rnd">Random</option>
+                        <option value="0">JDISABLED</option>
+                    </field>    
+                    <field name="images_order" type="number" default="7" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
+                           showon="images_show:sort[OR]images_show:rnd"/> 
+                    <field name="images_folder" type="folderlist" default="" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"   filter="" exclude="" stripext="" 
+                            showon="images_show:sort[OR]images_show:rnd"/> 
+                       <field name="images_count" type="number" default="12" label="MOD_MULTIMODULE_FIELD_IMAGESCHOOSE_LABEL" description="" min="0" max="128" step="1"
+                            showon="images_show:sort[OR]images_show:rnd"/>
+                    <field 
+                        name="images_links"
+			type="textarea"
+                        default="&#13;&#10;"
+			label="MOD_MULTIMODULE_FIELD_LINKS_LABEL"
+			description="Separator links &#166;"  
+                        rows="4"
+                        showon="images_show:sort[OR]images_show:rnd"
+				/>
+                    <field 
+                        name="images_titles"
+			type="textarea"
+                        default="&#13;&#10;" filter="raw"
+			label="MOD_MULTIMODULE_FIELD_TITLES_LABEL"
+			description="Separator titles &#166;"  
+                        rows="4"
+                        showon="images_show:sort[OR]images_show:rnd"
+				/>
+                    <field 
+                        name="images_texts"
+			type="textarea"
+                        default=""
+			label="MOD_MULTIMODULE_FIELD_TEXTS_LABEL"
+			description="Separator texts &#166;
+"  
+                        rows="4"
+                        showon="images_show:sort[OR]images_show:rnd"
+				/>
+                    
+           
+                    
+                    
+                </fieldset>
+                <fieldset name="assignment"  label="MOD_MULTIMODULE_FIELD_CONDITIONS_LABEL"> 
+                    <field
+                        name="work_type_require"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="0" 
+                        multiple="true"  
+                        label="MOD_MULTIMODULE_FIELD_FILTERTYPE_LABEL"   
+                    >
+                        <option value="0">MOD_MULTIMODULE_FIELD_FILTERTYPEALL_LABEL</option>
+                        <option value="and">MOD_MULTIMODULE_FIELD_FILTERTYPEAND_LABEL</option>
+                        <option value="or">MOD_MULTIMODULE_FIELD_FILTERTYPEOR_LABEL</option>
+                    </field>    
+                    <field
+                        type="spacer" 
+                        showon="work_type_require:0"
+                        default=""
+                        label="
+╔═════════════════════════════════════════════════════════════════════════════╗&lt;br>
+║                                                                              ↓ This Disabled Filter. ↓                                                                                 ║&lt;br>
+╚═════════════════════════════════════════════════════════════════════════════╝&lt;br>" 
+                    />
+                    <field
+                        type="spacer" 
+                        showon="work_type_require!:0"
+                        default=""
+                        label="
+╔═════════════════════════════════════════════════════════════════════════════╗&lt;br>
+║                                                                              ↓ This Enabled Filter ↓                                                                                   ║&lt;br>
+╚═════════════════════════════════════════════════════════════════════════════╝&lt;br>" 
+                    />
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field
+                        name="mainpage_is"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_FILTERMAINPAGE_LABEL"
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>  
+                    
+                    
+                    
+                    
+                    
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    
+                    <field
+                        name="mobile_is"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_FILTERMOBILEDEVICE_LABEL"
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>  
+                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field name="myfile" 
+                           type="filelist" 
+                           label="Select a file" 
+                           description="" 
+                           hide_default='true' hide_none='false'
+                           default="use.php" filter="use.php" 
+                           directory="modules/mod_multimodule/element/" exclude="" stripext="" 
+                        showon="myfile:1"
+                         /> 
+                    <field
+                        type="spacer"
+                        default=""
+                        label="
+╔═══════════════════════════════════════════════════════════════════════════════════════╗&lt;br>
+║          ↓NO licensed.↓ Please buy this product.↓ The settings below work in DEMO mode for the Free version.↓ &lt;a href='//explorer-office.ru/download/joomla' target='_blank'>Link to site module.↓&lt;/a>             ║&lt;br>
+╚═══════════════════════════════════════════════════════════════════════════════════════╝&lt;br>"
+                        description=""
+                        showon="myfile!:use.php"
+                    />
+                    
+                    
+                    
+                    <!--<field name="menu_assigment" type="menuitem" default="0" label="Select a menu item" description="Select a menu item"
+                           showon="menu_is:only[OR]menu_is:without"                    >
+                        <option	value="0">JDEFAULT</option>
+                    </field>-->
+                               
+                    <field
+                        type="spacer" 
+                        showon="myfile!:use.php"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field
+                        name="menu_is"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_MENU_LABEL"
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>  
+                                
+                    <field
+                        name="menu_assigment"
+                        type="sql"
+                        default="0"
+                        label="[[%1:]] ,MOD_MULTIMODULE_FIELD_MENUITEM_LABEL"
+                        
+                        multiple="true" key_field="id"    value_field="title" translate_default="true"  
+                        query="SELECT '- - All - -' title, 0 level, 0 id UNION(SELECT * FROM (
+SELECT CONCAT(if(level=1,'&#9733;',''), REPEAT('- ',level-1),title,IF(published=1,'','🚫'),IF(home,'&#127775;','')) title, level, id /*, parent_id, lft, rgt, published, title, alias, path  , home, client_id, access*/
+FROM #__menu 
+WHERE client_id = 0  AND published >=0 AND level > 0
+ORDER BY lft)t) ;
+" 
+                        showon="menu_is:only[OR]menu_is:without"       />   
+                        
+                        
+                                                                             
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field
+                        name="component_is"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_FILTERCOMPONENT_LABEL"
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>  
+<field name="component_site" type="contenttype"
+	label="Component"     showon="component_is:only[OR]component_is:without"  
+	multiple="true" />        
+                      
+                                    
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field
+                        name="view_is"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_FILTERCOMPONENTVIEW_LABEL"
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>  
+<field name="view_site" type="text" default="category, featured, article "
+	label="MOD_MULTIMODULE_FIELD_FILTERCOMPONENTVIEW_LABEL"      showon="view_is:only[OR]view_is:without"  
+	multiple="true" />    
+                                                   
+                                                                       
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field
+                        name="domen_is"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_FILTERDOMEN_LABEL"
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>     
+                    <field
+                        name="domen_site"
+                        type="assignment"   
+                        label="MOD_MULTIMODULE_FIELD_FILTERDOMENNAME_LABEL" description="THE NUMBER OF PRODUCTS IN ROW" 
+                           showon="domen_is:only[OR]domen_is:without"
+                         />
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                    <field
+                        name="ip_user_is"
+                        type="radio"
+                        class="btn-group  btn-group-yesno"
+                        default=""
+                        label="MOD_MULTIMODULE_FIELD_FILTERIP_LABEL"  
+                    >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>     
+                    <field
+                        name="ip_user"
+                        type="assignment"   
+                        label="MOD_MULTIMODULE_FIELD_FILTERIP_LABEL" description="THE NUMBER OF PRODUCTS IN ROW" 
+                           showon="ip_user_is:only[OR]ip_user_is:without"
+                         />
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    /> 
+                    <field
+                        name="is_debug"
+                        type="radio" 
+                        default=""  
+                        class="btn-group  btn-group-yesno "
+                        label="MOD_MULTIMODULE_FIELD_FILTERDEBUG_LABEL"
+                        description="url string 'index.php?deb=1'" 
+                         >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field>     
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+                </fieldset>      
+                <fieldset name="options" label="JGLOBAL_DESCRIPTION">
+                    <field
+                        name="description_show"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        label="JSHOW"
+                        description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
+                        default="0">
+                            <option value="1">JENABLED</option>
+                            <option value="0">JDISABLED</option>
+                    </field>   
+                    <field name="description_order" type="number" default="0" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1" 
+                            
+                           showon="description_show:1"/>  
+                    
+                    <field name="description_tag" type="list"  default="div" 
+                           label="[[%1:]] ↓,HTML-Tag"
+                           description="COM_MODULES_FIELD_MODULE_TAG_DESC"   showon="style_tag3!:0" 
+                           >
+                        <option value="0">JOPTION_DO_NOT_USE</option>
+                 <!--        <option value="default">MOD_MULTIMODULE_OPTION_FROM_MODULE</option> -->
+                <!--            <option value="default">JOPTION_USE_DEFAULT</option>   -->
+                    <!--       <option value="none">JDISABLED</option>--> 
+                        <option value="p">&lt;p/></option>
+                        <option value="span">&lt;span/></option>
+                        <option value="label">&lt;label/></option>
+                        <option value="div">&lt;div/></option>
+                        <option value="article">&lt;article/></option>
+                        <option value="address">&lt;address/></option>
+                        <option value="details">&lt;details/></option>
+                        <option value="nav">&lt;nav/></option>
+                        <option value="aside">&lt;aside/></option>
+                        <option value="section">&lt;section/></option>
+                        <option value="header">&lt;header/></option>
+                        <option value="main">&lt;main/></option>
+                        <option value="footer">&lt;footer/></option>
+                    </field> 
+                    
+                    
+                    <field
+                        name="description"
+                        type="editor" style="margin:0" class="span0"
+                        rows="100" cols="100" width="600"  height="300" 
+                        hide="readmore,pagebreak" buttons="true"    filter="raw"
+                        label="JGLOBAL_DESCRIPTION" description="THE NUMBER OF PRODUCTS IN ROW" 
+                         />
+                    
+                </fieldset>
+                
+                
+                
+            <!--       <fieldset name="option"  label="COM_MODULES_BASIC_FIELDSET_LABEL">   
+                    </fieldset>--> 
+                
+                <fieldset name="html"  label="HTML">   
+                        
+                    <field
+                        name="html_show"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        label="JSHOW"
+                        description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
+                        default="1">
+                            <option value="1">JENABLED</option>
+                            <option value="0">JDISABLED</option>
+                    </field> 
+                    <field name="html_order" type="number" default="10" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1" 
+                           showon="html_show:1"/> 
+                    
+                 <!-- option  safehtml raw -->
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description="" showon="html_show:1"
+                    />           
+                    <field
+                        name="copyright_show"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        label="[[%1:]] Copyright,JSHOW" 
+                        showon="html_show:1"
+                        description="Show Copyright text Before or After HTML text"
+                        default="0">
+                            <option value="before">Show Before</option>
+                            <option value="after">Show After</option>
+                            <option value="0">JDISABLED</option>
+                    </field> 
+                    <field 
+                        name="copyright_text"
+			type="textarea"
+                        default="© %y %title "
+			label="Copyright String"
+			description="Formats: &lt;br> 
+%y - Current year &lt;br>%m - Current month  &lt;br>%d - Current day  &lt;br>%title - Site name"  
+                        rows="4"
+                        showon="html_show:1[AND]copyright_show:before,after"
+				/>
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description="" showon="html_show:1"
+                    />           
+                            <field  
+                                    name="faviconsFiles" 
+                                    type="files"  
+                                    extensions="ico"  
+                                    class="advancedSelect"
+                                    multiple="true"            
+                                    label="File ICO" 
+                                    description="Finding file ICO in Paths: \n/templates/{template}/ico/, /templates/{template}/media/, /templates/ico/, /templates/media/, /templates/, /modules/mod_multimodule/ico/, /modules/mod_multimodule/media/" 
+                                    addfieldpath="modules/mod_multimodule/fields"
+                            showon="html_show:1"
+                                />  
+                        <!--    <field name="faviconsImages" type="media"
+                            label="JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE" description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC"  showon="html_show:1"/> 
+                            <field name="myimage1" type="imagelist" default="" label="Select an image" description="" directory="" exclude="" stripext="" />
+                            <field name="myimage2" type="media" directory="stories" /> -->
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description="" showon="html_show:1"
+                    /> 
+              <!--       <field
+                        type="text"
+                        default="&lt;hr>"
+                        label="deb= &lt;input type='text' style='width: 40px;' name='deb' value='F!123' default='F!123' /> "
+                        description=""  
+                    />  -->
+                                <field  
+                                    name="fontsFiles" 
+                                    type="files"  
+                                    extensions="eot/woff/ttf/otf/svg/fonts"  
+                                     class="advancedSelect"
+                                   multiple="true"            
+                                    label="Fonts Files" 
+                                    description="Recomended &lt;b>WOFF&lt;/b> file font.\n Finding file Font in Paths: \n/templates/{template}/fonts/, /templates/{template}/media/, /templates/fonts/, /templates/, /modules/mod_multimodule/fonts/, /modules/mod_multimodule/media/" 
+                                    addfieldpath="modules/mod_multimodule/fields"
+                           showon="html_show:1"
+                                />  
+                                
+                                
+                    <field name="fontsGoogle" type="text" label="&lt;u>&lt;a href='//developers.google.com/fonts/docs/getting_started' target='_blank'>Fonts Google Dev &lt;/a>&lt;/u>&lt;br>
+&lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>&lt;/u>" 
+                           description="
+&lt;b>&lt;u>Inconsolata&lt;/u>&lt;/b> &lt;br>
+&lt;b>&lt;u>Tangerine|Inconsolata|Droid+Sans&lt;/u>&lt;/b> &lt;br>
+&lt;b>&lt;u>Tangerine:bold,bolditalic|Inconsolata:italic|Droid+Sans&lt;/u>&lt;/b> &lt;br>
+&lt;b>&lt;u>Cantarell:i|Droid+Serif:b&lt;/u>&lt;/b>
+&lt;b>&lt;u>Roboto+Mono&amp;subset=latin,cyrillic,cyrillic-ext&amp;text=Hello&lt;/u>&lt;/b> &lt;br>  "   
+                            default="Lobster&amp;subset=latin,cyrillic,cyrillic-ext&amp;text=Hello"  
+                           filter="raw"/>
+                     
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description="" showon="html_show:1"
+                    />           
+                 <!-- option  safehtml raw -->
+                                <field  
+                                    name="stylesheetFiles" 
+                                    type="files"  
+                                    extensions="css"  
+                                     class="advancedSelect"
+                                   multiple="true"            
+                                    label="File CSS" 
+                                    description="Finding file CSS in Paths: \n/templates/{template}/css/, /templates/{template}/media/, /templates/css/, /templates/media/, /templates/, /modules/mod_multimodule/css/, /modules/mod_multimodule/media/" 
+                                    addfieldpath="modules/mod_multimodule/fields"
+                           showon="html_show:1"
+                                />  
+                                <field 
+					name="stylesheetText"
+					type="textarea"
+					default=""
+					label="CSS in Head"
+					description=""  
+                                        rows="4"
+                           showon="html_show:1"
+				/>
+                                
+                                <field 
+					name="stylesheetTag"
+					type="textarea"
+					default=""
+					label="CSS in Tag"
+					description=""  
+                                        rows="4"
+                                        cols="10"
+                           showon="html_show:1"
+				/>
+                                
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description="" showon="html_show:1"
+                    />      
+                                <field  
+                                    name="scryptFiles" 
+                                    type="files"
+                                    repeat="multiple"
+                                    extension="js"
+                                     class="advancedSelect"
+                                   multiple="true"            
+                                    label="File Scrypt" 
+                                    description="Finding file JS in Paths: \n/templates/{template}/js/, /templates/{template}/media/, /templates/js/, /templates/media/, /templates/, /modules/mod_multimodule/js/, /modules/mod_multimodule/media/" 
+                                    addfieldpath="modules/mod_multimodule/fields"
+                           showon="html_show:1"
+                                />  
+  				 
+                                <field 
+					name="scriptText"
+					type="textarea"
+					default=""
+					label="Script in Head"
+                                        rows="4"
+                           showon="html_show:1"
+				/>
+                                <field 
+					name="scriptTag"
+					type="textarea"
+					default=""
+					label="Script in Tag"
+					description="Script in Tag in Body HTML"  
+                                        rows="4"
+                           showon="html_show:1"
+				/>
+                                
+                    <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description="" showon="html_show:1"
+                    />      
+                                <field name="html_code" type="editor" editor="codemirror" 
+                                       label="Html code" description="" 
+                                       rows="100" cols="100" width="300"  height="200"  
+                                       filter="raw" class="inputbox" />  
+                                
+                     
+  				<!--<field 
+					name="stylesheetModule"
+
+					type="filelist"
+					default=""
+					label="CSS file in module"
+					description="MOD_PRODCALENDAR_FIELD_CSS_STYLE_SHEET_DESC"
+					directory="modules/mod_multimodule/css"
+                                        filter="css"
+                                        hide_default="true"
+				/>
+                                 
+  				<field 
+					name="stylesheetTemplates" 
+					type="filelist"
+					default=""
+					label="CSS file in templates"
+					description="Find CSS file in folder: /Templates/"
+					directory="/templates/"
+                                        hide_default="true"
+                                        filter="css"
+				/>-->
+                </fieldset>                 
+                
+                
+                
+                
+                
+                
+		<fieldset name="advanced">
+                                 
+<!-- general-модуль, assignment - Условия,- Привязка к меню
+                             <field
+					name="artid"
+					type="Modal_Article"
+					extension="com_content"
+					multiple="true"
+					default=""
+					size="10"
+					label="JARTICLE"
+					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
+                                        addfieldpath="'/administrator/components/com_content/models/fields/modal/article.php'"
+				>
+					 <option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
+-->
+                                 
+
+     
+<!--
+                            <field 
+					name="catid" 
+					type="category" 
+					extension="com_content"
+					multiple="true" 
+					size="5" 
+					label="MOD_PRODCALENDAR_FIELD_CATEGORY_LABEL" 
+					description="MOD_PRODCALENDAR_FIELD_CATEGORY_DESC"
+					>
+					  <option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
+-->
+    
+<!--
+                                <field  
+                                    name="fielddate" 
+                                    type="fields" 
+                                    size="5" 
+                                    default=""                    
+                                    label="Field Date" 
+                                    description="Field product Date calendar" 
+                                    addfieldpath="/modules/mod_multimodule/fields"/>
+                               <field
+                                    name="count_products"
+                                    type="text"
+                                    label="COUNT"
+                                    default = "5"
+                                    description="THE NUMBER OF PRODUCTS IN ROW" />
+  -->                                                                       					
+<!-- 				<field name="show_child_category_articles" type="radio"
+					class="btn-group"
+					default="0"
+					label="MOD_PRODCALENDAR_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
+					description="MOD_PRODCALENDAR_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
+				> 
+					<option
+						value="1">MOD_PRODCALENDAR_OPTION_INCLUDE_VALUE</option>
+					<option
+						value="0">MOD_PRODCALENDAR_OPTION_EXCLUDE_VALUE</option>
+				</field> 
+				 <field name="levels" type="text" default="1"
+					label="MOD_PRODCALENDAR_FIELD_CATDEPTH_LABEL"
+					description="MOD_PRODCALENDAR_FIELD_CATDEPTH_DESC" />	
+                                <field
+					name="usedate"
+					type="list"
+					default="created"
+					label="MOD_PRODCALENDAR_FIELD_USEDATE_LABEL"
+					description="MOD_PRODCALENDAR_FIELD_USEDATE_DESC">
+					<option
+						value="created">MOD_PRODCALENDAR_OPTION_USEDATE_CREATED</option>
+					<option
+						value="publish_up">MOD_PRODCALENDAR_OPTION_USEDATE_PUBLISHED</option>
+					<option
+						value="modified">MOD_PRODCALENDAR_OPTION_USEDATE_MODIFIED</option>
+					<option
+						value="publish_down">MOD_PRODCALENDAR_OPTION_USEDATE_PUBLISH_DOWN</option>
+				</field>
+			<field
+					name="ordering"
+					type="list"
+					default="published"
+					label="MOD_PRODCALENDAR_FIELD_ORDERING_LABEL"
+					description="MOD_PRODCALENDAR_FIELD_ORDERING_DESC">
+					<option
+						value="c_dsc">MOD_PRODCALENDAR_VALUE_RECENT_ADDED</option>
+					<option
+						value="m_dsc">MOD_PRODCALENDAR_VALUE_RECENT_MODIFIED</option>
+					<option
+						value="p_dsc">MOD_PRODCALENDAR_VALUE_RECENT_PUBLISHED</option>
+					<option
+						value="mc_dsc">MOD_PRODCALENDAR_VALUE_RECENT_TOUCHED</option>
+				</field>
+-->
+
+                                
+		 
+<!--
+                                         addfieldpath="/modules/mod_multimodule/fields"
+-->
+<!-- 	
+                                <field
+					name="user_id"
+					type="list"
+					default="0"
+					label="MOD_PRODCALENDAR_FIELD_USER_LABEL"
+					description="MOD_PRODCALENDAR_FIELD_USER_DESC">
+					<option
+						value="0">MOD_PRODCALENDAR_VALUE_ANYONE</option>
+					<option
+						value="by_me">MOD_PRODCALENDAR_VALUE_ADDED_BY_ME</option>
+					<option
+						value="not_me">MOD_PRODCALENDAR_VALUE_NOTADDED_BY_ME</option>
+				</field>
+  -->                                                                    					
+<!-- 	
+				<field
+					type="spacer"
+					default=""
+					label="COM_MODULES_HEADING_POSITION"
+					description=""
+				/>   
+				<field 
+					name="subyearname" 
+					type="list" 
+					default="0" 
+					label="MOD_PRODCALENDAR_FIELD_YEARNAME_LENGTH_LABEL" 
+					description="MOD_PRODCALENDAR_FIELD_YEARNAME_LENGTH_DESC">
+					<option
+						value="0">MOD_PRODCALENDAR_OPTION_FULL_NAME</option>
+					<option
+						value="1">MOD_PRODCALENDAR_OPTION_SHORT_NAME</option>
+				</field> 
+				<field 
+					name="remmonth" 
+					type="radio"
+					class="btn-group" 
+					default="0" 
+					label="MOD_PRODCALENDAR_FIELD_REMEMBER_MONTH_LABEL" 
+					description="MOD_PRODCALENDAR_FIELD_REMEMBER_MONTH_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				<field 
+					name="encode" 
+					type="list" 
+					default="UTF-8" 
+					label="MOD_PRODCALENDAR_FIELD_ENCODING_LABEL" 
+					description="MOD_PRODCALENDAR_FIELD_ENCODING_DESC">
+					<option
+						value="UTF-8">MOD_PRODCALENDAR_OPTION_ENCODE_UTF8</option>
+					<option
+						value="ISO-8859-1">MOD_PRODCALENDAR_OPTION_ENCODE_ISO-8859-1</option>
+					<option
+						value="Windows-1251">MOD_PRODCALENDAR_OPTION_ENCODE_WINDOWS-1251</option>
+					<option
+						value="KOI8-R">MOD_PRODCALENDAR_OPTION_ENCODE_KOI8-R</option>
+					<option
+						value="ISO-8859-1">MOD_PRODCALENDAR_OPTION_ENCODE_ISO-8859-1</option>				
+				</field>
+ 
+  -->
+ 
+ <!-- 			 https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html	 --> 	
+				<field
+					name="layout"
+					type="modulelayout"
+                                        default="_:default" 
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
+              
+				<field
+					type="spacer"
+					default=""
+					label="&lt;a target=&quot;_blank&quot; href=&quot;//kenwheeler.github.io/slick/#settings&quot;>&lt;b>Options //kenwheeler.github.io/slick/ &lt;/b> &lt;/a>"
+					description="" showon="layout:_:slider-slick"
+				/>   
+                                 <field name="json_slick" type="editor" editor="codemirror" 
+                                       label="SlideShow Blink Options"  rows="100" cols="100" width="300"  height="200"  showon="layout:_:slider-slick"
+                                       filter="raw" class="inputbox" 
+                                        description=""
+default= "
+&#10; 
+slidesToShow  :1       ,//int     # of slides to show&#10; 
+centerMode    :false   ,//bool    Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts.&#10; 
+slidesToScroll:1       ,//int     # of slides to scroll&#10; 
+autoplay      :false   ,//bool    Enables Autoplay&#10; 
+autoplaySpeed :3000    ,//int(ms) Autoplay Speed in milliseconds&#10; 
+arrows        :true    ,//bool    Prev/Next Arrows&#10; 
+dots          :false   ,//bool    Show dot indicators&#10; 
+&#10;                             
+accessibility :true    ,//bool    Enables tabbing and arrow key navigation&#10; 
+adaptiveHeight:false   ,//bool    Enables adaptive height for single slide horizontal carousels.&#10; 
+asNavFor      :null    ,//str     Set the slider to be the navigation of other slider (Class or ID Name)&#10; 
+//appendArrows:        ,//str        $(element)      Change where the navigation arrows are attached (Selector, html str, Array, Element, jQuery object)&#10; 
+//appendDots  :        ,//str        $(element)      Change where the navigation dots are attached (Selector, html str, Array, Element, jQuery object)&#10; 
+prevArrow     : '&lt;button type=&quot;button&quot; class=&quot;slick-prev btn&quot;> &lt;span class=&quot;icon-previous&quot;>&lt;/span>&lt;/button>' , // &#10; 
+nextArrow     : '&lt;button type=&quot;button&quot; class=&quot;slick-next btn&quot;> &lt;span class=&quot;icon-next&quot;>&lt;/span>&lt;/button>' , // &#10; 
+&#10; 
+centerPadding :'50px'  ,//str     Side padding when in center mode (px or %)&#10; 
+cssEase       :'ease'  ,//str     CSS3 Animation Easing&#10; 
+dotsClass     :'slick-dots',//str Class for slide indicator dots container&#10; 
+draggable     :true    ,//bool    Enable mouse dragging&#10; 
+fade          :false   ,//bool    Enable fade&#10; 
+focusOnSelect :false   ,//bool    Enable focus on selected element (click)&#10; 
+easing        :'linear',//str     Add easing for jQuery animate. Use with easing libraries or default easing methods&#10; 
+edgeFriction  :0.15    ,//int     Resistance when swiping edges of non-infinite carousels&#10; 
+infinite      :true    ,//bool    Infinite loop sliding&#10; 
+initialSlide  :0       ,//int     Slide to start on&#10; 
+lazyLoad      :'ondemand',//str   Set lazy loading technique. Accepts 'ondemand' or 'progressive'&#10; 
+mobileFirst   :false   ,//bool    Responsive settings use mobile first calculation&#10; 
+pauseOnFocus  :true    ,//bool    Pause Autoplay On Focus&#10; 
+pauseOnHover  :true    ,//bool    Pause Autoplay On Hover&#10; 
+pauseOnDotsHover:false ,//bool    Pause Autoplay when a dot is hovered&#10; 
+&#10; 
+
+rows          :1       ,//int     Setting this to more than 1 initializes grid mode. Use slidesPerRow to set how many slides should be in each row.&#10; 
+slide         :''      ,//element Element query to use as slide&#10; 
+slidesPerRow  :1       ,//int     With grid mode intialized via the rows option, this sets how many slides are in each grid row. dver&#10; 
+speed         :300     ,//int(ms) Slide/Fade animation speed&#10; 
+swipe         :true    ,//bool    Enable swiping&#10; 
+swipeToSlide  :false   ,//bool    Allow users to drag or swipe directly to a slide irrespective of slidesToScroll&#10; 
+touchMove     :true    ,//bool    Enable slide motion with touch&#10; 
+touchThreshold:5       ,//int     To advance slides, the user must swipe a length of (1/touchThreshold) * the width of the slider&#10; 
+useCSS        :true    ,//bool    Enable/Disable CSS Transitions&#10; 
+useTransform  :true    ,//bool    Enable/Disable CSS Transforms&#10; 
+variableWidth :false   ,//bool    Variable width slides&#10; 
+vertical      :false   ,//bool    Vertical slide mode&#10; 
+verticalSwiping:false  ,//bool    Vertical swipe mode&#10; 
+rtl            :false  ,//bool    Change the slider's direction to become right-to-left&#10; 
+waitForAnimate :true   ,//bool    Ignores requests to advance the slide while animating&#10; 
+zIndex         :1000   ,//number  Set the zIndex values for slides, useful for IE9 and lower&#10; 
+//customPaging :null     ,//function n/a      Custom paging templates. See source for use example.&#10; 
+//respondTo    :'window' ,//str     Width that responsive object responds to. Can be 'window', 'slider' or 'min' (the smaller of the two)&#10; 
+//responsive    :object    ,//object  Object containing breakpoints and settings objects (see demo). Enables settings sets at given screen width. Set settings to &quot;unslick&quot; instead of an object to disable slick at a given breakpoint.&#10; 
+&#10; 
+ 
+     "/>  
+
+              
+				<field
+					type="spacer"
+					default=""
+					label="&lt;a target=&quot;_blank&quot; href=&quot;//www.jqueryscript.net/slideshow/Responsive-jQuery-Slideshow-with-3D-CSS3-Transforms-Refine-Slide.html&quot;>&lt;b>Options //jqueryscript.net/slideshow/Responsive-jQuery-Slideshow-with-3D-CSS3-Transforms-Refine-Slide &lt;/b> &lt;/a>"
+					description="" showon="layout:_:slideshow-3D-CSS3-Transforms"
+				/>   
+                                 <field name="json_3d_css3_transforms" type="editor" editor="codemirror" 
+                                       label="SlideShow Blink Options"  rows="100" cols="100" width="300"  height="200"  showon="layout:_:slideshow-3D-CSS3-Transforms"
+                                       filter="raw" class="inputbox" 
+                                        description=""
+default= "
+maxWidth              : 800,      // Max slider width - should be set to image width   &#10; 
+transition            : 'cubeV',  // String : Transition type ('custom', random', 'cubeH', 'cubeV', 'fade', 'sliceH', 'sliceV', 'slideH', 'slideV', 'scale', 'blockScale', 'kaleidoscope', 'fan', 'blindH', 'blindV')  &#10; 
+fallback3d            : 'sliceV', // String : Fallback for browsers that support transitions, but not 3d transforms (only used if primary transition makes use of 3d-transforms)  &#10; 
+customTransitions     : [],       // Arr (Custom transitions wrapper)   &#10; 
+perspective           : 1000,     // Perspective (used for 3d transforms)  &#10; 
+//useThumbs             : true,     // Bool: &lt;a href=&quot;//www.jqueryscript.net/tags.php?/Navigation/&quot;> Navigation&lt;/a> type thumbnails  &#10; 
+useArrows             : false,    // Bool: Navigation type previous and next arrows  &#10; 
+thumbMargin           : 3,        // Int: Percentage width of thumb margin  &#10; 
+autoPlay              : false,    // Int: Auto-cycle slider  &#10; 
+delay                 : 5000,     // Int Time between slides in ms  &#10; 
+transitionDuration    : 800,      // Int: Transition length in ms  &#10; 
+startSlide            : 0,        // Int: First slide  &#10; 
+keyNav                : true,     // Bool: Use left/right arrow keys to switch slide  &#10; 
+captionWidth          : 50,       // Int: Percentage of slide taken by caption  &#10; 
+//arrowTemplate         : '&lt;div class=&quot;rs-arrows&quot;>&lt;a href=&quot;#&quot; class=&quot;rs-prev&quot;>&lt;/a>&lt;a href=&quot;#&quot; class=&quot;rs-next&quot;>&lt;/a>&lt;/div>', // String: The markup used for arrow controls (if arrows are used). Must use classes &#x27;.rs-next&#x27; and &#x27;.rs-prev&#x27;  &#10;
+//onInit                : function () {}, // Func: User-defined, fires with slider initialisation  &#10; 
+//onChange              : function () {}, // Func: User-defined, fires with transition start  &#10; 
+//afterChange           : function () {}  // Func: User-defined, fires after transition end  &#10; 
+
+
+ 
+     "/>  
+
+              
+				<field
+					type="spacer"
+					default=""
+					label="&lt;a target=&quot;_blank&quot; href=&quot;//workshop.rs/2009/12/image-gallery-with-fancy-transitions-effects/&quot;>&lt;b>Options //workshop.rs/2009/12/image-gallery-with-fancy-transitions-effects &lt;/b> &lt;/a>"
+					description="" showon="layout:_:slideshow-jqFancyTransitions"
+				/>   
+                                 <field name="json_jqFancyTransitions" type="editor" editor="codemirror" 
+                                       label="SlideShow Blink Options"  rows="100" cols="100" width="300"  height="200"  showon="layout:_:slideshow-jqFancyTransitions"
+                                       filter="raw" class="inputbox" 
+                                        description=""
+default= "
+    items: true   ,    // shows pagination  &#10; 
+    effect: '',         // wave, zipper, curtain  &#10; 
+    width: 500,         // width of panel  &#10; 
+    height: 332,        // height of panel  &#10; 
+    strips: 20,         // number of strips  &#10; 
+    delay: 5000,        // delay between images in ms  &#10; 
+    stripDelay: 50,     // delay beetwen strips in ms  &#10; 
+    titleOpacity: 0.7, // opacity of title  &#10; 
+    titleSpeed: 1000,   // speed of title appereance in ms  &#10; 
+    position: 'alternate', // top, bottom, alternate, curtain  &#10; 
+    direction: 'fountainAlternate', // left, right, alternate, random, fountain, fountainAlternate  &#10; 
+    navigation: false,  // prev and next navigation buttons  &#10; 
+    links: false        // show images as links  &#10; 
+     "/>  
+
+               
+              
+				<field
+					type="spacer"
+					default=""
+					label="&lt;a target=&quot;_blank&quot; href=&quot;//tympanus.net/codrops/2011/09/05/slicebox-3d-image-slider/&quot;>&lt;b>Options //tympanus.net/codrops/2011/09/05/slicebox-3d-image-slider &lt;/b> &lt;/a>"
+					description="" showon="layout:_:slideshow-slicebox"
+				/>   
+                                 <field name="json_slicebox" type="editor" editor="codemirror" 
+                                       label="SlideShow Blink Options"  rows="100" cols="100" width="300"  height="200"  showon="layout:_:slideshow-slicebox"
+                                       filter="raw" class="inputbox" 
+                                        description=""
+default= "
+autoplay : true,    //(false) if true the slicebox will start the animation automatically&#10;
+orientation : 'v',  //(v)ertical, (h)orizontal or (r)andom &#10;
+cuboidsRandom: true,//(false) if true then the number of slices / cuboids is going to be random (cuboidsCount is overwitten) &#10;
+perspective : 1200, // perspective value &#10;
+cuboidsCount : 5,   // number of slices / cuboids max count=15 &#10;
+maxCuboidsCount : 5,// the range of possible number of cuboids if cuboidsRandom is true/it is strongly recommended that you do not set a very large number 🙂 &#10;
+disperseFactor : 0, // each cuboid will move x pixels left / top (depending on orientation). / The middle cuboid doesn't move. the middle cuboid's neighbors will  &#10;
+colorHiddenSides:'#222',// color of the hidden sides &#10;
+sequentialFactor : 150,// this is the interval between each rotation in ms &#10;
+speed : 600,        // animation speed / this is the speed that takes &quot;1&quot; cuboid to rotate
+easing : 'ease',    // transition easing&#10;
+interval: 3000,     // time (ms) between each rotation, if autoplay is true&#10;
+fallbackFadeSpeed : 300,// the fallback will just fade out / fade in the items/ this is the time fr the fade effect&#10;
+onBeforeChange : function( position ) { return false; },// callbacks&#10;
+onAfterChange : function( position ) { return false; }// callbacks&#10;
+    
+     "/>  
+
+              
+				<field
+					type="spacer"
+					default=""
+					label="&lt;a target=&quot;_blank&quot; href=&quot;//www.jqueryscript.net/slideshow/Image-Slideshow-Blink-Slider.html&quot;>&lt;b>Options //jqueryscript.net/slideshow/Image-Slideshow-Blink-Slider &lt;/b> &lt;/a>"
+					description="" showon="layout:_:slideshow-blink"
+				/>   
+                                 <field name="json_blinkSlideshow" type="editor" editor="codemirror" 
+                                       label="SlideShow Blink Options"  rows="100" cols="100" width="300"  height="200"  showon="layout:_:slideshow-blink"
+                                       filter="raw" class="inputbox" 
+                                        description=""
+default= "
+    items: true   ,    // shows pagination  &#10; 
+    navigation: true,  // shows navigation   &#10;
+    prevText: '◄ Prev', // prev text    &#10;
+    nextText: 'Next ►', // next text    &#10;
+  &#10;
+  &#10;
+    speedIn: 500,  &#10;
+    speedOut: 300, &#10;
+    viewTime: 6000,&#10;
+     "/>                     
+				<field
+					type="spacer"
+					default=""
+
+  label="
+╔═══════════════════════════════════════════════════════════════════════════════════════╗&lt;br>
+║                      &lt;b>Please upload picture (site.jpg) with image this site in directory 'images', &lt;/b> - This picture will show in offline layout;                         ║&lt;br>
+╚═══════════════════════════════════════════════════════════════════════════════════════╝&lt;br>"
+
+
+					description="" showon="layout:_:offline"
+				/>   
+				<field
+					type="spacer"
+					default=""
+					label="&lt;b>Bootstrap Tabs Properties, &lt;/b> - This modules and elements will show in tabs. Style tab "
+					description="" showon="layout:_:tabs-bootstrap"
+				/>    
+                    <field
+                        name="json_tabbootstrap"
+                        type="list"  showon="layout:_:tabs-bootstrap"
+                        class=""
+                           label="&lt;b>Bootstrap - Style class tabs &lt;/b>"
+                                        description="Select one from .. and Uncomment"
+                        default="nav-justified">
+                            <option value="nav-fill">nav-fill</option>
+                            <option value="nav-pills">nav-pills</option>
+                            <option value="nav-justified">nav-justified</option>
+                    </field> 
+             
+                     
+                                     
+                                                  
+                                
+				<field
+					type="spacer"
+					default=""
+					label="&lt;a target=&quot;_blank&quot; href=&quot;//owlcarousel2.github.io/OwlCarousel2/docs/api-options.html&quot;>&lt;b>Options //owlcarousel2.github.io/OwlCarousel2 &lt;/b> &lt;/a>"
+					description="" showon="layout:_:slider-owlCarousel"
+				/>   
+                                 <field name="json_owlCarousel" type="editor" editor="codemirror" 
+                                       label="Owl Carousel  Options"  rows="100" cols="100" width="300"  height="200"  showon="layout:_:slider-owlCarousel"
+                                       filter="raw" class="inputbox" 
+description=""
+default= "
+
+// Favorites owl // &#10;
+    items: 3  ,//Number - The number of items you want to see on the screen. &#10;
+    loop: false  ,//Boolean - Infinity loop. Duplicate last and first items to get loop illusion. &#10;
+    center: false  ,//Boolean - Center item. Works well with even an odd number of items. &#10;
+    rewind: true  ,//Boolean - Go backwards when the boundary has reached.&#10;
+    checkVisible: true  ,//Boolean - If you know the carousel will always be visible you can set `checkVisibility` to `false` to prevent the expensive browser layout forced reflow the $element.is(':visible') does.  &#10;
+&#10;    
+&#10;    
+    mouseDrag: true  ,//Boolean - Mouse drag enabled.  &#10;
+    touchDrag: true  ,//Boolean - Touch drag enabled. &#10;
+    pullDrag: true  ,//Boolean - Stage pull to edge. &#10;
+    freeDrag: false  ,//Boolean - Item pull to edge. &#10;
+&#10;    
+    margin: 0  ,//Number - margin-right(px) on item. &#10;
+    stagePadding: 0  ,//Number - Padding left and right on stage (can see neighbours). &#10;
+&#10;   
+    merge: false  ,//Boolean - Merge items. Looking for data-merge='{number}' inside item.. &#10;
+    mergeFit: true  ,//Boolean - Fit merged items if screen is smaller than items value. &#10;
+    autoWidth: false  ,//Boolean - Set non grid content. Try using width style on divs. &#10;
+&#10;       
+    startPosition: 0  ,//Number/String Start position or URL Hash string like '#id'. &#10;
+    rtl: false, &#10;
+&#10;
+    smartSpeed: 250  ,//Number  - Speed Calculate. More info to come..  &#10;
+    fluidSpeed: false  ,//Boolean/Number - Speed Calculate. More info to come..  &#10;
+    navSpeed: false  ,//Number/Boolean - Navigation speed.  &#10;
+    dotsSpeed: false  ,//Number/Boolean - Pagination speed.  &#10;
+    dragEndSpeed: false  ,//Number/Boolean - Drag end speed.  &#10;
+&#10;
+    autoplaySpeed: false  ,//Number/Boolean - autoplay speed.  &#10;
+    autoplay: false  ,//Boolean  - Autoplay.  &#10;
+    autoplayTimeout: 5000  ,//Number  - Autoplay interval timeout.  &#10;
+    autoplayHoverPause: false  ,//Boolean - Pause on mouse hover.  &#10;
+&#10;
+    URLhashListener: false  ,//Boolean - Listen to url hash changes. data-hash on items is required. &#10;
+    nav: false  ,//Boolean - Show next/prev buttons. &#10;
+    navText: [&#x27;next&#x27;,&#x27;prev&#x27;]  ,//Array - HTML allowed. &#10;
+    navigationText : [&quot;prev&quot;,&quot;next&quot;],    &#10;
+    navElement: 'div'  ,//String - DOM element type for a single directional navigation link. &#10;
+    slideBy: 1  ,//Number/String - Navigation slide by x. 'page' string can be set to slide by page.  &#10;
+    slideTransition:  ''  ,//String - You can define the transition for the stage you want to use eg. linear.  &#10;
+    dots: true  ,//Boolean  -  Show dots navigation. &#10;
+    dotsEach: false  ,//Number/Boolean - Show dots each x item.  &#10;
+    dotsData: false  ,//Boolean - Used by data-dot content.  &#10;
+    lazyLoad: false  ,//Boolean - Lazy load images. data-src and data-src-retina for highres. Also load images into background inline style if element is not &lt;img>  &#10;
+    lazyLoadEager: 0  ,//Number  - Eagerly pre-loads images to the right (and left when loop is enabled) based on how many items you want to preload.  &#10;
+    
+    
+    callbacks: true  ,//Boolean  - Enable callback events.  &#10;
+    responsive: {}  ,//Object - Object containing responsive options. Can be set to false to remove responsive capabilities.  &#10;
+/*    &#10;
+    responsive: {    &#10;
+        0:{ items:1,nav:false,loop:false},    &#10;
+        600:{ items:3},    &#10;
+        1000:{ items:5},    &#10;
+    },    &#10;
+*/    &#10;
+     
+    
+    responsiveRefreshRate: 200  ,//Number  - Responsive refresh rate.  &#10;
+    //responsiveBaseElement: window  ,//DOM element - Set on any DOM element. If you care about non responsive browser (like ie8) then use it on main wrapper. This will prevent from crazy resizing.  &#10;
+    video: false  ,//Boolean - Enable fetching YouTube/Vimeo/Vzaar videos.  &#10;
+    videoHeight: false  ,//Number/Boolean - Set height for videos.  &#10;
+    videoWidth: false  ,//umber/Boolean - N Set width for videos. &#10;
+    animateOut: false  ,//String/Boolean - Class for CSS3 animation out.  &#10;
+    animateIn: false  ,//String/Boolean - Class for CSS3 animation in.  &#10;
+    fallbackEasing: 'swing'  ,//String - Easing for CSS2 $.animate.  &#10;
+    info: false  ,//Function - Callback to retrieve basic information (current item/pages/widths). Info function second parameter is Owl DOM object reference.  &#10;
+    nestedItemSelector: false  ,//String/Class - Use it if owl items are deep nested inside some generated content. E.g 'youritem'. Dont use dot before class name.  &#10;
+    itemElement: 'div'  ,//String - DOM element type for owl-item.  &#10;
+    stageElement: 'div'  ,//String  - DOM element type for owl-stage.  &#10;
+    navContainer: false  ,//String/Class/ID/Boolean - Set your own container for nav.  &#10;
+    dotsContainer: false  ,//String/Class/ID/Boolean - Set your own container for nav.  &#10;
+ 
+ 
+    
+
+
+
+
+
+"
+                                      />  
+				<!--
+				<field
+					name="style"
+					type="chromestyle"
+                                        default="System-none" 
+					label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+					description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
+				>
+                                    <option value="inset">X_JYES</option>
+                                </field>   -->
+                                
+                                
+                                
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+                                        default=" multimodule "
+				/>
+ 
+                    <field
+                        name="self_module_tag"
+                        type="hidden"
+                        class="btn-group btn-group-yesno"
+                        label="Использовать свой тэг модуля"
+                        description="COM_MODULES_FIELD_MODULE_TAG_DESC"
+                        default="0">
+                            <option value="1">JYES</option>
+                            <option value="0">JNO</option>
+                    </field>   
+					
+ <!--                                  
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+                                        
+				/>
+-->
+				<field
+					name="cachemode"
+					type="hidden"
+					default="itemid">
+					<option
+						value="itemid"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
