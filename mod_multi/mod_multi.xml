@@ -32,6 +32,7 @@
 		<language tag="ru-RU">language/ru-RU/ru-RU.mod_multi.sys.ini</language>
 	</languages>
         <updateservers> 
+            <server type="extension" name="mod_multi" priority="1">https://korenevskiy.github.io/mod_multi/mod_multi_update.xml</server>
             <server type="extension" name="mod_multi" priority="1">https://explorer-office.ru/modules/mod_multi_update.xml</server>
             <server type="extension" name="mod_multi" priority="2">https://raw.githubusercontent.com/korenevskiy/mod_multi/master/mod_multi_update.xml</server>
          </updateservers>
