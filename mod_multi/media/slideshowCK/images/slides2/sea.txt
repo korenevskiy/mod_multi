@@ -1,0 +1,1 @@
+caption=This is a demo caption from <a href="https://www.joomlack.fr">Joomlack</a>

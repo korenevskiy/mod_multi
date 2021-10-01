@@ -1,0 +1,78 @@
+body {
+  background-color: #fefefe;
+  color: #222222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.contenedor {
+  width: 100%;
+  margin: 0 auto; 
+}
+
+.blink-slider {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.blink-view {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.blink-view .viewSlide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.blink-view .viewSlide:first-child {
+  position: relative;
+}
+
+.blink-view .viewSlide img.fullImg {
+  width: 100%; height: auto;
+}
+
+.blink-control {
+  /* position: absolute;
+  right: 20px; bottom: 20px; */
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: -50px;
+  z-index: 999;
+}
+
+.blink-control .button {
+  margin: 0; padding: 5px 10px;
+  background: #d3d3d3;
+  border: none;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.blink-items {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin: 0 8px; padding: 0;
+}
+
+.blink-items .viewItem {
+  display: inline-block;
+  width: 10px; height: 10px;
+  margin: 0 4px;
+  background: #fbfbfb;
+  border: 4px solid #d3d3d3;
+  border-radius: 50%;
+  list-style-type: none;
+  -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out;
+}
+
+.blink-items .viewItem.active {
+  background: #222222;
+}
