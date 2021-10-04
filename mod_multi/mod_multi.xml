@@ -826,7 +826,7 @@
                            showon="images_show:sort[OR]images_show:rnd"/> 
                     
                     <field name="images_folder2" type="text" default="/" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Example: &lt;br> /images/ &lt;br> /images/gallery/"  showon="images_show:sort[OR]images_show:rnd"/>
-                    <field name="images_folder" type="folderlist" default="-1" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Folders in /images/" filter="" exclude="" stripext="" directory="images" multiple="true"
+                    <field name="images_folder" type="folderlist" default="-1" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Folders in /images/" filter=""  fileFilter="" exclude="" stripext="" directory="images" multiple="true"
                             showon="images_show:sort[OR]images_show:rnd"/> 
                     <field name="images_count" type="number" default="12" label="MOD_MULTIMODULE_FIELD_IMAGESCHOOSE_LABEL" description="" min="0" max="128" step="1"
                             showon="images_show:sort[OR]images_show:rnd"/>
@@ -1087,7 +1087,7 @@ ORDER BY id DESC LIMIT 3; &#13;&#10;"
                            label="Select a file" 
                            description="" 
                            hide_default='true' hide_none='false'
-                           default="use.php" filter="use.php" 
+                           default="use.php" filter="use.php"  fileFilter="use.php" 
                            directory="modules/mod_multi/fields/" exclude="" stripext="" 
                         showon="myfile:1"
                          /> 
@@ -1420,7 +1420,7 @@ ORDER BY lft)t) ;
                         <field name="favicon_files_100" type="media"
                            label="&lt;b>Image PNG Any*&lt;/b> for Win" description="Icon For Windows, For Mac, For Yandex"  showon="html_show:1[AND]favicon_show:1"/> 
                            
-                        <field name="favicon_files_0" type="filelist" accept="image/svg" directory="images" stripext="0" filter="svg" hide_none='0' hide_default='1'
+                        <field name="favicon_files_0" type="filelist" accept="image/svg" directory="images" stripext="0" filter="svg" fileFilter="svg"  hide_none='0' hide_default='1'
                             label="&lt;b>Image SVG Any Size&lt;/b>" description=""  showon="html_show:1[AND]favicon_show:1"/> 
                             <field  
                                     name="favicon_files_ico" 
@@ -1621,7 +1621,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 					label="CSS file in module"
 					description="MOD_PRODCALENDAR_FIELD_CSS_STYLE_SHEET_DESC"
 					directory="modules/mod_multi/css"
-                                        filter="css"
+                                        filter="css"  fileFilter="css" 
                                         hide_default="true"
 				/>
                                  
