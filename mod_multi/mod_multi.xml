@@ -1356,7 +1356,7 @@ ORDER BY lft)t) ;
                         class="btn-group btn-group-yesno"
                         label="JSHOW"
                         description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-                        default="1">
+                        default="0">
                             <option value="1">JENABLED</option>
                             <option value="0">JDISABLED</option>
                     </field> 
@@ -1518,9 +1518,10 @@ ORDER BY lft)t) ;
                     <field name="fontsGoogle" type="textarea" label="Links &lt;u>&lt;a href='//developers.google.com/fonts/docs/getting_started' target='_blank'>Fonts Google Dev &lt;/a>&lt;/u>&lt;br>
 Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>&lt;/u>" rows="4"
                            description="
-//fonts.googleapis.com/css&#63;family=Caveat&#38;display=swap                       |  &lt;br>&lt;br>
-//fonts.googleapis.com/css&#63;family=Yanone+Kaffeesatz&#38;display=swap  | &lt;br>&lt;br>
-//fonts.googleapis.com/css&#63;family=Lobster&#38;display=swap  | &lt;br>&lt;br>
+//fonts.googleapis.com/css&#63;family=Roboto+Condensed:400,700,300&#124;Roboto:400,700&#38;display=swap&#38;subset=latin,cyrillic   &lt;br>
+//fonts.googleapis.com/css&#63;family=Caveat&#38;display=swap                         &lt;br>
+//fonts.googleapis.com/css&#63;family=Yanone+Kaffeesatz&#38;display=swap   &lt;br>
+//fonts.googleapis.com/css&#63;family=Lobster&#38;display=swap   &lt;br>
 //allfont.ru/allfont.css&#63;fonts=a_bremencaps    "   
                             default=""  
                            filter="raw"/>
