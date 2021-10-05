@@ -272,8 +272,8 @@ abstract class modMultiHelper //modProdCalendarHelper
         $fonts = (array)$fonts;
         $fonts_all = [];
         foreach ($fonts as $font){
-            $font = str_replace(['|','/n'], '|', $font);//[',','|',';',':','/',' '];
-            $fornts = explode('|', $font);
+            //$font = str_replace(['|','/n'], '|', $font);//[',','|',';',':','/',' '];
+            $fornts = explode('/n', $font);
             $fonts_all = array_merge($fonts_all, $fornts);
         }
         
