@@ -581,6 +581,6 @@ div.slider > div:not(.nav_indicators):not(.next_button):not(.prev_button) {
     font-size: 150px;
 }
 
-{
+.shadow{
     box-shadow: 0px 1px 3px #000;
 }
