@@ -12,11 +12,32 @@
 -------------------------------------------------------------------------*/ 
 
 defined('_JEXEC') or die;
+use \Joomla\CMS\Version as JVersion;
+//JVersion::MAJOR_VERSION == 3
 //JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 //
 //JHtml::_('bootstrap.framework');
 JHtml::_('jquery.framework', true, TRUE, true); // load jquery
-JHtml::_('jquery.ui'); // load jquery ui from Joomla
+
+if(JVersion::MAJOR_VERSION == 3){
+	JHtml::_('jquery.ui'); // load jquery ui from Joomla
+}
+else{
+//	JHtml::_('jquery.ui'); // load jquery ui from Joomla
+//    JHtml::script('media/vendor/jquery/js/jquery.js');
+//    JHtml::script('media/vendor/jquery-migrate/js/jquery-migrate.js');
+//	JHtml::script('https://code.jquery.com/jquery-migrate-1.2.1.min.js');
+//	JHtml::script('https://code.jquery.com/jquery-migrate-3.4.0.js');
+//	  JHtml::script(JUri::base().'media/jui/js/jquery-migrate.js', false, true); 
+//    JHtml::script('media/vendor/jquery-ui/js/jquery.ui.core.js');
+//    JHtml::script('media/vendor/jquery-ui/js/jquery.ui.sortable.js');
+//    
+//    JHtml::script('media/vendor/jquery-ui/js/jquery.ui.sortable.js');
+//    JHtml::script('modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
+    JHtml::script('modules/mod_multi/media/jquery/jquery-migrate-1.4.1.min.js');
+    JHtml::script('modules/mod_multi/media/jquery/jquery-migrate-3.4.0.min.js');
+    JHtml::script('modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
+}
 //JHtml::_('formbehavior.chosen', 'select');
 //JHtml::_('bootstrap.tooltip');
 
@@ -205,7 +226,7 @@ $keys = array_keys($elements);
 
 $count = count($elements);
 //    if(isset($tag_block) && $tag_block) 
-echo "<div id='multislideshowid$param->id' class=\"$moduleclass_sfx slideshowCK camera_wrap $param->skin        slider items   count$count  id$param->id \">";// id$param->id pos$positon jqFancyTransitions
+echo "<div id='multislideshowid$param->id' class=\"$moduleclass_sfx slideshowCK camera_wrap ". ($param->skin??'')."        slider items   count$count  id$param->id \">";// id$param->id pos$positon jqFancyTransitions
 
 foreach ($elements as $i => $module){
 
@@ -255,7 +276,7 @@ $img_path = trim($module->image,'/'); // JURI::root()  JUri::base().
 //toPrint($param,'$module-'.$param->id,0);
 //toPrint($module,'$module-'.$param->id,0);
 //if($param->id == 133)echo "<moduleX >$param->id</moduleX>";
-
+	
 //toPrint($module->image,'$module->image');
 echo "<div data-thumb=\"$base$module->image\"  data-src=\"$base$module->image\" data-alt=\" $module->title\" class=\"image $module->moduleclass_sfx\"   >";
 
@@ -263,7 +284,7 @@ switch ($param->header_tag3){
     case 'item':// тэг модуля
         $module->header_tag = $module->header_tag ? $module->header_tag : 'div';
     case 'default':
-        $module->header_tag = $module->showtitle ? ($module->header_tag??'div') : 0;
+        $module->header_tag = ($module->showtitle ?? false) ? ($module->header_tag??'div') : 0;
     case 'none':
         $module->header_tag = 0;
     default :
@@ -326,15 +347,20 @@ JFactory::getDocument()->addStyleDeclaration($css);
     
     
 JHtml::script('modules/mod_multi/media/slideshowCK/camera.min.js'); 
-JHtml::stylesheet('modules/mod_multi/media/slideshowCK/camera.css'); 
+JHtml::stylesheet('modules/mod_multi/media/slideshowCK/administrator/themes/default/css/camera.css'); 
+//JHtml::stylesheet('modules/mod_multi/media/slideshowCK/camera.css'); 
 //JHtml::script('modules/mod_multi/media/jqfancytransitions/jqFancyTransitions.1.8.js'); 
 //    toPrint($path_jft,'$path_jft');
+//    toPrint($param,'$param');
+//    toPrint($params,'$params');
+//    toPrint($module,'$module');
+//    toPrint($module,'$module');
 
-
-$param->json_layout = $param->json_layout ?: $param->json_slideshowCK;
+$param->json_layout = $param->json_layout ?? $param->json_slideshowCK ?? '';
+//$param->json_layout = $params->get('json_layout','') ?: $params->get('json_slideshowCK','');
 
 //toPrint($json_owlCarousel,'$json_owlCarousel');
-$style_layout = in_array(JFactory::getConfig()->error_reporting, [0,NULL,'','none','default'])? '':basename (__FILE__,'.php');
+$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'])? '':basename (__FILE__,'.php');
 //https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html  #multislideshowid$param->id .slider.items.id$param->id
  $script = <<< script
 

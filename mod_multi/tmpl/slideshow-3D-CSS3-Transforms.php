@@ -374,7 +374,7 @@ if($module_tag2)
  
 
 $id      = $params->get('id');
-$json_3d_css3_transforms      = $params->get('json_layout') ?: $params->get('json_3d_css3_transforms');
+$json_3d_css3_transforms      = $params->get('json_layout','') ?: $params->get('json_3d_css3_transforms','');
 
 
 //toPrint($json_owlCarousel,'$json_owlCarousel');

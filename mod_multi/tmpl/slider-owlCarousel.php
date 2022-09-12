@@ -391,7 +391,7 @@ if($module_tag2)
     
 
 $id      = $params->get('id');
-$json_owlCarousel      = $params->get('json_layout') ?: $params->get('json_owlCarousel');
+$json_owlCarousel      = $params->get('json_layout','') ?: $params->get('json_owlCarousel','');
 
 
 //toPrint($json_owlCarousel,'$json_owlCarousel');

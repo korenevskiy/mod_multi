@@ -385,7 +385,7 @@ JHtml::script("modules/mod_multi/media/Blink/js/jquery.blink.js");
  
 
 $id      = $params->get('id');
-$json_blink      = $params->get('json_layout') ?: $params->get('json_blinkSlideshow');
+$json_blink      = $params->get('json_layout','') ?: $params->get('json_blinkSlideshow','');
 
 
 //toPrint($json_owlCarousel,'$json_owlCarousel');

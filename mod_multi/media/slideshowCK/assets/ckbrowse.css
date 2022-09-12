@@ -1,0 +1,352 @@
+/**
+ * @name		Template Creator CK 3
+ * @package		com_templateck
+ * @copyright	Copyright (C) 2013. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @author		Cedric Keiflin - http://www.template-creator.com - http://www.joomlack.fr
+ */
+
+
+.clr {
+	clear: both;
+}
+
+.clearfix:after {
+	content: " ";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	font-size: 0;
+}
+
+.clearfix {
+	zoom: 1;
+}
+
+.ckwait {
+	background: #fff url(../images/ajax-loader.gif) center center no-repeat !important;
+}
+
+#ckbrowse {
+	position: relative;
+}
+
+#ckbrowse * {
+	box-sizing: border-box;
+}
+
+#ckfoldertreelist, #ckfoldertreepreview {
+	float: left;
+	padding: 10px;
+	box-sizing: border-box;
+	height: 100%;
+}
+
+#ckfoldertreelist {
+	width: 35%;
+	position: relative;
+	background: #f0f0f0 none repeat scroll 0 0;
+	border: 1px solid #dedede;
+	margin-left: 10px;
+}
+
+#ckfoldertreelist h3 {
+	font-weight: normal;
+	padding: 0 8px;
+}
+
+#ckfoldertreepreview {
+	width: 65%;
+}
+
+#ckfolderupload {
+	border: 2px dashed #b4b9be;
+	margin: 10px;
+	position: relative;
+	min-height: 120px;
+	text-align: center;
+}
+
+#ckfoldertreelist .ckfoldertreename img {
+	margin: 0 5px 0 0;
+}
+
+#ckfoldertreelist .ckfoldertreename {
+	display: inline-block;
+	font-family: Helvetica, sans serif;
+	font-size: 13px;
+	border: 1px solid #dedede;
+	padding: 0 10px;
+	margin-bottom: 4px;
+	cursor: pointer;
+	line-height: 32px;
+	background-color: #f5f5f5;
+	color: #3071a9;
+	font-weight: bold;
+	position: relative;
+}
+
+#ckfoldertreelist .ckfoldertreename:hover {
+	border: 1px solid #3071a9;
+}
+
+#ckfoldertreelist .ckfoldertree.ckcurrent > .ckfoldertreename {
+	border: 1px solid #3071a9;
+	color: #3071a9;
+}
+
+#ckfoldertreelist .ckfoldertree {
+	padding: 0.1em 0.5em;
+}
+
+#ckfoldertreelist .ckfoldertreecount {
+	display: inline-block;
+	font-family: Verdana;
+	font-size: 1em;
+	padding: 3px 5px;
+	background-color: #5F9EA0;
+	background-image: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
+	color: #fff;
+	font-size: 1em;
+	line-height: 18px;
+	/*text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);*/
+	vertical-align: middle;
+	border-radius: 2px;
+	position: absolute;
+	top: 3px;
+	vertical-align: middle;
+	left: calc(100% + 5px);
+}
+
+
+#ckfoldertreelist .cksubfolder {
+	padding: 0 0.6em;
+	border-left: 1px dotted #333;
+}
+
+#ckfoldertreelist .ckfoldertreefiles {
+	left: 102%;
+	padding-bottom: 50px;
+	position: absolute;
+	top: 0;
+	width: 180%;
+}
+
+#ckfoldertreelist .ckfoldertreefile {
+	/*padding: 0;
+	margin: 8px;
+	border: 1px solid #C1C1C1;
+	text-align: left;
+	background: #eee none repeat scroll 0 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) inset, 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+	width: 120px;
+	height: 120px;
+	float: left;
+	text-align: center;*/
+	
+	border: 1px solid transparent;
+	float: left;
+	background-color: #f4f4f4;
+	border-radius: 3px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+	height: 100px;
+	margin-bottom: 16px;
+	margin-left: 0;
+	margin-right: 16px;
+	margin-top: 0;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	text-align: center;
+	width: 100px;
+}
+
+#ckfoldertreelist .ckfoldertreefile:hover {
+	border: 1px solid #46a546;
+	cursor: pointer;
+	/*background-color: #f5f5f5;
+	background-image: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	color: #333;
+	cursor: pointer;
+	font-size: 13px;
+	line-height: 18px;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	vertical-align: middle;*/
+}
+
+#ckfoldertreelist .ckfoldertreefile img {
+	margin: 0 5px 0 0;
+	object-fit: scale-down;
+	object-position: center;
+	max-width: none;
+	height: 100%;
+	width: 100%;
+}
+
+#ckfoldertreelist .ckimagetitle {
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 0 3px 0 0;
+	bottom: 0;
+	left: 0;
+	line-height: 26px;
+	position: absolute;
+	text-align: left;
+	z-index: 1;
+	white-space: nowrap;
+	font-size: 11px;
+	padding: 0 2px;
+}
+
+#ckfoldertreelist .parent:not(.ckopened) > .cksubfolder,
+#ckfoldertreelist .ckfoldertree:not(.ckcurrent) > .ckfoldertreefiles {
+	display: none;
+}
+
+
+/*#ckfoldertreelist .ckfoldertree.ckcurrent > .ckfoldertreefiles {
+	visibility: visible;
+	opacity: 1;
+}*/
+
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler {
+	display: inline-block;
+	position: relative;
+	width: 30px;
+	height: 30px;
+	margin: 0 5px 0 0;
+	padding: 4px 6px;
+}
+
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler {
+	border: #bbb 1px solid;
+	border-color: #bbb #bbb #a2a2a2;
+	background-color: #e6e6e6;
+	background-image: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	color: #333;
+	cursor: pointer;
+	font-size: 13px;
+	line-height: 18px;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	vertical-align: middle;
+	visibility: hidden;
+	opacity: 0;
+}
+
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler:after {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	content: "+";
+	font-family: trebuchet ms;
+	font-size: 2em;
+	line-height: 100%;
+}
+
+#ckfoldertreelist .ckfoldertree.ckopened > .ckfoldertreetoggler:after {
+	content: "-";
+}
+
+#ckfoldertreelist .ckfoldertree.parent > .ckfoldertreetoggler {
+/* #ckfoldertreelist .ckfoldertree.hasfiles > .ckfoldertreetoggler { */
+	visibility: visible;
+	opacity: 1;
+}
+
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler.empty {
+	display: none;
+}
+
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler.empty + .ckfoldertreename {
+	margin-left: 43px;
+}
+
+/*#ckfoldertreepreview {
+	position: relative;
+}*/
+
+/*#ckfoldertreepreview > .inner {
+	position: fixed;
+}*/
+
+#ckfoldertreepreview img {
+	max-width: 650px;
+	height: auto;
+}
+
+/*------------------------------------------------------
+ * Styles for the image drag and drop upload
+ *-----------------------------------------------------*/
+
+#ckfolderupload.ckdndhover {
+	border: 4px dashed #0c0;
+	background: rgba(0, 204, 0, 0.12);
+}
+
+progress.progress {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	height: 10px;
+}
+
+.ckfoldertreepathway {
+	padding: 5px;
+	background: #f0f0f0;
+	border: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.ckfoldertreepath:before,
+.ckfoldertreepathwayfoldername:before {
+	padding: 4px;
+	color: black;
+	content: "/\00a0";
+}
+
+.ckcurrent .ckfoldertreepathwayfoldername,
+.ckcurrent .ckfoldertreepathwaycreatefolder {
+	display: none;
+}
+
+.ckcurrent .ckfoldertreepathwayfoldername.ckshow,
+.ckcurrent .ckfoldertreepathwaycreatefolder.ckshow {
+	display: inline-block;
+}
+
+.ckcurrent .ckfoldertreepathwayfoldername input[type="text"],
+.ckcurrent .ckfoldertreepathwaycreatefolder {
+	margin: -3px;
+}
+
+.ckfoldertreepathwayactions {
+	float: right;
+}
+
+span.ckfoldertreepathwayaddfolder {
+	margin: -3px;
+}
+
+#ckfoldertreelistfolderselection {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	background: rgba(0,0,0, 0.1);
+	z-index: 10;
+}
+
+#ckfoldertreelistfolderselection .ckbutton {
+	position: relative;
+	top: 50%;
+	margin-top: -15px;
+}

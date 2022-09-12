@@ -384,7 +384,7 @@ if($module_tag2)
 
 
 $id      = $params->get('id');
-$json_slick      = $params->get('json_layout') ?: $params->get('json_slick');
+$json_slick      = $params->get('json_layout','') ?: $params->get('json_slick','');
 
 
 //toPrint($json_owlCarousel,'$json_owlCarousel');

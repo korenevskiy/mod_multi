@@ -292,7 +292,7 @@ static $accordion;
 // toPrint($accordion,'$accordion');
      
 $id      = $params->get('id');
-$json_slicebox      = $params->get('json_layout') ?: $params->get('json_slicebox');
+$json_slicebox      = $params->get('json_layout','') ?: $params->get('json_slicebox','');
 
 
 

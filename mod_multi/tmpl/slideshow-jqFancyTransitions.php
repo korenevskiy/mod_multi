@@ -253,7 +253,7 @@ $isImage = function($url){
 $class = $isImage($module->link); 
 $img_path = trim($module->image,'/'); // JURI::root()  JUri::base().
 
-toPrint($module->image,'$module->image '.$param->id,0);
+//toPrint($module->image,'$module->image '.$param->id,0);
 //if($param->id == 133)echo "<moduleX >$param->id</moduleX>";
 
 echo "<img src=\"$module->image\" alt=\" $module->title\" class=\"image $module->moduleclass_sfx\"   >";
@@ -287,11 +287,11 @@ JHtml::script('modules/mod_multi/media/jqfancytransitions/slideshow.js');
 //JHtml::script('modules/mod_multi/media/jqfancytransitions/jqFancyTransitions.1.8.js'); 
    
  
-$json_jqFancyTransitions = $params->get('json_layout') ?: $params->get('json_jqFancyTransitions');
+$json_jqFancyTransitions = $params->get('json_layout','') ?: $params->get('json_jqFancyTransitions','');
 
 
 //toPrint($json_owlCarousel,'$json_owlCarousel');
-$style_layout = in_array(JFactory::getConfig()->error_reporting, [0,NULL,'','none','default'])? '':basename (__FILE__,'.php');
+$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'])? '':basename (__FILE__,'.php');
 //https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html  #multislideshowid$param->id .slider.items.id$param->id
  $script = <<< script
 
