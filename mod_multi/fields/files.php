@@ -45,7 +45,7 @@ class JFormFieldFiles extends JFormField {
         $exts = '/'.$this->getAttribute('extensions').'/'.$this->getAttribute('extension').'/'.$this->getAttribute('ext').'/'.$this->getAttribute('types');
         
         $exts = str_replace([',','|',';',':','.',' '], '/', $exts);
-        $exts = explode('/', $exts); 
+        $exts = explode('/', $exts);
 //        $exts = explode('/|;:,. ', $exts);
         
          

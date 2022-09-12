@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die;
+<?php defined('_JEXEC') or die; // name = json_layout
 /**------------------------------------------------------------------------
  * mod_multi - Modules Conatinier 
  * ------------------------------------------------------------------------
@@ -23,6 +23,9 @@ use Joomla\Filesystem\File as JFile;
 use Joomla\Filesystem\Path as JPath;
 use Joomla\CMS\Document\Document as JDocument;
 use Joomla\CMS\Application\SiteApplication as JAplication;
+use Joomla\CMS\Form\Field\FilelistField as JFormFieldFileList; 
+use \Joomla\CMS\Version as JVersion;
+//JVersion::MAJOR_VERSION == 3
 
 use Joomla\CMS\Editor\Editor as JEditor; 
 
@@ -41,6 +44,9 @@ JFormHelper::loadFieldClass('list');
 //JFormFieldModtag 
 class JFormFieldLayoutjson extends JFormFieldFileList {
 
+ 
+    public $hiddenLabel = true; 
+	
     protected $directory = __DIR__ .'/../tmpl/';
 
     protected $fileFilter = '*.php';
@@ -62,24 +68,23 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
 	{
 		$options['class'] = empty($options['class']) ? 'field-spacer' : $options['class'] . ' field-spacer';
         
-        $showon = []; 
-        foreach ($this->getOptions() as $layout => $ini){
+        $showon = [];
+        foreach ($this->getFileList() as $layout => $ini){
             $showon[] = "layout:_:$layout";//layout:full[OR]layout:intro[OR]layout:content
         }
-        $this->showon = implode('[OR]', $showon);
+//        $this->showon = implode('[OR]', $showon);
         
 		return parent::renderField($options);
 	}
     
     protected function getLabel(){ 
         $html = parent::getLabel();
-        $html .= $this->getEditor();
-        $html .= 'JSON Layout Description';
-        $html .= $this->getHTML();
         return $html;
     }
+//	protected function getOptions() {
+//	}
   
-    protected function getOptions() {
+    protected function getFileList() {
         
         static $files_ini;
         
@@ -120,6 +125,7 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
                 $files_ini[$file_name] =  file_get_contents("$path_mod/tmpl/$file_name.ini");
                 continue;
             }
+//			$options[] = HTMLHelper::_('select.option', '', Text::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
                 
         }
         
@@ -132,7 +138,11 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
 
 
     protected function getInput(){
-        return '';        
+		$html = '<br><label>JSON Layout Configuration</label>';
+        $html .= $this->getEditor();
+        $html .= '<br><label>JSON Layout Description</label>';
+        $html .= $this->getHTML();
+        return $html;        
     }
 
     protected function getHTML(){ 
@@ -182,14 +192,30 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
 //    min-height: 200px;
 //    }
 //    ";
-        
-        $html = [];
-        $options = $this->getOptions();
+
+//	data-showon="[{
+//		"field":"jform[params][layout]",
+//		"values":["_:carousel-EasySlides"],
+//		"sign":"=","op":""
+//	},{
+//		"field":"jform[params][layout]",
+//		"values":["_:carousel-waterwheelCarousel"],
+//		"sign":"=","op":"OR"
+//	},{
+//		"field":"jform[params][layout]",
+//		"values":["_:slider-owlCarousel"],
+//		"sign":"=","op":"OR"
+//	},{
+//	"field":"jform[params][layout]","values":["_:slider-slick"],"sign":"=","op":"OR"},{"field":"jform[params][layout]","values":["_:slideshow-3D-CSS3-Transforms"],"sign":"=","op":"OR"},{"field":"jform[params][layout]","values":["_:slideshow-CK"],"sign":"=","op":"OR"},{"field":"jform[params][layout]","values":["_:slideshow-blink"],"sign":"=","op":"OR"},{"field":"jform[params][layout]","values":["_:slideshow-jqFancyTransitions"],"sign":"=","op":"OR"},{"field":"jform[params][layout]","values":["_:slideshow-slicebox"],"sign":"=","op":"OR"}]"
+//[{"field":"jform[params][layout]","values":["_:carousel-EasySlides"],"sign":"=","op":""}]
+		$html = [''];
+        $options = $this->getFileList();
 //toPrint($options,'$options');
 //_:slideshow-jqFancyTransitions        
         foreach ($options as $name => $opt){ 
-            $showon = '[{"field":"jform[params][layout]","values":["_:'.$name.'"],"sign":"=","op":""}]';
-            $html[] = "<pre style=' ' class='layoutINI $name '  data-showon='$showon'>$opt</pre>"; //data-file='$file'
+			$showon = '[{"field":"jform[params][layout]","values":["_:'.$name.'"],"sign":"=","op":"","valid":0,"X":"1"}]';
+//$html[] = "<pre>$name \t$showon</pre>";
+            $html[] = "<pre style=' ' class='layoutINI $name '  data-showon='$showon' >$opt</pre>"; //data-file='$file'
         }
 //        $html[] = "<script type='text/javascript'>$script</script>";
 //        $html[] = "<style  type='text/css'>$style</style>";
@@ -235,6 +261,28 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
 		);
     }
 }
+$style = "
+.layoutINI{
+/*   display:none; */ 
+    border: 1px solid #ccc; /* */
+    /*height: calc(100vh - 400px);  */
+    height: calc(100vh - 800px);
+    min-height: 200px;
+    max-height: 500px;
+    max-width: 100%;
+    vertical-align: middle;
+    min-width: 450px;
+    overflow: scroll;
+	
+	white-space: pre;
+}
+.CodeMirror{
+    height: calc(100vh - 800px);
+    min-height: 200px;
+}
+";
+JFactory::getApplication()->getDocument()->addStyleDeclaration($style);
+return;
 ?>
 <style type='text/css'>
 .layoutINI{
