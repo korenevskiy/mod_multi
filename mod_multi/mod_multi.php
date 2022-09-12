@@ -23,6 +23,13 @@ defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
 //$debug_info = JFactory::getConfig()->get('error_reporting');
  
+if(file_exists(__DIR__ . '/../mod_multi_form/functions.php'))
+	require_once  __DIR__ . '/../mod_multi_form/functions.php';
+// Include the helper.
+
+
+//if($module->id == 112)
+//toPrint($module,'$module->moduleclass_sfx',0,'message',true);
 
 // Include the syndicate functions only once
 //require_once __DIR__  . '/helper.php';
@@ -40,12 +47,28 @@ require_once MULTIMOD_PATH . '/helper.php';
 //$active = $menu->getActive()->title;
 //toPrint($menu->getActive()->title." - ".$menu->getActive()->id.' - '.$menu->getActive()->parent_id.' - '.$menu->getActive()->alias,'ActiveMenu');
 
+//if($module->id == 112)
+//toPrint($module->id,'$module->id',0,'message',true);
+//if($module->id == 112)
+//toPrint($module,'$module',0,'message',true);
+//if($module->id == 112)
+//toPrint($params->get('head_tag'),'$params->get(head_tag)',0,'message',true); 
+//if($module->id == 112)
+//toPrint($params->get('header_tag'),'$params->get(header_tag)',0,'message',true);
 
 $params->set('header_tag', $params->get('head_tag'));
 $params->set('module_tag', $params->get('mod_tag'));
 
-$param = $params->toObject();
+//if($module->id == 112)
+//toPrint($params->get('header_tag'),'$params->get(header_tag)',0,'message',true);
 
+$param = $params->toObject();
+$module->params = $params;
+
+//if($module->id == 112)
+//toPrint($param,'$param',0,'message',true);
+//if($module->id == 112)
+//toPrint($module->params,'$param',0,'message',true);
 
 //Проверка условий показов
 // <editor-fold defaultstate="collapsed" desc="Проверка условий показов">
@@ -119,6 +142,19 @@ if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
 endif;// </editor-fold>
 
 
+//    $fontsGoogle = $param->fontsGoogle ?? '';
+//toPrint();	
+//if($module->id == '115')
+//toPrint($param,'$param',0,true,true);
+//if($module->id == '115')
+//toPrint($fontsGoogle,'$fontsGoogle',0,true,true);
+
+//if($module->id==135)
+//    toPrint();
+//if($module->id==135)
+//    toPrint($fontsGoogle,'$faviconsFiles');
+//if($module->id==135)
+//    toPrint($param,'$param',0,true,true);
 
 $modules = array();
 // <editor-fold defaultstate="collapsed" desc="field HTML">
@@ -219,10 +255,7 @@ if ($params->get('html_show')) {
             
     $html = $param->html_code ?? '';
 
-//if($module->id==135)
-//    toPrint($faviconsFiles,'$faviconsFiles');
-//if($module->id==135)
-//    toPrint(JDocument::getInstance(),'JDocument');
+	
 
     if ($fontsFiles)
         modMultiHelper::fontsFiles($fontsFiles, $module->id);
@@ -294,16 +327,48 @@ $param->title_alt    = $params->set('title_alt',trim($param->title_alt));
 /* Определение Альтернативного Заголовка */
 if($params->get('title_alt_show')){
     $module->title = $param->title_alt ?: $module->title;
-    $title_alt_show = $param->title_alt_show;
     $menuitem = NULL;
-    if(in_array($title_alt_show, ['cur_menu','cur_tab','cur_page'])){
+
+    // toPrint(JFactory::getApplication()->getDocument()->title,'getDocument()title',0,'pre'); 
+    // toPrint(JFactory::getApplication()->getDocument()->params-get('siteTitle'),'getDocument()title',0,'pre');// Из шаблона
+    // toPrint(JFactory::getApplication()->getMenu()->getActive()->title,'getActive()title',0,'pre');
+    // toPrint(JFactory::getApplication()->getMenu()->getDefault()->title,'getDefault()title',0,'pre');
+   
+    // $mItem = new Joomla\CMS\Menu\SiteMenu;
+    // toPrint(get_class(JFactory::getApplication()->getMenu()),'gettype');
+    // $comp = Joomla\CMS\Helper\ContentHelper::getActions();
+    // toPrint($comp,'$comp');
+    // toPrint(JFactory::getApplication()->getPathway(),'getPathway()');
+    // toPrint(JFactory::getApplication()->getPathway()->getPathway(),'$getPathwayItems');
+    // toPrint(JFactory::getApplication()->getPathway()->getPathwayNames(),'$getPathwayNames'); 
+//        toPrint(JFactory::getApplication()->getPathway() ,'$pathway',0,'pre',true); 
+    if($param->title_alt_show == 'cur_comp'){ //Должна возвращать название и ссылку активного компанента в меню.
+		$pathes = JFactory::getApplication()->getPathway()->getPathway();
+        $pathway =  end($pathes);
+//        toPrint($pathes,'$pathway',0,'pre',true);
+        if($pathway){
+            $menuitem = new stdClass;
+            $menuitem->title = $pathway->name;
+            $menuitem->link = $pathway->link;
+            // toPrint($menuitem,'$menuitem');
+        }else{
+            $menuitem = JFactory::getApplication()->getMenu()->getActive();
+            // $menuitem = new stdClass;
+            $menuitem->title = $menuitem->getParams()->get('page_title',$menuitem->title);
+            // $menuitem->link = $menuitem->getParams()->get('page_title',$menuitem->link);
+        }
+    }
+    // toPrint($param->title_alt_show,'$param->title_alt_show');
+
+    // toPrint(get_object_vars(JFactory::getApplication()),'getApplication()',0,'pre');
+    if(in_array($param->title_alt_show, ['text','cur_menu','cur_tab','cur_page'])){
         switch($param->title_alt_header){
             case 'cur_menu': $menuitem = JFactory::getApplication()->getMenu()->getActive(); break;
             case 'main_menu': $menuitem = JFactory::getApplication()->getMenu()->getDefault(); break;// getItems('home', 1);
             default: $menuitem = JFactory::getApplication()->getMenu()->getItem($param->title_alt_header); break;
         }
     }
-    switch ($title_alt_show){
+    switch ($param->title_alt_show){
         case 'text':  $module->title = $param->title_alt?:$module->title; break;     //toPrint('TextBreak'); 
         case 'cur_menu': $module->title = $menuitem->title; break;                          //toPrint('CurMenuBreak');
         case 'cur_tab':  $module->title = $menuitem->getParams()->get('page_title',$menuitem->title); break; //toPrint($menuitem,'CurTabBreak');
@@ -564,6 +629,15 @@ if($rnd = $param->images_show){
     if($modules[sprintf("%02d", $param->images_order).'images'])
         $module->empty_list = FALSE;
 }
+// Tags
+if($param->tags_show){
+    
+    $modules[sprintf("%02d", $param->tags_order).'tags'] = $items 
+		= modMultiHelper::getTags($param->tags_show, $param->tags_catids, $param->tags_parents, $param->tags_maximum, $param->tags_sort, $param->tags_count, $param->tags_category_title); 
+    
+//    if($modules[sprintf("%02d", $param->query_order).'query'])
+//        $module->empty_list = FALSE;
+}
 
 if($param->query_show && trim($param->query_select)){ 
     
@@ -617,10 +691,17 @@ if($params->get('disable_module_empty_count')):// && empty($modules)
 endif;
 // </editor-fold>
 
+		
 //toPrint(count($modules),'$modules');
 
 $module=$$mod;
 $params=$$par;
+
+//$$par->head_tag = $params->get('header_tag');
+//$$par->mod_tag  = $params->get('module_tag');
+//$params->set('head_tag', $params->get('header_tag'));
+//$params->set('mod_tag', $params->get('module_tag'));
+
 
 modMultiHelper::$params = $params;
 
@@ -636,7 +717,6 @@ modMultiHelper::$params = $params;
 //if($params->get('layout')=='_:demodesign')
 //echo "333";
 //print ($params->get('layout'));
-
 
 
 

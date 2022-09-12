@@ -294,7 +294,7 @@ script;
 <script type="text/javascript">
 jQuery(function($){ 
         var carousel = $("#carousel").waterwheelCarousel({
-            <?= $param->json_layout ?>
+            <?= $param->json_layout ?? '' ?>
 
         });
 

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension  type="module" version="3" method="upgrade" client="site">
+<extension  type="module" version="4" method="upgrade" client="site">
 	<name>_Multi</name>
 	<author>Korenevskiy Sergei</author>
 	<creationDate>2016-03-01</creationDate>
-	<modificationDate>2020-06-22</modificationDate>
+	<modificationDate>2022-09-12</modificationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>korenevskiys@ya.ru</authorEmail>
 	<authorUrl>//www.explorer-office.ru</authorUrl>
-	<version>3.33</version>
-        <description>[[%1:]] &lt;br&gt; &lt;b&gt; Multi Module &lt;/b&gt; &lt;span  class="badge badge-info" &gt; [[%2:]]:[[%3:]] / [[%4:]]:[[%5:]]&lt;/span&gt; [[%6:]]
+	<version>4.02</version>
+    <description>[[%1:]] &lt;br&gt; &lt;b&gt; Multi Module &lt;/b&gt; &lt;span  class="badge alert-primary " &gt; [[%2:]]:[[%3:]] / [[%4:]]:[[%5:]]&lt;/span&gt; [[%6:]]
             ,MOD_MULTI_DESCRIPTION,JVersion,
-            3.33.031,JDate,2020-06-22,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
-             
+            4.02.02,JDate,2022-09-12,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
+    
      <!--  <b> Multi Module </b> <span class="badge badge-info" >...   <customContent /> -->
-        
+    
 	<files>
 		<filename module="mod_multi">mod_multi.php</filename>
 		<filename>mod_multi.xml</filename>
@@ -31,10 +31,10 @@
 		<language tag="ru-RU">language/ru-RU/ru-RU.mod_multi.ini</language>
 		<language tag="ru-RU">language/ru-RU/ru-RU.mod_multi.sys.ini</language>
 	</languages>
-        <updateservers> 
+        <updateservers>
             <server type="extension" name="mod_multi" priority="1">https://korenevskiy.github.io/mod_multi/mod_multi_update.xml</server>
-            <server type="extension" name="mod_multi" priority="1">https://explorer-office.ru/modules/mod_multi_update.xml</server>
-            <server type="extension" name="mod_multi" priority="2">https://raw.githubusercontent.com/korenevskiy/mod_multi/master/mod_multi_update.xml</server>
+            <server type="extension" name="mod_multi" priority="2">https://explorer-office.ru/modules/mod_multi_update.xml</server>
+            <server type="extension" name="mod_multi" priority="3">https://raw.githubusercontent.com/korenevskiy/mod_multi/master/mod_multi_update.xml</server>
          </updateservers>
 <!--
         <scriptfile>script.php</scriptfile>
@@ -63,6 +63,9 @@
                 <fieldset name="basic">   
 
 
+				<field
+					type="translate"
+					/>
                     
         
                     
@@ -177,8 +180,9 @@
                             
                             <option value="0">JOPTION_DO_NOT_USE</option> 
                             <option value="text">MOD_MULTIMODULE_FIELD_ALTERNATIVETITLE_OPT</option>
+                            <option value="cur_comp" group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_CURRENTCOMPONENT</option> 
                             <option value="cur_menu" group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_CURRENTTITLE</option>
-                            <option value="cur_tab" group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_CURRENTTAB</option>
+                            <option value="cur_tab"  group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_CURRENTTAB</option>
                             <option value="cur_page" group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_CURRENTPAGE</option>
                     </field>
 <field name="title_alt_header" type="menuitem" default="0"
@@ -826,7 +830,7 @@
                            showon="images_show:sort[OR]images_show:rnd"/> 
                     
                     <field name="images_folder2" type="text" default="/" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Example: &lt;br> /images/ &lt;br> /images/gallery/"  showon="images_show:sort[OR]images_show:rnd"/>
-                    <field name="images_folder" type="folderlist" default="-1" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Folders in /images/" filter=""  fileFilter="" exclude="" stripext="" directory="images" multiple="true"
+                    <field name="images_folder" type="folderlist" default="-1" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Folders in /images/" fileFilter="" exclude="" stripext="" directory="images" multiple="true"
                             showon="images_show:sort[OR]images_show:rnd"/> 
                     <field name="images_count" type="number" default="12" label="MOD_MULTIMODULE_FIELD_IMAGESCHOOSE_LABEL" description="" min="0" max="128" step="1"
                             showon="images_show:sort[OR]images_show:rnd"/>
@@ -864,6 +868,99 @@
                     
                     
                     
+                <field
+                        type="spacer"
+                        default=""
+                        label="&lt;hr>"
+                        description=""
+                    />
+            	<field  type="note" label="MOD_MULTI_FIELD_TAGS_LABEL"/> 
+          
+                <field
+                    name="tags_show"
+                    type="radio"
+                    class="btn-group   "
+                    default="0"
+                    label="JSHOW"
+                    description="COM_MODULES_OPTION_SELECT_MODULE"
+                    > 
+                        <option value="list">MOD_MULTI_TAGS_OPTION_LIST</option>
+                        <option value="tree">MOD_MULTI_TAGS_OPTION_TREE</option>
+                        <option value="0">JDISABLED</option>
+                </field>
+				<field
+					name="tags_catids"
+					type="category"
+					extension="com_content"
+					label="JCATEGORY"
+					showon="tags_show!:0" 
+					multiple="true"
+					filter="intarray"
+					layout="joomla.form.field.list-fancy-select" 
+					class="multipleCategories" 
+				/>
+				<field
+					name="tags_parents"
+					type="tag"
+					label="MOD_MULTI_TAGS_PARENT_TAG_LABEL"
+					showon="tags_show!:0"
+					multiple="true"
+					filter="intarray"
+					mode="nested"
+				/>
+				<field
+					name="tags_maximum"
+					type="number"
+					label="MOD_MULTI_TAGS_MAX_LABEL"
+					showon="tags_show!:0"
+					default="50"
+					filter="integer"
+					min="0"
+					validate="number"
+				/>
+				<field
+					name="tags_sort"
+					type="list"
+					label="MOD_MULTI_TAGS_FIELD_ORDER_VALUE_LABEL"
+					description="JFIELD_ORDERING_LABEL"
+					showon="tags_show!:0"
+					default="title ASC"
+					validate="options"
+				>
+					<option  value="title ASC" >↓ [[%1:]] ↓,MOD_MULTI_TAGS_FIELD_ORDER_VALUE_TITLE</option>
+					<option  value="title DESC">↑ [[%1:]] ↑,MOD_MULTI_TAGS_FIELD_ORDER_VALUE_TITLE</option>
+					<option  value="count ASC" >↓ [[%1:]] ↓,MOD_MULTI_TAGS_FIELD_ORDER_VALUE_COUNT</option>
+					<option  value="count DESC">↑ [[%1:]] ↑,MOD_MULTI_TAGS_FIELD_ORDER_VALUE_COUNT</option>
+					<option  value="rand()">-- [[%1:]] --,MOD_MULTI_TAGS_FIELD_ORDER_VALUE_RANDOM</option>
+				</field>
+				<field
+					name="tags_count"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_MULTI_TAGS_FIELD_DISPLAY_COUNT_LABEL"
+					showon="tags_show!:0"
+					default="0"
+					filter="integer"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="tags_category_title"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_MULTI_TAGS_CATEGORIES_TITLE_LABEL" 
+					showon="tags_show!:0"
+					default="0"
+					filter="integer" 
+					validate="options"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+                <field name="tags_order" type="number" default="9" label="JFIELD_ORDERING_LABEL"
+					   min="0" max="20" step="1"  
+					   showon="tags_show!:0"/> 
                     
                     
                     
@@ -934,7 +1031,7 @@ ORDER BY id DESC LIMIT 3; &#13;&#10;"
                         <option value="0">JDISABLED</option>
                     </field>    
                     
-                    <field name="query_order" type="number" default="9" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
+                    <field name="query_order" type="number" default="10" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
                            showon="query_show:1"/> 
                     <field  
                         name="query_select"
@@ -1087,7 +1184,7 @@ ORDER BY id DESC LIMIT 3; &#13;&#10;"
                            label="Select a file" 
                            description="" 
                            hide_default='true' hide_none='false'
-                           default="use.php" filter="use.php"  fileFilter="use.php" 
+                           default="use.php" fileFilter="use.php" 
                            directory="modules/mod_multi/fields/" exclude="" stripext="" 
                         showon="myfile:1"
                          /> 
@@ -1420,7 +1517,7 @@ ORDER BY lft)t) ;
                         <field name="favicon_files_100" type="media"
                            label="&lt;b>Image PNG Any*&lt;/b> for Win" description="Icon For Windows, For Mac, For Yandex"  showon="html_show:1[AND]favicon_show:1"/> 
                            
-                        <field name="favicon_files_0" type="filelist" accept="image/svg" directory="images" stripext="0" filter="svg" fileFilter="svg"  hide_none='0' hide_default='1'
+                        <field name="favicon_files_0" type="filelist" accept="image/svg" directory="images" stripext="0" fileFilter="svg" hide_none='0' hide_default='1'
                             label="&lt;b>Image SVG Any Size&lt;/b>" description=""  showon="html_show:1[AND]favicon_show:1"/> 
                             <field  
                                     name="favicon_files_ico" 
@@ -1622,7 +1719,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 					label="CSS file in module"
 					description="MOD_PRODCALENDAR_FIELD_CSS_STYLE_SHEET_DESC"
 					directory="modules/mod_multi/css"
-                                        filter="css"  fileFilter="css" 
+                                        fileFilter="css"
                                         hide_default="true"
 				/>
                                  
@@ -1634,7 +1731,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 					description="Find CSS file in folder: /Templates/"
 					directory="/templates/"
                                         hide_default="true"
-                                        filter="css"
+                                        fileFilter="css"
 				/>-->
                 </fieldset>                 
                 
@@ -1646,11 +1743,16 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 		<fieldset name="advanced">
             
                 <field
-                    name="header_tag" class="fade hide"
+                    name="header_tag" class="xade xhide"
                     type="headertag"
                     label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
                     description="COM_MODULES_FIELD_HEADER_TAG_DESC"
-                    default="h5" /> 
+                    default="h5" >
+                    <option value="figcaption">&lt;figcaption></option> 
+                    <option value="legend">&lt;legend></option>
+                    <option value="label">&lt;label></option> 
+                    <option value="summary">&lt;summary></option>   
+				</field>
                 
             
                 <field name="module_tag" type="moduletag" class="fade hide"
@@ -1670,7 +1772,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
                     <option value="legend">&lt;legend></option>
                     <option value="label">&lt;label></option> 
                     <option value="summary">&lt;summary></option>  
-                </field>summary
+                </field>
                 <field
                     name="mod_tag" debug="false"
                     type="modtag"   addfieldpath="modules/mod_multi_form/field"
@@ -1916,9 +2018,9 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
             <field name="html_code" type="editor" editor="TinyMCE" 
                                        label="Html code" description="" 
                                        rows="100" cols="100" width="300"  height="200"  
-                                       filter="raw" class="inputbox" />  
+                                       filter="raw" class="inputbox" />
 -->
-                 <field name="json_owlCarousel" type="textarea" editor="codemirror"  
+<!--                 <field name="json_owlCarousel" type="textarea" editor="codemirror"  
                        label="Owl Carousel  Options"  rows="5"   height="100"   showon="layout:_:slider-owlCarousel"
                        filter="raw" class="inputbox" readonly = "true" disabled = "1"/>  
                  <field name="json_slideshowCK" type="textarea" editor="codemirror"   
@@ -1938,7 +2040,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
                        filter="raw" class="inputbox"  readonly="true" disabled="1"/>  
                  <field name="json_blinkSlideshow" type="textarea" editor="codemirror"  
                        label="SlideShow Blink Options"  rows="5" height="100"  showon="layout:_:slideshow-blink"
-                       filter="raw" class="inputbox"  readonly="true" disabled="1"/>
+                       filter="raw" class="inputbox"  readonly="true" disabled="1"/>-->
 <!-- Удалить выше поля с JSON -->
                                       
                                       

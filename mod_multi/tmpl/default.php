@@ -22,12 +22,16 @@
 //$lang = JFactory::getLanguage();
 //$lang->load('com_finder', JPATH_SITE);
 
+
+
 //toPrint($params,'$params');
 //return;
 //new \Joomla\CMS\Object\CMSObject();
 //$param = $params->toObject();
 $param = (new Joomla\Registry\Registry($params))->toObject();//*** 
 $param->id = $module->id;
+
+
 
 //if($module->id== 142)
 //    toPrint ($module,'$module',0, TRUE, TRUE);
@@ -49,6 +53,10 @@ $title = ($params->get('title'));
 
 $header_tag = $params->get('header_tag', 'h3');
 $header_class = htmlspecialchars($params->get('header_class', 'module-header'));
+
+
+
+
 
 //echo $id;
 //if($id==148)
@@ -144,17 +152,26 @@ else
 if($showtitle):
     $titlea = "";
     if($link_show == 'ha')
-        $titlea = "<$header_tag class=\"$header_class\"><a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a></$header_tag>";
+        $titlea = "<$header_tag class=\"$header_class \"><a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a></$header_tag>";
     elseif($link_show || $link_show == 'ah')// && in_array($param->style, ['System-none','none','no',''])  && $module_tag2
-        $titlea = "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
+        $titlea = "<a  href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
     elseif(empty($link_show))//$module_tag2 &&
         $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
 
     if(in_array($param->style, ['System-none','none','no','0',0,'']))
         echo $titlea;
+//    else
+//        $$mod->title = $titlea;
     else
-        $$mod->title = $titlea;
+        $$mod->title = "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a>";
 endif;
+
+
+
+//if($module->id == 112)
+//toPrint($params->get('header_tag'),'$params->get(header_tag)',0,'message',true);
+//
+//
 //echo "<lala>$title</lala>";
  //echo $param->style; 
 //echo "<lala>$modules_tag</lala>";
@@ -284,7 +301,7 @@ if($params->get('header_tag3') == 'default' && ($module->showtitle??FALSE)){
     $header_tag3 = $module->header_tag ?: 'div';
 }
 if($params->get('header_tag3') == 'item'){ 
-    $header_tag3 = $module->header_tag;
+    $header_tag3 = $module->header_tag ?? '';
 }
 
 //toPrint($header_tag3,'$header_tag3',0);
@@ -361,6 +378,12 @@ if($header_tag3 && $module->title){
     if($content_tag3)
         echo "<$content_tag3 class=\" item_content  $module->moduleclass_sfx\">";
     echo  $module->content;
+	
+	if(isset($module->childs) && is_array($module->childs) && $module->childs){
+		$item = $module;
+		require ModuleHelper::getLayoutPath('mod_category_tags', '_childs');
+	}
+
     if($content_tag3)
         echo "</$content_tag3>";
     }

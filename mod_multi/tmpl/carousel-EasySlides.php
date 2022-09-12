@@ -284,7 +284,7 @@ script;
 <script type="text/javascript">
 jQuery(function($){ 
     $('.id<?=$param->id?>.slider_clock').EasySlides({
-        <?= $param->json_layout ?>
+        <?= $param->json_layout ?? '' ?>
     })
 
 }); 

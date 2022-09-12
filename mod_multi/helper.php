@@ -272,7 +272,7 @@ abstract class modMultiHelper //modProdCalendarHelper
         $fonts = (array)$fonts;
         $fonts_all = [];
         foreach ($fonts as $font){
-            //$font = str_replace(['|','/n'], '|', $font);//[',','|',';',':','/',' '];
+//            $font = str_replace(['|','/n'], '|', $font);//[',','|',';',':','/',' '];
             $fornts = explode('/n', $font);
             $fonts_all = array_merge($fonts_all, $fornts);
         }
@@ -871,8 +871,151 @@ ORDER BY lft LIMIT 300; ";
         return $items;
     }
     
+    public static function getTags($show = 'list', $catids = [], $parents = [], $maximum = 50, $order = 'title ASC', $count=true, $category_title = false) {//
+		
+		
+		$db         = JFactory::getDbo();
+		$nowDate    = JFactory::getDate()->toSql();
+		$nullDate   = $db->getNullDate();
+		
+		$user       = JFactory::getUser();
+		$groups     = $user->getAuthorisedGroups();
+		$levels		= $user->getAuthorisedViewLevels();
+		
+		$groups		= implode(',', $groups);
+		$groupsIn	= '0,'.$groups;
+		
+//toPrint($levels,'$levels',0,true);
+		
+		if($catids)
+			$catids = ' AND `cat`.`id` IN ('. implode(',', $catids) . ') ';
+		if($parents)
+			$parents = ' AND `t`.`parent_id` IN ('. implode(',', $parents) . ') ';
+		
+		$query = "
+SELECT MAX(`tag_id`) AS `tag_id`,COUNT(*) AS `count`,MAX(`t`.`parent_id`) AS `parent_id`,MAX(`t`.`title`) AS `title`,MAX(`t`.`alias`) AS `alias`,MAX(`t`.`access`) AS `access`,MAX(`t`.`params`) AS `params`,'' AS `parent`,MAX(`t`.`images`) AS `images`,`cat`.`title` AS `cat_title`,`cat`.`id` AS `cat_id`, `t`.`description` `content`, 'tags' `type`
+FROM `#__contentitem_tag_map` AS `m`
+INNER JOIN `#__tags` AS `t` ON `tag_id` = `t`.`id`
+INNER JOIN `#__ucm_content` AS `c` ON `m`.`core_content_id` = `c`.`core_content_id`
+INNER JOIN `#__categories` AS `cat` ON `c`.`core_catid` = `cat`.`id`
+WHERE `t`.`access` IN ($groups) AND `t`.`published` = 1  $parents $catids AND 
+	`cat`.`access` IN ($groups) AND `cat`.`published` = 1 AND `m`.`type_alias` = `c`.`core_type_alias` AND `c`.`core_state` = 1
+	AND `c`.`core_access` IN ($groupsIn) 
+	AND (`c`.`core_publish_up` IS NULL OR `c`.`core_publish_up` = '$nullDate' OR `c`.`core_publish_up` <= '$nowDate')
+	AND (`c`.`core_publish_down` IS NULL OR `c`.`core_publish_down` = '$nullDate' OR `c`.`core_publish_down` >= '$nowDate')
+GROUP BY `tag_id`,`t`.`title`,`t`.`access`,`t`.`alias`,`cat`.`id`
+ORDER BY $order LIMIT $maximum 
+		";
+
+		if($order != 'rand()')
+			$query = "
+SELECT `a`.`tag_id`,`a`.`parent_id`,`a`.`count`,`a`.`title`,`a`.`access`,`a`.`alias`,`a`.`cat_id`,`a`.`cat_title`,`a`.`params`,`a`.`parent`,`a`.`images`, `a`.`content`, `a`.`type`
+FROM ($query) AS `a`
+ORDER BY $order  LIMIT $maximum ;	
+			";
+		
+//toPrint($groups,'$groups',0,true);
+//toPrint($query,'$query',0,true);
+		
+		try
+		{
+			$db->setQuery($query);
+			$list = $db->loadObjectList();
+//toPrint($list,'$list',0,true);
+		}
+		catch (\RuntimeException $e)
+		{
+			$list = array();
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+		
+		
+		foreach ($list as &$tag)
+		{
+//toPrint($tag,'$tag',0,true);
+			$tag->childs = [];
+			$cat_id = $tag->cat_id ? "&id=$tag->cat_id" : '';
+			
+			if($count)
+				$tag->content .= "<span class='tag-count badge bg-info'>$tag->count</span>";
+			
+			if($category_title)
+				$tag->content .= "<span class='tag-category badge bg-info'>$tag->cat_title</span>";
+			
+			$tag->images = json_decode($tag->images, false); 
+			$tag->image = htmlspecialchars($tag->images->image_intro, ENT_COMPAT, 'UTF-8'); 
+			$tag->title = htmlspecialchars($tag->title, ENT_COMPAT, 'UTF-8');
+			$tag->text = $tag->content;
+			$tag->header_class = 'tag-title';
+			$tag->moduleclass_sfx = 'tag'; 
+			$tag->link = JRoute::_("index.php?option=com_content&view=category&layout=blog$cat_id&filter_tag=$tag->tag_id");
+			$tag->module_tag = $tag->tag_id;
+			$tag->id = $tag->tag_id; 
+			$tag->style = '';
+			$tag->header_tag = 'span';
+		}
+		
+		if($show == 'tree'){
+			
+			$tag_ids = array_column($list, 'tag_id');
+			$cat_ids = array_column($list, 'cat_id');
+			$parents = [];
+
+			foreach ($list as &$tag)
+			{
+				// Ключи родителей
+				$parent_keys = array_keys($tag_ids, $tag->parent_id);
+				if($parent_keys){
+					// Категории родителей
+					$c_ids = array_intersect_key($cat_ids, array_flip($parent_keys));
+					if(in_array($tag->cat_id, $c_ids)){
+						$cat_id = $tag->cat_id;
+					}else{
+						$cat_id = reset($c_ids);
+					}
+					$cat_key = array_search($cat_id, $c_ids);
+					$tag->parent = &$list[$cat_key];
+					$list[$cat_key]->childs[] = &$tag;
+				}else{
+					$parents[] = $tag;
+				}
+			}
+			$list = $parents;
+		}
+		
+		
+		return $list;
+	}
     
-    
+	/**
+	 * Create Tree elements with properties: childs, parent. Use properties: id, parent_id
+	 * @param array $list
+	 * @return array
+	 */
+	public static function Tree($list) {
+		$parents = [];
+		$ids = array_column($list, 'id');
+		$parents_ids = array_column($list, 'parent_id');
+		
+		foreach ($list as $i => &$tag){
+			$tag->childs = [];
+		}
+		
+		foreach ($list as $i => &$tag)
+		{
+			$parent_i = array_search($tag->parent_id, $parents_ids);
+			if($parent_i !== false){
+				$tag->parent = &$list[$parent_i];
+				$list[$parent_i]->childs[] = &$tag;
+			}
+			else {
+				$tag->parent = '';
+				$parents[] = $tag;
+			}
+		}
+			
+		return $parents;
+	}
     
     public static function getModulesFromPosition($positions,$modules_ordering,$current_id = 0,$current_position = '',$chromestyle='',$content_tag3=''){
 //return [];          
