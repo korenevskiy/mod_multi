@@ -871,7 +871,7 @@ ORDER BY lft LIMIT 300; ";
         return $items;
     }
     
-    public static function getTags($show = 'list', $catids = [], $parents = [], $maximum = 50, $order = 'title ASC', $count=true, $category_title = false) {//
+    public static function getTags($show = 'list', $catids = [], $parents = [], $maximum = 50, $order = 'title ASC', $count=true, $category_title = false, $Itemid = 0) {//
 		
 		
 		$db         = JFactory::getDbo();
@@ -889,8 +889,12 @@ ORDER BY lft LIMIT 300; ";
 		
 		if($catids)
 			$catids = ' AND `cat`.`id` IN ('. implode(',', $catids) . ') ';
+		else
+			$catids = '';
 		if($parents)
 			$parents = ' AND `t`.`parent_id` IN ('. implode(',', $parents) . ') ';
+		else
+			$parents = '';
 		
 		$query = "
 SELECT MAX(`tag_id`) AS `tag_id`,COUNT(*) AS `count`,MAX(`t`.`parent_id`) AS `parent_id`,MAX(`t`.`title`) AS `title`,MAX(`t`.`alias`) AS `alias`,MAX(`t`.`access`) AS `access`,MAX(`t`.`params`) AS `params`,'' AS `parent`,MAX(`t`.`images`) AS `images`,`cat`.`title` AS `cat_title`,`cat`.`id` AS `cat_id`, `t`.`description` `content`, 'tags' `type`
@@ -919,9 +923,12 @@ ORDER BY $order  LIMIT $maximum ;
 		
 		try
 		{
+//toPrint($query,'$query',0,true);
+//return [];
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
 //toPrint($list,'$list',0,true);
+
 		}
 		catch (\RuntimeException $e)
 		{
@@ -930,11 +937,14 @@ ORDER BY $order  LIMIT $maximum ;
 		}
 		
 		
+		$Itemid = $Itemid ? "&Itemid=$Itemid" : '' ;
+		
 		foreach ($list as &$tag)
 		{
 //toPrint($tag,'$tag',0,true);
-			$tag->childs = [];
+			$tag->items = [];
 			$cat_id = $tag->cat_id ? "&id=$tag->cat_id" : '';
+			
 			
 			if($count)
 				$tag->content .= "<span class='tag-count badge bg-info'>$tag->count</span>";
@@ -948,7 +958,7 @@ ORDER BY $order  LIMIT $maximum ;
 			$tag->text = $tag->content;
 			$tag->header_class = 'tag-title';
 			$tag->moduleclass_sfx = 'tag'; 
-			$tag->link = JRoute::_("index.php?option=com_content&view=category&layout=blog$cat_id&filter_tag=$tag->tag_id");
+			$tag->link = JRoute::_("index.php?option=com_content&view=category&layout=blog$cat_id$Itemid&filter_tag=$tag->tag_id");
 			$tag->module_tag = $tag->tag_id;
 			$tag->id = $tag->tag_id; 
 			$tag->style = '';
@@ -975,7 +985,7 @@ ORDER BY $order  LIMIT $maximum ;
 					}
 					$cat_key = array_search($cat_id, $c_ids);
 					$tag->parent = &$list[$cat_key];
-					$list[$cat_key]->childs[] = &$tag;
+					$list[$cat_key]->items[] = &$tag;
 				}else{
 					$parents[] = $tag;
 				}
@@ -988,7 +998,7 @@ ORDER BY $order  LIMIT $maximum ;
 	}
     
 	/**
-	 * Create Tree elements with properties: childs, parent. Use properties: id, parent_id
+	 * Create Tree elements with properties: children, parent. Use properties: id, parent_id
 	 * @param array $list
 	 * @return array
 	 */
@@ -998,7 +1008,7 @@ ORDER BY $order  LIMIT $maximum ;
 		$parents_ids = array_column($list, 'parent_id');
 		
 		foreach ($list as $i => &$tag){
-			$tag->childs = [];
+			$tag->items = [];
 		}
 		
 		foreach ($list as $i => &$tag)
@@ -1006,12 +1016,19 @@ ORDER BY $order  LIMIT $maximum ;
 			$parent_i = array_search($tag->parent_id, $parents_ids);
 			if($parent_i !== false){
 				$tag->parent = &$list[$parent_i];
-				$list[$parent_i]->childs[] = &$tag;
+				$list[$parent_i]->items[] = &$tag;
 			}
 			else {
 				$tag->parent = '';
 				$parents[] = $tag;
 			}
+//		if(isset($list[$tag->parent_id])){
+//			$list[$tag->parent_id]->items[] = $tag;//$tag->tag_id
+//			$tag->parent = $list[$tag->parent_id];
+//		}else{
+//			$parents[] = $tag;//$tag->tag_id
+//			$tag->parent = null;
+//		}
 		}
 			
 		return $parents;

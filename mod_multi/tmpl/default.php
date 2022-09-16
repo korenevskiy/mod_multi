@@ -379,9 +379,9 @@ if($header_tag3 && $module->title){
         echo "<$content_tag3 class=\" item_content  $module->moduleclass_sfx\">";
     echo  $module->content;
 	
-	if(isset($module->childs) && is_array($module->childs) && $module->childs){
+	if(isset($module->items) && is_array($module->items) && $module->items){
 		$item = $module;
-		require ModuleHelper::getLayoutPath('mod_category_tags', '_childs');
+		require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_multi', '_items');
 	}
 
     if($content_tag3)

@@ -633,7 +633,7 @@ if($rnd = $param->images_show){
 if($param->tags_show){
     
     $modules[sprintf("%02d", $param->tags_order).'tags'] = $items 
-		= modMultiHelper::getTags($param->tags_show, $param->tags_catids, $param->tags_parents, $param->tags_maximum, $param->tags_sort, $param->tags_count, $param->tags_category_title); 
+		= modMultiHelper::getTags($param->tags_show, $param->tags_catids??[], $param->tags_parents??[], $param->tags_maximum, $param->tags_sort, $param->tags_count, $param->tags_category_title, $param->Itemid ?? 0); 
     
 //    if($modules[sprintf("%02d", $param->query_order).'query'])
 //        $module->empty_list = FALSE;

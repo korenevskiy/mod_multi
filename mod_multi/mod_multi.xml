@@ -898,7 +898,9 @@
 					filter="intarray"
 					layout="joomla.form.field.list-fancy-select" 
 					class="multipleCategories" 
-				/>
+				>
+					<option value="" >JALL</option>
+				</field>
 				<field
 					name="tags_parents"
 					type="tag"
@@ -906,8 +908,18 @@
 					showon="tags_show!:0"
 					multiple="true"
 					filter="intarray"
-					mode="nested"
-				/>
+					mode="nested">
+					<option value="" >JALL</option>
+				</field>
+
+				<field 
+					name="tags_Itemid" 
+					type="menuitem" 
+					label="Select a menu item" 
+					>
+					<option	value="">JCURRENT</option>
+				</field>
+
 				<field
 					name="tags_maximum"
 					type="number"
@@ -942,8 +954,8 @@
 					default="0"
 					filter="integer"
 				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="tags_category_title"
@@ -955,11 +967,11 @@
 					filter="integer" 
 					validate="options"
 				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
                 <field name="tags_order" type="number" default="9" label="JFIELD_ORDERING_LABEL"
-					   min="0" max="20" step="1"  
+					   min="0" max="20" step="1"
 					   showon="tags_show!:0"/> 
                     
                     
@@ -1034,17 +1046,16 @@ ORDER BY id DESC LIMIT 3; &#13;&#10;"
                     <field name="query_order" type="number" default="10" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
                            showon="query_show:1"/> 
                     <field  
-                        name="query_select"
-			type="textarea"
+                        name="query_select" type="textarea"
                         default="&#13;&#10; 
 SELECT id, catid, title, alias, &#13;&#10;CONCAT_WS('',introtext, `fulltext`) content, &#13;&#10;'/home.html' link, '/images/joomla_black.png' image, 'article' type&#13;&#10; 
 FROM #__content &#13;&#10; 
 WHERE access AND state &#13;&#10; 
 ORDER BY id DESC LIMIT 3; &#13;&#10;"
-			label="SQL Query Select"
-			description=""  
-                        rows="5"   filter="raw"
-                        showon="query_show:1" comment="for FULL version"
+						label="SQL Query Select" 
+						rows="5"   filter="raw"
+						showon="query_show:1[AND]myfile:use.php" comment="for FULL version"
+						class="input-large"
 				/>
                                  
                     
