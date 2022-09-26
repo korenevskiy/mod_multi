@@ -23,16 +23,15 @@ if(empty($item->items))
 $items = $item->items;
 ?>
 <ul>
-	<?php foreach ($items as $item): 
-		$title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); 
+	<?php foreach ($items as $item):
+		$title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
 		$cat_id = $item->cat_id ? "id=$item->cat_id" : '';
 	?>
 	<li>
 		<a title="<?= $title?>" href="<?= $item->link;?>">
-			
-			
+
 		<?php if ($param->items_image && isset($item->image)) :
-			$item->params = new Joomla\Registry\Registry($item->params);  
+			$item->params = new Joomla\Registry\Registry($item->params);
 
 			$src	= htmlspecialchars($item->image, ENT_COMPAT, 'UTF-8');
 			if($src)
@@ -43,24 +42,23 @@ $items = $item->items;
 					'alt'	=> $item->title,
 				];
 
-				echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));				
+				echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));
 			}
 		endif; ?>
-			
+
 		<?php if ($header_tag3) : ?>
-			<span class="item-title"><?= $item->title; ?></span>			
+			<span class="item-title"><?= $item->title; ?></span>
 		<?php endif; ?>
-			
+
 			<?php if ($param->tags_count && isset($item->count)) : ?>
 				<span class="tag-count badge bg-info"><?php echo $item->count; ?></span>
 			<?php endif; ?>
-			
+
 			<?php if ($param->tags_category_title && isset($item->cat_title)) : ?>
 				<span class="item-category badge bg-info"><?php echo $item->cat_title; ?></span>
 			<?php endif; ?>
 		</a>
-			
-			
+
 		<?php require ModuleHelper::getLayoutPath('mod_multi', '_items'); ?>
 	</li>
 	<?php endforeach; ?>

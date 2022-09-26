@@ -1,23 +1,22 @@
-<?php defined('_JEXEC') or die; 
+<?php defined('_JEXEC') or die;
 /**------------------------------------------------------------------------
- * mod_multi - Modules Conatinier 
+ * mod_multi - Modules Conatinier
  * ------------------------------------------------------------------------
  * author    Sergei Borisovich Korenevskiy
  * Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
  * @package  mod_multi
- * @license  GPL   GNU General Public License version 2 or later;  
+ * @license  GPL   GNU General Public License version 2 or later;
  * Websites: //explorer-office.ru/download/joomla/category/view/1
  * Technical Support:  Forum - //fb.com/groups/multimodule
  * Technical Support:  Forum - //vk.com/multimodule
- */ 
+ */
 
- 
 use Joomla\CMS\Form\FormHelper as JFormHelper;
 use Joomla\CMS\HTML\HTMLHelper as JHtml;
 
 JFormHelper::loadFieldClass('list');
 
-class JFormFieldLanguages extends JFormFieldList  {//JFormField
+class JFormFieldLanguages extends JFormFieldList  {
 
  	/**
 	 * The form field type.
@@ -39,29 +38,26 @@ class JFormFieldLanguages extends JFormFieldList  {//JFormField
 	 */
 	protected function getOptions()
 	{
-        $opts = []; 
-        $options = []; 
-        
-        $opts['*']= ['*', '- - '.JText::_('JALL_LANGUAGE'). ": ★ " , '✔ - -'];//JHtml ✔
-                   
-        foreach (Joomla\CMS\Language\LanguageHelper::getKnownLanguages() as $opt){ //4
-            $opts[$opt['tag']]= [$opt['tag'], "$opt[nativeName]: $opt[tag]" , ' ◯'];//JHtml ✔
-        } 
-        foreach (Joomla\CMS\Language\LanguageHelper::getContentLanguages() as $opt){//3
-            //$options[$opt->lang_code] .= $opt->published
-            $opts[$opt->lang_code]= [$opt->lang_code, "$opt->title: $opt->lang_code", $opt->published?'✔':'◯'];//JHtml
-        } 
-        
-        foreach($opts as $opt){            
-            $options[$opt[0]]= JHtml::_('select.option', $opt[0], "$opt[1]: $opt[2]");//JHtml ✔✔✔✓✔
-        }
-        
-        //toPrint($ops,'$ops',0, true, true);    
+        $opts = [];
+        $options = [];
 
-	 
+        $opts['*']= ['*', '- - '.JText::_('JALL_LANGUAGE'). ": ★ " , '✔ - -'];
+
+        foreach (Joomla\CMS\Language\LanguageHelper::getKnownLanguages() as $opt){
+            $opts[$opt['tag']]= [$opt['tag'], "$opt[nativeName]: $opt[tag]" , ' ◯'];
+        }
+        foreach (Joomla\CMS\Language\LanguageHelper::getContentLanguages() as $opt){
+
+            $opts[$opt->lang_code]= [$opt->lang_code, "$opt->title: $opt->lang_code", $opt->published?'✔':'◯'];
+        }
+
+        foreach($opts as $opt){
+            $options[$opt[0]]= JHtml::_('select.option', $opt[0], "$opt[1]: $opt[2]");
+        }
+
         $options = array_merge($options,parent::getOptions() );
-        
+
         return $options;
-        
+
     }
 }

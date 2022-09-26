@@ -4,34 +4,19 @@
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */ 
+ */
 
 \defined('JPATH_PLATFORM') or die;
- 
+
 use Joomla\CMS\HTML\HTMLHelper as JHtml;
-
-
-//    [0] => /home/e/exoffice/explorer-office.ru/public_html/libraries/regularlabs/fields
-//    [1] => /home/e/exoffice/explorer-office.ru/public_html/administrator/components/com_content/models/fields/modal/
-//    [2] => /home/e/exoffice/explorer-office.ru/public_html/modules/mod_multi_form/fields/
-//    [3] => /home/e/exoffice/explorer-office.ru/public_html/modules/mod_multi_form/fields
-//    [4] => /home/e/exoffice/explorer-office.ru/public_html/administrator/components/com_advancedmodules/model/field
-//    [5] => /home/e/exoffice/explorer-office.ru/public_html/administrator/components/com_advancedmodules/models/fields
-//    [6] => /home/e/exoffice/explorer-office.ru/public_html/modules/mod_multi_form/field
-//    [7] => /home/e/exoffice/explorer-office.ru/public_html/libraries/cms/form/field
-//    [8] => /home/e/exoffice/explorer-office.ru/public_html/libraries/joomla/form/fields
-//    [9] => /home/e/exoffice/explorer-office.ru/public_html/libraries/src/Form/fields
-
-
 
 /**
  * Module Tag field.
  *
- * @since  3.0 
+ * @since  3.0
  */
-//Joomla\CMS\Form\Field\ModtagField
-//JFormFieldModtag
-class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField //ModuletagField JFormFieldModuletag
+
+class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField
 {
 	/**
 	 * The form field type.
@@ -39,8 +24,7 @@ class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField //ModuletagF
 	 * @var    string
 	 * @since  3.0
 	 */
-//	protected $type = 'ModuleTag'; 
-    
+
 	/**
 	 * Method to get the field options.
 	 *
@@ -51,34 +35,14 @@ class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField //ModuletagF
 	protected function getOptions()
 	{
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-//        toPrint(array_keys((array)$this),'this',0,'pre', true);
-//        $attr = ['labelclass','group','fieldname','name','class','type','element', 'form','formControl','id','input',];
-//        foreach ($attr as $at)
-//        toPrint(array_keys((array)$this->$at),$at,0,'pre', true);
-        
-//        toPrint( $this->labelclass,'labelclass',0,'pre', true);
-//        toPrint( $this->class,'class',0,'pre', true);
-//        toPrint($this->formControl,'formControl',0,'pre', true);
-//        toPrint($this->id,'id',0,'pre', true);
-//        toPrint($this->type,'type',0,'pre', true);
-//        toPrint($this->name,'name',0,'pre', true);
-//        toPrint($this->fieldname,'fieldname',0,'pre', true);
-//        toPrint($this->group,'group',0,'pre', true);
-//        toPrint($this->{'*input'},'input',0,'pre', true);
-//        toPrint($this->element->option,'element-option',0,'pre', true)
-//        toPrint(array_keys($this->name),'name',0,'pre', true);
-        
-        
+
 		$options = parent::getOptions();
-        
-//        $options = [];
-        
+
 		foreach ($this->element->xpath('option') as $option)
-		{ 
+		{
 			$value = (string) $option['value'];
 			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
-//            $options[] = ['value'=>$value,'text'=>JText::alt($text, $fieldname),'disable'=>false];
-            
+
 			$disabled = (string) $option['disabled'];
 			$disabled = in_array($disabled, ['true','disabled','1']);
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
@@ -88,7 +52,7 @@ class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField //ModuletagF
 
 			$selected = (string) $option['selected'];
 			$selected = in_array($selected, ['true','selected','checked','1']);
-            
+
 			$options[] = array(
 					'value'    => $value,
 					'text'     => JText::alt($text, $fieldname),
@@ -97,28 +61,18 @@ class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField //ModuletagF
 					'selected' => ($checked || $selected),
 					'checked'  => ($checked || $selected),
                 );
-//            $options[] = [$value,$value];
-//            toPrint( $text,'$text',0,'pre', true);
+
         }
-//        toPrint( $options,'$options',0,'pre', true);
-//        toPrint($this->form,'form',0,'pre', true);
-        
-//		$newtags    = array('figure', 'fieldset','li');
-//
-//		// Create one new option object for each tag
-//		foreach ($newtags as $tag)
-//		{
-//			$options[] = JHtml::_('select.option', $tag, "&lt;$tag>");
-//		}
-        
+
 		reset($options);
 
 		return $options;
 	}
     protected function getInput() {
-        
+
         $hide_mod = "<style type='text/css'>#jform_params_module_tag-lbl,#jform_params_module_tag,#jform_params_module_tag_chzn{display:none;}</style>";
-        
+
         return parent::getInput().$hide_mod;
     }
 }
+

@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die;
 /**------------------------------------------------------------------------
-# mod_multi - Modules Conatinier 
+# mod_multi - Modules Conatinier
 # ------------------------------------------------------------------------
 # author    Sergei Borisovich Korenevskiy
 # Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
@@ -9,16 +9,13 @@
 # Websites: //explorer-office.ru/download/joomla/category/view/1
 # Technical Support:  Forum - //fb.com/groups/multimodule
 # Technical Support:  Forum - //vk.com/multimodule
--------------------------------------------------------------------------*/ 
+-------------------------------------------------------------------------*/
 
 /*
 *** ------------------------ Карусель с вращающимся фотками/карточками  -------------------------------------------- ***
 */
 
-
-$param = (new Joomla\Registry\Registry($params))->toObject();//*** 
-
-
+$param = (new Joomla\Registry\Registry($params))->toObject();//***
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -30,75 +27,28 @@ $module_tag = $params->get('module_tag', 'div');
 $moduleclass_sfx = $params->get('moduleclass_sfx');
 
 $showtitle = $params->get('showtitle');
-//$title = htmlspecialchars($params->get('title'));
-$title = ($params->get('title'));
 
+$title = ($params->get('title'));
 
 $header_tag = $params->get('header_tag', 'h3');
 $header_class = htmlspecialchars($params->get('header_class', 'module-header'));
 
- 
-
- 
-
-$link_show = $params->get('link_show'); 
+$link_show = $params->get('link_show');
 $link = $params->get('link');
 
-//echo "<pre> ** $link_show ".print_r(( $module),true). " $showtitle++</pre>"; 
-//echo "<pre> ** $link_show ".print_r(( $params),true). " $showtitle++</pre>"; 
-
-
-
-//$stylesheetModule = $params->get('stylesheetModule');
-//$stylesheetTemplates = $params->get('stylesheetTemplates');
-//$stylesheetText = $params->get('stylesheetText');
-//$scryptModule = $params->get('scryptModule');
-//$scryptTemplates = $params->get('scryptTemplates');
-//$scriptText = $params->get('scriptText');
-//
-
-//ECHO <<<view
-//view;   
 $modules;
-$modules_tag = $params->get('modules_tag');  
+$modules_tag = $params->get('modules_tag');
 
-
-//if($modules_tag=='default'){
-//    switch ($type_module){
-//        case 'positions':
-//            $modules_tag = "ul"; break;
-//        case 'modules':
-//            $modules_tag = "ul"; break;
-//        case 'article':
-//            $modules_tag = "div"; break;
-//        default :
-//            $modules_tag = "empty";
-//    }
-//}
- 
 if($module_tag2 = $params->get('module_tag2'))
     echo "<$module_tag2 class=\"multimodule".$params->get('moduleclass_sfx2')." count$mod_show id$id $style\"  >";
-
- 
-
-//toPrint($showtitle."|".$link_show.'|'.$style,'');
-//if($$mod->id == 111)
-//toPrint($$mod,'');
-//
-//
-//echo "123";
-//echo "<pre>$link $header_tag** ".print_r(( $title),true). "++</pre>"; 
-
-//echo "$link_show *".$params->get('title_alt')."-".$module->title."+".$module->title." ++$module->showtitle $params->showtitle!!";
-
 
 if($showtitle):
     $titlea = "";
     if($link_show == 'ha')
         $titlea = "<$header_tag class=\"$header_class\"><a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a></$header_tag>";
-    elseif($link_show || $link_show == 'ah')// && in_array($style, ['System-none','none','no',''])  && $module_tag2
+    elseif($link_show || $link_show == 'ah')
         $titlea = "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
-    elseif(empty($link_show))//$module_tag2 &&
+    elseif(empty($link_show))
         $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
 
     if(in_array($style, ['System-none','none','no','0',0,'']))
@@ -107,46 +57,24 @@ if($showtitle):
         $$mod->title = $titlea;
 endif;
 
-
-//echo "<lala>$title</lala>";
- //echo $style;
-  
-//echo "<lala>$modules_tag</lala>";
-//
-//$order=$params->get('order', 'ideh');
-//echo $order.'123';
-
-//echo ($params->get('layout','dev').' '.$order.' '.strlen($html));
- 
 if($tag = $params->get('modules_tag3')){
-    $tgs = explode('/', $tag);  
+    $tgs = explode('/', $tag);
     $tag_title = $tgs[0] ?? FALSE;
     $tag_block = $tgs[1] ?? FALSE;
     $tag_container = $tgs[2] ?? FALSE;
     $tag_item  = $tgs[3] ?? FALSE;
-//        toPrint(0,"$tag $tag_title, $tag_block, $tag_container, $tag_item");
+
 }
-//        toPrint($params->get('header_tag3',''),'header_tag3');
- 
-//echo "123<lala>$modules_tag $style </lala>";
 
-//toPrint($modules, '$modules');
-//$keys = array_keys($modules);
-
-//toPrint($keys, '$keys',0);
-//toPrint($modules,'5article');
-//toPrint($keys, '$keys',0);
-
-        
 $elements = [];
 echo "<div id='multislideshowid$param->id'  class='gallery items count$count $moduleclass_sfx  id$param->id Creating3DPerspectiveCarousel' style='height: 80vh;'>";
 echo "<canvas id='slideshow$param->id' width='100%' height='800'></canvas>";
-echo "</div>"; 
+echo "</div>";
 
 $images = [];
 
 foreach ($modules as $type => $items){
-    $order =  substr($type, 0, 2); // $type[0];
+    $order =  substr($type, 0, 2);
     $type = substr($type, 2);
     if(is_string($items)){
         echo $items;
@@ -159,15 +87,7 @@ foreach ($modules as $type => $items){
         $elements[] = $module;
         $images[] = "'".$module->image."'";
     }
-}  
-// array of photos
-//var aImgs = [
-//    'images/pic1.jpg',
-//    'images/pic2.jpg',
-//    'images/pic3.jpg',
-//    'images/pic4.jpg'
-//]; 
- 
+}
 
 ?>
 <script type='text/javascript' >
@@ -180,7 +100,6 @@ var textureWidth<?=$param->id?>, textureHeight<?=$param->id?>;
 var lev<?=$param->id?> = 3;
 var angle<?=$param->id?> = 0;
 
-// scene vertices
 var vertices<?=$param->id?> = [
     new Point3D<?=$param->id?>(-2,-1,2),
     new Point3D<?=$param->id?>(2,-1,2),
@@ -192,7 +111,6 @@ var vertices<?=$param->id?> = [
     new Point3D<?=$param->id?>(-2,1,-2)
 ];
 
-// scene faces (6 faces)
 var faces<?=$param->id?>  = [[0,1,2,3],[1,5,6,2],[5,4,7,6],[4,0,3,7],[0,4,5,1],[3,2,6,7]];
 
 function Point3D<?=$param->id?>(x,y,z) {
@@ -250,13 +168,12 @@ for (var i = 0; i < aImgs<?=$param->id?>.length; i++) {
 window.onload = function(){
     width = document.getElementById('multislideshowid<?= $param->id?>').clientWidth;
     height = document.getElementById('multislideshowid<?= $param->id?>').clientHeight;
-    // creating canvas<?=$param->id?> objects
+
     canvas<?=$param->id?> = document.getElementById('slideshow<?= $param->id?>');
     canvas<?=$param->id?>.width = width;
     canvas<?=$param->id?>.height = height;
     ctx<?=$param->id?> = canvas<?=$param->id?>.getContext('2d');
 
-    // prepare points
     for (var i = 0; i <= lev<?=$param->id?>; i++) {
         for (var j = 0; j <= lev<?=$param->id?>; j++) {
             var tx = (i * (textureWidth<?=$param->id?> / lev<?=$param->id?>));
@@ -272,7 +189,6 @@ window.onload = function(){
         }
     }
 
-    // prepare triangles ----
     var levT = lev<?=$param->id?> + 1;
     for (var i = 0; i < lev<?=$param->id?>; i++) {
         for (var j = 0; j < lev<?=$param->id?>; j++) {
@@ -296,15 +212,14 @@ window.onload = function(){
 };
 
 function drawScene<?=$param->id?>() {
-    // clear context
+
     ctx<?=$param->id?>.clearRect(0, 0, ctx<?=$param->id?>.canvas.width, ctx<?=$param->id?>.canvas.height);
 
-    // rotate scene
     var t = new Array();
     for (var iv = 0; iv < vertices<?=$param->id?>.length; iv++) {
         var v = vertices<?=$param->id?>[iv];
         var r = v.rotateY(angle<?=$param->id?>);
-        //var r = v.rotateX(angle<?=$param->id?>).rotateY(angle<?=$param->id?>);
+
         var prj = r.projection(ctx<?=$param->id?>.canvas.width, ctx<?=$param->id?>.canvas.height, 1000, 3);
         t.push(prj)
     }
@@ -315,16 +230,13 @@ function drawScene<?=$param->id?>() {
         avg_z[i] = {"ind":i, "z":(t[f[0]].z + t[f[1]].z + t[f[2]].z + t[f[3]].z) / 4.0};
     }
 
-    // get around through all faces 
-    
     for (var i = 0; i < faces<?=$param->id?>.length; i++) {
         var f = faces<?=$param->id?>[avg_z[i].ind];
 
         if (t[f[3]].z+t[f[2]].z+t[f[1]].z+t[f[0]].z > -3) {
             ctx<?=$param->id?>.save();
 
-            // draw surfaces
-            ctx<?=$param->id?>.fillStyle = "rgb(252,211,164)"; 
+            ctx<?=$param->id?>.fillStyle = "rgb(252,211,164)";
             ctx<?=$param->id?>.beginPath();
             ctx<?=$param->id?>.moveTo(t[f[0]].x,t[f[0]].y);
             ctx<?=$param->id?>.lineTo(t[f[1]].x,t[f[1]].y);
@@ -333,7 +245,6 @@ function drawScene<?=$param->id?>() {
             ctx<?=$param->id?>.closePath();
             ctx<?=$param->id?>.fill();
 
-            // draw stretched images
             if (i < 4) {
                 var ip = points<?=$param->id?>.length;
                 while (--ip > -1) {
@@ -362,7 +273,6 @@ function drawScene<?=$param->id?>() {
                     ctx<?=$param->id?>.closePath();
                     ctx<?=$param->id?>.clip();
 
-                    // transformation
                     var d = p0.tx * (p2.ty - p1.ty) - p1.tx * p2.ty + p2.tx * p1.ty + (p1.tx - p2.tx) * p0.ty;
                     ctx<?=$param->id?>.transform(
                         -(p0.ty * (p2.px - p1.px) -  p1.ty * p2.px  + p2.ty *  p1.px + (p1.ty - p2.ty) * p0.px) / d, // m11
@@ -379,63 +289,35 @@ function drawScene<?=$param->id?>() {
         }
     }
 
-    // shift angle and redraw scene
     angle<?=$param->id?> += 0.3;
     setTimeout(drawScene<?=$param->id?>, 40);
 }
  </script>
 <?php
 
-//$keys = array_keys($elements);
-
-//toPrint($keys, '$keys',0);
-//toPrint($elements,'$elements');
-
 $count = count($elements);
-//    if(isset($tag_block) && $tag_block) 
 
-
- 
 if($module_tag2)
     echo "</$module_tag2>";
- 
-//JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
-//
-//JHtml::_('jquery.framework'); // load jquery
-//JHtml::_('jquery.ui'); // load jquery ui from Joomla
-// 
 
 static $script;
 
-// <editor-fold defaultstate="collapsed" desc="Scrypt Carousel for count 5">
 if(empty($script)) {
 
+    $mod_path = Juri::base() . "modules/mod_multi/media/carousel-Animated-3D-Cube-Slideshow/";
 
-    $mod_path = Juri::base() . "modules/mod_multi/media/carousel-Animated-3D-Cube-Slideshow/";    
-//    JHtml::script($mod_path . "js/script.js"); 
-//    JHtml::stylesheet($mod_path . "css/main.css");
-    
-    
-//    JHtml::script($mod_path . "fancybox_3/jquery.fancybox.min.js"); 
-//    JHtml::stylesheet($mod_path . "fancybox_3/jquery.fancybox.min.css"); 
-     
-//    JHtml::script($mod_path . "fancybox_2/jquery.fancybox.pack.js"); 
-//    JHtml::stylesheet($mod_path . "fancybox_2/jquery.fancybox.css"); 
-        
-    //https://www.jqueryscript.net/slider/Creating-3D-Perspective-Carousel-with-jQuery-CSS3-CSSSlider.html 
-
-    
 $script = <<< script
 
 /* MultiModule ModuleID:$param->id - $style_layout */
 jQuery(function($){
-    
-}); 
-       
+
+});
+
 script;
 
 JFactory::getDocument()->addScriptDeclaration($script);
-//<style type="text/css"></style>
+
 }
-// </editor-fold>
-?> 
+
+?>
+

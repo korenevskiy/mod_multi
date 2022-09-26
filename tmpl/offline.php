@@ -1,6 +1,6 @@
 <?php
 /*------------------------------------------------------------------------
-# mod_multi - Modules Conatinier 
+# mod_multi - Modules Conatinier
 # ------------------------------------------------------------------------
 # author    Sergei Borisovich Korenevskiy
 # Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
@@ -11,44 +11,37 @@
 -------------------------------------------------------------------------*/
 defined('_JEXEC') || TRUE || die;
 if(defined('_JEXEC')){
-    
+
     $app = JFactory::getApplication();
     $doc = JFactory::getDocument();
-     
- 
+
 $app->redirect(JRoute::_('/modules/mod_multi/tmpl/offline.php',false));
-//$app->redirect(new JUri('/modules/mod_multi/tmpl/offline.php')); 
+
     return;
-}  
-    
+}
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//*** 
+$param = (new Joomla\Registry\Registry($params))->toObject();//***
 
-
-    
     defined('JPATH_SITE') or define('JPATH_SITE', realpath(__DIR__.'/../../..'));
     defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', JPATH_SITE.'/libraries');
-    $config = (JPATH_SITE.'/configuration.php');  
+    $config = (JPATH_SITE.'/configuration.php');
     if(file_exists($config)){
         require_once $config;
         $config = new JConfig;
     }else{
         $config = FALSE;
-    }     
+    }
     $session_name = '';
     $opt = [];
     if($config){
-        $session_name = md5($config->secret . '');//JApplicationWeb   Joomla\CMS\Application\SiteApplication
+        $session_name = md5($config->secret . '');
         $opt = [ 'name' => $session_name,'expire' => 900,'force_ssl' => $config->force_ssl];
     }
- 
-  
- 
-    
+
 $FormToken = function ($length = 8, $secret = '' ){
 		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		$base = strlen($salt);
-		$makepass = ''; 
+		$makepass = '';
 		$random = random_bytes($length + 1);
 		$shift = ord($random[0]);
 
@@ -58,15 +51,13 @@ $FormToken = function ($length = 8, $secret = '' ){
 			$shift += ord($random[$i]);
 		}
 
-//		return $makepass;
 		return md5($secret . 0 .$makepass);
-}; 
- 
+};
+
 $token = '<input type="hidden" name="' . $FormToken(32,$config->secret) . '" value="1"' . $attributes . ' />';
- 
 
  $offline_image = $config->offline_image;
-  
+
  $images = [];
  $images[] = '/'.$offline_image;
  $images[] = '/images/site.jpg';
@@ -76,19 +67,18 @@ $token = '<input type="hidden" name="' . $FormToken(32,$config->secret) . '" val
  $images[] = '/images/site.swf';
  $images[] = '/images/site.psd';
  $images[] = '/images/site.tiff';
- 
+
  foreach ($images as $i => $im){
     if(file_exists(JPATH_SITE.'/'.$im)){
          $offline_image = $im;
          break;
-}   } 
+}   }
 
 $im = getimagesize(JPATH_SITE.'/'.$offline_image);
 $image_width = $im[0];
 $image_height = $im[1];
 $image_type = $im[2];
 $image_width = $im[3];
- 
 
 $lang = 'en-GB';
 $langs = [];
@@ -98,30 +88,30 @@ foreach(glob(JPATH_SITE."/language/*-*") as $dir){
     if(file_exists(JPATH_SITE."/language/$dir/$dir.ini") && $dir != 'en-GB')
         $langs[] = $dir;
 }
-$langs[] = 'en-GB'; // print_r($langs1,true)
-foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $lan){   
-    list($l1) = explode(';', $lan); 
+$langs[] = 'en-GB';
+foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $lan){
+    list($l1) = explode(';', $lan);
     foreach ($langs as $dir){
-        $pos = strpos($dir, $l1); 
-        if($pos === 0 || $pos){ 
+        $pos = strpos($dir, $l1);
+        if($pos === 0 || $pos){
             $lang = $dir;
             break 2;
         }
     }
 }
-$langs = parse_ini_file(JPATH_SITE."/language/$lang/$lang.ini"); 
- 
-    $title = $sitename = $config->sitename; 
-    
+$langs = parse_ini_file(JPATH_SITE."/language/$lang/$lang.ini");
+
+    $title = $sitename = $config->sitename;
+
     $fromname = $config->fromname;
-    $mailfrom = $config->mailfrom; 
-    
-    $replyto  = $config->replyto; 
-    $replytoname  = $config->replytoname; 
-    
+    $mailfrom = $config->mailfrom;
+
+    $replyto  = $config->replyto;
+    $replytoname  = $config->replytoname;
+
     $offline_message = $message = $description = $config->offline_message;
-    $display_offline_message = $config->$display_offline_message; 
-     
+    $display_offline_message = $config->$display_offline_message;
+
 $JText_ = function ($str = '') use ($langs){
     return $langs[$str] ?: $str;
 };
@@ -132,8 +122,8 @@ $JText_ = function ($str = '') use ($langs){
 <body style="background:url(<?= $offline_image ?>) center top no-repeat,white ; height:<?= $image_height?>">
     <meta charset="utf-8">
 
-<?php 
-//echo '<br>'. '<br>';
+<?php
+
 ?>
 <img src="<?= $image ?>" alt="<?= $sitename ?>"   style="width:auto; height: auto; margin: 0 -2000px; left:-5000px; position: relative; display:block;" />
 <div id="frame" class="outline" style="position: absolute;position: fixed; top: 20px; left: 20px; right: 20px; width: min-content; margin: auto; border-radius: 20px; box-shadow: 0 5px 20px #000; background-color: rgba(255,255,255,0.9);display:table;  ">
@@ -176,7 +166,7 @@ $JText_ = function ($str = '') use ($langs){
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?= $return ?>" />
-		<?php $token;//echo JHtml::_('form.token'); ?>
+		<?php $token;
 	</fieldset>
 	</form>
 	</div>

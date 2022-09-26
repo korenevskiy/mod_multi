@@ -5,10 +5,9 @@
  * Module Slideshow CK
  * @license		GNU/GPL
  * */
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
 
-// get the slideshow width
 $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="width:' . SlideshowckHelper::testUnit($params->get('width')) . ';"' : '';
 ?>
 <div class="slideshowck <?php echo $params->get('moduleclass_sfx'); ?> camera_wrap <?php echo $params->get('skin'); ?>" id="camera_wrap_<?php echo $module->id; ?>"<?php echo $width; ?>>
@@ -18,15 +17,13 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 		if ($params->get('limitslides', '') && $i >= $params->get('limitslides', ''))
 			break;
 
-		// B/C for V1
 		if (isset($item->imgname) && ! isset($item->image)) SlideshowckHelper::legacyUpdateItem($item);
 
-		// automatically create the minified thumb and use it
 		$item->thumb = $item->image;
 		if ($params->get('thumbnails', '1') == '1' && $params->get('autocreatethumbs','1') && $params->get('usethumbstype', 'mini') == 'mini') {
 			$item->thumb = SlideshowckHelper::resizeImage($item->image, $params->get('thumbnailwidth', '182'), $params->get('thumbnailheight', '187'));
 		}
-		// use the minified thumb but don't create it
+
 		else if ($params->get('thumbnails', '1') == '1' && $params->get('usethumbstype','mini') == 'mini'){
 			$thumbext = explode(".", $item->image);
 			$thumbext = end($thumbext);
@@ -40,8 +37,7 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 			}
 		}
 
-		// create new images for mobile
-		if ($params->get('usemobileimage', '0') && $params->get('autocreatethumbs','1')) { 
+		if ($params->get('usemobileimage', '0') && $params->get('autocreatethumbs','1')) {
 			$resolutions = explode(',', $params->get('mobileimageresolution', '640'));
 			foreach ($resolutions as $resolution) {
 				SlideshowckHelper::resizeImage($item->image, (int)$resolution, '', (int)$resolution, '');
@@ -96,13 +92,13 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 			?>
 				<?php if ($params->get('usecaption', '1')) { ?>
 				<div class="camera_caption <?php echo $params->get('captioneffect', 'moveFromBottom')?>">
-					<?php 
-//					$showcaption = $params->get('usecaption', '1') == '1' && ($item->title || $item->desc);
+					<?php
+
 					$showtitle = $params->get('usetitle', '1') == '1' && $item->title;
 					$showdescription = $params->get('usecaptiondesc', '1') == '1' && $item->text;
 					if ($showtitle) { ?>
 					<div class="camera_caption_title">
-						<?php 
+						<?php
 						$item->title = str_replace("|dq|", "\"", $item->title);
 						if ($link && $linkposition == 'title') {
 							echo $startLink . $item->title . '</a>';
@@ -113,12 +109,12 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 					<?php } ?>
 					<?php if ($showdescription) { ?>
 					<div class="camera_caption_desc">
-						<?php 
+						<?php
 						$caption = str_replace("|dq|", "\"", $item->text);
 						if ($params->get('content_prepare', 0)) $caption = JHTML::_('content.prepare', $caption);
 						$textlength = (int)$params->get('textlength', '0');
 						if ($params->get('fixhtml', '0') == '1' && trim($caption)) {
-							// Parse the html code of the text into a fixer to avoid bad rendering issues
+
 							$htmlfixer = new SlideshowCKHtmlFixer();
 							$captionFixed = $htmlfixer->getFixedHtml(trim($caption));
 							$caption = $captionFixed;
@@ -152,9 +148,10 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 			}
 			?>
 		</div>
-<?php 
+<?php
 		$i++;
 	}
 ?>
 </div>
 <div style="clear:both;"></div>
+

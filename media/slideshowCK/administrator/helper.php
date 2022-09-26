@@ -6,18 +6,13 @@
  * Module Slideshow CK
  * @license		GNU/GPL
  * */
-// no direct access
+
 defined('_JEXEC') or die;
 
-/** 
- * NOTE : THIS FILE IS USED FOR B/C OF THE V1 FEATURES ONLY !! 
+/**
+ * NOTE : THIS FILE IS USED FOR B/C OF THE V1 FEATURES ONLY !!
  */
- 
- 
-//$com_path = JPATH_SITE . '/components/com_content/';
-//require_once $com_path . 'router.php';
-//require_once $com_path . 'helpers/route.php';
-//JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
+
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
@@ -37,13 +32,11 @@ class modSlideshowckHelper {
 	 * @return	array
 	 */
 	static function getItems(&$params) {
-		// Initialise variables.
+
 		self::$_params = $params;
 		$db = JFactory::getDbo();
 		$document = JFactory::getDocument();
 
-		// load the libraries
-		//jimport('joomla.application.module.helper');
 		$items = json_decode(str_replace("|qq|", "\"", $params->get('slides')));
 		foreach ($items as $i => $item) {
 			if (!$item->imgname) {
@@ -51,24 +44,21 @@ class modSlideshowckHelper {
 				continue;
 			}
 
-			// check if the slide is published
 			if (isset($item->state) && $item->state == '0') {
 				unset($items[$i]);
 				continue;
 			}
 
-			// check the slide start date
 			if (isset($item->startdate) && $item->startdate) {
-				// if (date("d M Y") < $item->startdate) {
+
 				if (time() < strtotime($item->startdate)) {
 					unset($items[$i]);
 					continue;
 				}
 			}
 
-			// check the slide end date
 			if (isset($item->enddate) && $item->enddate) {
-				// if (date("d M Y") > $item->enddate) {
+
 				if (time() > strtotime($item->enddate)) {
 					unset($items[$i]);
 					continue;
@@ -80,8 +70,8 @@ class modSlideshowckHelper {
 			} else {
 				$item->article = null;
 			}
-			// create new images for mobile
-			if ($params->get('usemobileimage', '0')) { 
+
+			if ($params->get('usemobileimage', '0')) {
 				$resolutions = explode(',', $params->get('mobileimageresolution', '640'));
 				foreach ($resolutions as $resolution) {
 					self::resizeImage($item->imgname, (int)$resolution, '', (int)$resolution, '');
@@ -91,10 +81,10 @@ class modSlideshowckHelper {
 			if (stristr($item->imgname, "http")) {
 				$item->imgthumb = $item->imgname;
 			} else {
-				// renomme le fichier
+
 				$thumbext = explode(".", $item->imgname);
 				$thumbext = end($thumbext);
-				// crée la miniature
+
 				if ($params->get('thumbnails', '1') == '1' && $params->get('autocreatethumbs','1')) {
 					$item->imgthumb = JURI::base(true) . '/' . self::resizeImage($item->imgname, $params->get('thumbnailwidth', '182'), $params->get('thumbnailheight', '187'));
 				} else {
@@ -105,23 +95,20 @@ class modSlideshowckHelper {
 				$item->imgname = JURI::base(true) . '/' . $item->imgname;
 			}
 
-			// set the videolink
 			if ($item->imgvideo)
 				$item->imgvideo = self::setVideolink($item->imgvideo);
 
-			// manage the title and description
 			if (stristr($item->imgcaption, "||")) {
 				$splitcaption = explode("||", $item->imgcaption);
 				$item->imgcaption = '<div class="slideshowck_title">' . $splitcaption[0] . '</div><div class="slideshowck_description">' . $splitcaption[1] . '</div>';
 			}
-			
-			// route the url
+
 			if (strcasecmp(substr($item->imglink, 0, 4), 'http') && (strpos($item->imglink, 'index.php?') !== false)) {
 				$item->imglink = JRoute::_($item->imglink, true, false);
 			} else {
 				$item->imglink = JRoute::_($item->imglink);
 			}
-			
+
 			if (!isset($item->imgtitle)) $item->imgtitle = '';
 		}
 
@@ -134,12 +121,12 @@ class modSlideshowckHelper {
 		require_once $com_path . 'helpers/route.php';
 		JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 		self::$_params = $params;
-		// Access filter
+
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
-		// Get an instance of the generic articles model
+
 		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-		// Set application parameters in model
+
 		$app = JFactory::getApplication();
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
@@ -149,10 +136,9 @@ class modSlideshowckHelper {
 		$item->article = $items2[0];
 		$item->article->text = JHTML::_('content.prepare', $item->article->introtext);
 		$item->article->text = self::truncate($item->article->text, $params->get('articlelength', '150'));
-		// $item->article->text = JHTML::_('string.truncate',$item->article->introtext,'150');
-		// set the item link to the article depending on the user rights
+
 		if ($access || in_array($item->article->access, $authorised)) {
-			// We know that user has the privilege to view the article
+
 			$item->slug = $item->article->id . ':' . $item->article->alias;
 			$item->catslug = $item->article->catid ? $item->article->catid . ':' . $item->article->category_alias : $item->article->catid;
 			$item->article->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
@@ -182,19 +168,19 @@ class modSlideshowckHelper {
 		$authorisedExt = array('png', 'jpg', 'JPG', 'JPEG', 'jpeg', 'bmp', 'tiff', 'gif');
 		$items = json_decode(str_replace("|qq|", "\"", $params->get('slidesfromfolder')));
 		foreach ($items as & $item) {
-//			$item->imgname = str_replace(JUri::base(), '', $item->imgname);
+
 			$item->imgthumb = '';
 			$item->imgname = trim($item->imgname, '/');
 			$item->imgname = trim($item->imgname, '\\');
-			// create new images for mobile
-			if ($params->get('usemobileimage', '0')) { 
+
+			if ($params->get('usemobileimage', '0')) {
 				self::resizeImage($item->imgname, $params->get('mobileimageresolution', '640'), '', $params->get('mobileimageresolution', '640'), '');
 			}
 			if ($params->get('thumbnails', '1') == '1')
 				$item->imgthumb = JURI::base(true) . '/' . self::resizeImage($item->imgname, $params->get('thumbnailwidth', '100'), $params->get('thumbnailheight', '75'));
 			$thumbext = explode(".", $item->imgname);
 			$thumbext = end($thumbext);
-			// set the variables
+
 			$item->imgvideo = null;
 			$item->slideselect = null;
 			$item->slideselect = null;
@@ -210,11 +196,9 @@ class modSlideshowckHelper {
 			if (!in_array(strToLower(JFile::getExt($item->imgname)), $authorisedExt))
 				continue;
 
-			// load the image data from txt
 			$item = self::getImageDataFromfolder($item, $params);
 			$item->imgname = JURI::base(true) . '/' . $item->imgname;
-			
-			// route the url
+
 			if (strcasecmp(substr($item->imglink, 0, 4), 'http') && (strpos($item->imglink, 'index.php?') !== false)) {
 				$item->imglink = JRoute::_($item->imglink, true, false);
 			} else {
@@ -224,7 +208,7 @@ class modSlideshowckHelper {
 
 		return $items;
 	}
-	
+
 	static function getItemsAutoloadfolder(&$params) {
 		self::$_params = $params;
 		$authorisedExt = array('png', 'jpg', 'JPG', 'JPEG', 'jpeg', 'bmp', 'tiff', 'gif');
@@ -235,19 +219,19 @@ class modSlideshowckHelper {
 			$items = JFolder::files($folder, '.jpg|.png|.jpeg|.gif|.JPG|.JPEG|.jpeg', false, true);
 			foreach ($items as $i => $name) {
 				$item = new stdClass();
-				// $item->imgname = str_replace(JUri::base(),'', $item->imgname);
+
 				$item->imgthumb = '';
 				$item->imgname = trim(str_replace('\\','/',$name), '/');
 				$item->imgname = trim($item->imgname, '\\');
-				// create new images for mobile
-				if ($params->get('usemobileimage', '0')) { 
+
+				if ($params->get('usemobileimage', '0')) {
 					self::resizeImage($item->imgname, $params->get('mobileimageresolution', '640'), '', $params->get('mobileimageresolution', '640'), '');
 				}
 				if ($params->get('thumbnails', '1') == '1')
 					$item->imgthumb = JURI::base(true) . '/' . self::resizeImage($item->imgname, $params->get('thumbnailwidth', '100'), $params->get('thumbnailheight', '75'));
 				$thumbext = explode(".", $item->imgname);
 				$thumbext = end($thumbext);
-				// set the variables
+
 				$item->imgvideo = null;
 				$item->slideselect = null;
 				$item->slideselect = null;
@@ -263,12 +247,10 @@ class modSlideshowckHelper {
 				if (!in_array(strToLower(JFile::getExt($item->imgname)), $authorisedExt))
 					continue;
 
-				// load the image data from txt
 				$item = self::getImageDataFromfolder($item, $params);
 				$item->imgname = JURI::base(true) . '/' . $item->imgname;
 				$items[$i] = $item;
 
-				// route the url
 				if (strcasecmp(substr($item->imglink, 0, 4), 'http') && (strpos($item->imglink, 'index.php?') !== false)) {
 					$item->imglink = JRoute::_($item->imglink, true, false);
 				} else {
@@ -280,33 +262,31 @@ class modSlideshowckHelper {
 	}
 
 	/*
-	 * Load the image from the specified folder 
+	 * Load the image from the specified folder
 	 */
 	public static function loadImagesFromFolder($directory) {
 
-		// encode the folder path, needed if contains an accent
 		try {
-			$translatedDirectory = iconv("UTF-8", "ISO-8859-1//TRANSLIT", urldecode($directory));
+			$translatedDirectory = iconv("UTF-8", "ISO-8859-1
 			if ($translatedDirectory) $directory = $translatedDirectory;
 		} catch (Exception $e) {
 			echo 'CK Message : ',  $e->getMessage(), "\n";
 		}
 
-		// load the files from the folder
 		$files = JFolder::files(trim(trim($directory), '/'), '.', false, true);
 
 		if (! $files) return 'CK message : No files found in the directory : ' . $directory;
 
 		self::$imagesOrderByLabels = array();
-		// load the labels from the folder
+
 		self::getImageLabelsFromFolder($directory);
 
 		$order = self::$_params->get('displayorder');
-		// set the images order
+
 		if ($order == 'shuffle') {
 			shuffle($files);
-		} else 
-//			if(isset($params->order) && $params->order == 'labels') 
+		} else
+
 				{
 			natsort($files);
 			$files = array_map(array(__CLASS__, 'formatPath'), $files);
@@ -316,12 +296,9 @@ class modSlideshowckHelper {
 				$imgFile = $baseDir . '/' . $name;
 				array_unshift($files, $imgFile);
 			}
-			// now make it unique
+
 			$files = array_unique($files);
-		} 
-//		else {
-//			natsort($files);
-//		}
+		}
 
 		$authorisedExt = array('png','jpg','jpeg','bmp','tiff','gif');
 		$items = array();
@@ -331,7 +308,7 @@ class modSlideshowckHelper {
 			if (!in_array(strToLower($fileExt),$authorisedExt)) continue;
 
 			$item = new stdClass();
-			// set the variables
+
 			$item->imgvideo = null;
 			$item->slideselect = null;
 			$item->slideselect = null;
@@ -344,10 +321,6 @@ class modSlideshowckHelper {
 			$item->imglink = null;
 			$item->imgtitle = null;
 
-			// limit the number of images
-//			if (isset($params->number) && $params->number > 0 && $i > (int)$params->number) $show = false;
-
-			// get the data for the image
 			$filedata = self::getImageDataFromfolder2($file, $directory);
 
 			$file = str_replace("\\", "/", utf8_encode($file));
@@ -364,7 +337,6 @@ class modSlideshowckHelper {
 			$item->imgtitle = $filedata->title;
 			$item->imgcaption = $filedata->desc;
 			$item->imgvideo = $filedata->video;
-//			$linktitle = $filedata->title || $filedata->desc ? ($filedata->desc ? $filedata->title . '::' . $filedata->desc : $filedata->title) : $title;
 
 			$items[$i] = $item;
 			$i++;
@@ -391,11 +363,9 @@ class modSlideshowckHelper {
 		$items = array();
 		$item = new stdClass();
 
-		// get the language
 		$lang = JFactory::getLanguage();
-		$langtag = $lang->getTag(); // returns fr-FR or en-GB
+		$langtag = $lang->getTag();
 
-		// load the image data from txt
 		if (file_exists(JPATH_ROOT . '/' . $directory . '/labels.' . $langtag . '.txt')) {
 			$data = file_get_contents(JPATH_ROOT . '/' . $directory . '/labels.' . $langtag . '.txt');
 		} else if (file_exists(JPATH_ROOT . '/' . $directory . '/labels.txt')) {
@@ -405,18 +375,15 @@ class modSlideshowckHelper {
 		}
 
 		$doUTF8encode = true;
-		// remove UTF-8 BOM and normalize line endings
-		if (!strcmp("\xEF\xBB\xBF", substr($data,0,3))) {  // file starts with UTF-8 BOM
-			$data = substr($data, 3);  // remove UTF-8 BOM
+
+		if (!strcmp("\xEF\xBB\xBF", substr($data,0,3))) {
+			$data = substr($data, 3);
 			$doUTF8encode = false;
 		}
-		$data = str_replace("\r", "\n", $data);  // normalize line endings
+		$data = str_replace("\r", "\n", $data);
 
-		// if no data found, exit
 		if(! $data) return null;
 
-		// explode the file into rows
-		// $imgdatatmp = explode("\n", $data);
 		$imgdatatmp = preg_split("/\r\n|\n|\r/", $data, -1, PREG_SPLIT_NO_EMPTY);
 
 		$parmsnumb = count($imgdatatmp);
@@ -424,7 +391,6 @@ class modSlideshowckHelper {
 			$imgdatatmp[$i] = trim($imgdatatmp[$i]);
 			$line = explode('|', $imgdatatmp[$i]);
 
-			// store the order or files from the TXT file
 			self::$imagesOrderByLabels[] = $line[0];
 
 			$item = new stdClass();
@@ -456,8 +422,7 @@ class modSlideshowckHelper {
 			$item->title = null;
 			$item->desc = null;
 			$item->video = null;
-			// old method, get image data from txt file with image name // TODO : remove
-			// $item = self::getImageDataFromImageTxt($file)
+
 		}
 
 		return $item;
@@ -477,21 +442,21 @@ class modSlideshowckHelper {
 		$url .= '&api_key=' . $params->get('flickr_apikey');
 		$url .= '&photoset_id=' . $params->get('flickr_photoset');
 
-		if (ini_get('allow_url_fopen') && function_exists('file_get_contents')) {  
-			$result = file_get_contents($url);  
+		if (ini_get('allow_url_fopen') && function_exists('file_get_contents')) {
+			$result = file_get_contents($url);
 		}
-		// look for curl
+
 		if ($result == '' && extension_loaded('curl')) {
-			$ch = curl_init();  
-			$timeout = 30;  
-			curl_setopt($ch, CURLOPT_URL, $url);  
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			$ch = curl_init();
+			$timeout = 30;
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);  
-			$result = curl_exec($ch);  
-			curl_close($ch);  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+			$result = curl_exec($ch);
+			curl_close($ch);
 		}
 
 		$images = json_decode($result)->photoset->photo;
@@ -510,15 +475,7 @@ class modSlideshowckHelper {
 			}
 			$item->imgname = $image->{'url_' . $suffix};
 			$item->imgthumb = $item->imgname;
-			// create new images for mobile
-			// if ($params->get('usemobileimage', '0')) { 
-				// self::resizeImage($item->imgname, $params->get('mobileimageresolution', '640'), '', $params->get('mobileimageresolution', '640'), '');
-			// }
-			// if ($params->get('thumbnails', '1') == '1')
-				// $item->imgthumb = JURI::base(true) . '/' . self::resizeImage($item->imgname, $params->get('thumbnailwidth', '100'), $params->get('thumbnailheight', '75'));
-			// $thumbext = explode(".", $item->imgname);
-			// $thumbext = end($thumbext);
-			// set the variables
+
 			$item->imgvideo = null;
 			$item->slideselect = null;
 			$item->slideselect = null;
@@ -531,13 +488,11 @@ class modSlideshowckHelper {
 			$item->imglink = null;
 			$item->imgtitle = null;
 
-			// show the title and description of the image
 			if ($params->get('flickr_showcaption', '1')) {
 				$item->imgtitle = $image->title;
 				$item->imgcaption = $image->description->_content;
 			}
 
-			// set the link to the image
 			if ($params->get('flickr_autolink', '0')) {
 				$item->imglink = $image->{'url_' . $suffix};
 			}
@@ -553,26 +508,22 @@ class modSlideshowckHelper {
 		require_once $com_path . 'router.php';
 		require_once $com_path . 'helpers/route.php';
 		JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
-		// Get an instance of the generic articles model
+
 		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		// Set application parameters in model
 		$app = JFactory::getApplication();
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
-//		$articles->setState('list.limit', (int) $params->get('count', 0)); // must check if the image exists
+
 		$articles->setState('list.limit', 0);
 		$articles->setState('filter.published', 1);
 
-		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$articles->setState('filter.access', $access);
 
-		// Prep for Normal or Dynamic Modes
 		$mode = $params->get('mode', 'normal');
 		switch ($mode)
 		{
@@ -594,7 +545,7 @@ class modSlideshowckHelper {
 								$catid = JRequest::getInt('catid');
 
 								if (!$catid) {
-									// Get an instance of the generic article model
+
 									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
@@ -609,19 +560,19 @@ class modSlideshowckHelper {
 								}
 							}
 							else {
-								// Return right away if show_on_article_page option is off
+
 								return;
 							}
 							break;
 
 						case 'featured':
 						default:
-							// Return right away if not on the category or article views
+
 							return;
 					}
 				}
 				else {
-					// Return right away if not on a com_content page
+
 					return;
 				}
 
@@ -634,10 +585,9 @@ class modSlideshowckHelper {
 				break;
 		}
 
-		// Category filter
 		if ($catids) {
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
-				// Get an instance of the generic categories model
+
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
@@ -671,22 +621,17 @@ class modSlideshowckHelper {
 			$articles->setState('filter.category_id', $catids);
 		}
 
-		// Ordering
 		$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
 		$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
 
-		// New Parameters
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-//		$articles->setState('filter.author_id', $params->get('created_by', ""));
-//		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-//		$articles->setState('filter.author_alias', $params->get('created_by_alias', ""));
-//		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
+
 		$excluded_articles = $params->get('excluded_articles', '');
 
 		if ($excluded_articles) {
 			$excluded_articles = explode("\r\n", $excluded_articles);
 			$articles->setState('filter.article_id', $excluded_articles);
-			$articles->setState('filter.article_id.include', false); // Exclude
+			$articles->setState('filter.article_id.include', false);
 		}
 
 		$date_filtering = $params->get('date_filtering', 'off');
@@ -698,12 +643,10 @@ class modSlideshowckHelper {
 			$articles->setState('filter.relative_date', $params->get('relative_date', 30));
 		}
 
-		// Filter by language
 		$articles->setState('filter.language', $app->getLanguageFilter());
 
 		$items = $articles->getItems();
 
-		// Display options
 		$show_date = $params->get('show_date', 0);
 		$show_date_field = $params->get('show_date_field', 'created');
 		$show_date_format = $params->get('show_date_format', 'Y-m-d H:i:s');
@@ -713,7 +656,6 @@ class modSlideshowckHelper {
 		$show_introtext = $params->get('show_introtext', 0);
 		$introtext_limit = $params->get('introtext_limit', 100);
 
-		// Find current Article ID if on an article page
 		$option = JRequest::getCmd('option');
 		$view = JRequest::getCmd('view');
 
@@ -724,7 +666,6 @@ class modSlideshowckHelper {
 			$active_article_id = 0;
 		}
 
-		// Prepare data for display using display options
 		$slideItems = Array();
 		foreach ($items as &$item)
 		{
@@ -732,24 +673,23 @@ class modSlideshowckHelper {
 			$item->catslug = $item->catid ? $item->catid .':'.$item->category_alias : $item->catid;
 
 			if ($access || in_array($item->access, $authorised)) {
-				// We know that user has the privilege to view the article
+
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
 			 else {
-				// Angie Fixed Routing
+
 				$app	= JFactory::getApplication();
 				$menu	= $app->getMenu();
 				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
 				if(isset($menuitems[0])) {
 						$Itemid = $menuitems[0]->id;
-					} elseif (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
+					} elseif (JRequest::getInt('Itemid') > 0) {
 						$Itemid = JRequest::getInt('Itemid');
 					}
 
 				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$Itemid);
 			}
 
-			// Used for styling the active article
 			$item->active = $item->id == $active_article_id ? 'active' : '';
 
 			$item->displayDate = '';
@@ -767,14 +707,10 @@ class modSlideshowckHelper {
 
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
-//			if ($show_introtext) {
-//				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
-//				$item->introtext = self::_cleanIntrotext($item->introtext);
-//			}
+
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
 			$item->displayReadmore = $item->alternative_readmore;
-			
-			// add the article to the slide
+
 			$registry = new JRegistry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
@@ -796,12 +732,12 @@ class modSlideshowckHelper {
 					$slideItem_article_text = $item->introtext;
 					break;
 			}
-			
+
 			if ( $article_image
 					 && (count($slideItems) < (int) $params->get('count', 0) || (int) $params->get('count', 0) == 0)) {
 				$slideItem = new stdClass();
 				$slideItem->imgname = $article_image;
-//				$slideItem->imgname = trim(str_replace('\\', '/', $item->images['image_intro']), '/');
+
 				$slideItem->imgname = trim($slideItem->imgname, '\\');
 				$slideItem->imgthumb = JURI::base(true) . '/' . $slideItem->imgname;
 				$slideItem->imgname = JURI::base(true) . '/' . $slideItem->imgname;
@@ -822,7 +758,7 @@ class modSlideshowckHelper {
 				}
 				$slideItem->article->text = self::truncate($slideItem->article->text, $params->get('articlelength', '150'));
 				$slideItem->article->link = $item->link;
-				
+
 				$slideItems[] = $slideItem;
 			}
 		}
@@ -839,7 +775,7 @@ class modSlideshowckHelper {
 		$item->imgtarget = 'default';
 		$item->imgtime = null;
 		$item->imglink = null;
-		// load the image data from txt
+
 		$datafile = JPATH_ROOT . '/' . str_replace(JFile::getExt($item->imgname), 'txt', $item->imgname);
 		$data = JFile::exists($datafile) ? file_get_contents($datafile) : '';
 		$imgdatatmp = explode("\n", $data);
@@ -857,8 +793,7 @@ class modSlideshowckHelper {
 
 		if ($item->imgvideo)
 			$item->slideselect = 'video';
-		
-		// manage the title and description
+
 		if (stristr($item->imgcaption, "||")) {
 			$splitcaption = explode("||", $item->imgcaption);
 			$item->imgcaption = '<div class="slideshowck_title">' . $splitcaption[0] . '</div><div class="slideshowck_description">' . $splitcaption[1] . '</div>';
@@ -879,7 +814,7 @@ class modSlideshowckHelper {
 	 * @return string the new video path
 	 */
 	static function setVideolink($videolink) {
-		// youtube
+
 		if (stristr($videolink, 'youtu.be')) {
 			$videolink = str_replace('youtu.be', 'www.youtube.com/embed', $videolink);
 		} else if (stristr($videolink, 'www.youtube.com') AND !stristr($videolink, 'embed')) {
@@ -908,41 +843,36 @@ class modSlideshowckHelper {
 		$params = self::$_params;
 		if (!$params->get('autocreatethumbs','1'))
 			return;
-			
+
 		$thumbext = explode(".", $file);
 		$thumbext = end($thumbext);
 		$thumbfile = str_replace(JFile::getName($file), $thumbpath . "/" . JFile::getName($file), $file);
 		$thumbfile = str_replace("." . $thumbext, $thumbsuffix . "." . $thumbext, $thumbfile);
-		
+
 		$filetmp = JPATH_ROOT . '/' . $file;
 		$filetmp = str_replace("%20", " ", $filetmp);
 		if (!Jfile::exists($filetmp))
 			return;
 		$size = getimagesize($filetmp);
 
-		if ($size[0] > $size[1]) // paysage
+		if ($size[0] > $size[1])
 		{
 			$y = $x * $size[1] / $size[0];
-		} else 
+		} else
 		{
-//			$tmpx = $x;
-//			$x = $y;
+
 //			$y = $tmpx * $size[0] / $size[1];
 			$x = $y * $size[0] / $size[1];
 		}
 
-		
 		if ($size) {
 			if (JFile::exists($thumbfile)) {
 				return $thumbfile;
-				// $thumbsize = getimagesize(JPATH_ROOT . '/' . $thumbfile);
-				// if ($thumbsize[0] == $x || $thumbsuffix == '') {
-					// return $thumbfile;
-				// }
+
 			}
-			
+
 			$thumbfolder = str_replace(JFile::getName($file), $thumbpath . "/", $filetmp);
-			if (!JFolder::exists($thumbfolder)) { 
+			if (!JFolder::exists($thumbfolder)) {
 				JFolder::create($thumbfolder);
 				JFile::copy(JPATH_ROOT . '/modules/mod_slideshowck/index.html', $thumbfolder . 'index.html' );
 			}
@@ -952,7 +882,7 @@ class modSlideshowckHelper {
 				$img_new = imagecreate($x, $y);
 				# création de la miniature
 				$img_mini = imagecreatetruecolor($x, $y) or $img_mini = imagecreate($x, $y);
-				// copie de l'image, avec le redimensionnement.
+
 				imagecopyresized($img_mini, $img_big, 0, 0, 0, 0, $x, $y, $size[0], $size[1]);
 
 				imagejpeg($img_mini, JPATH_ROOT . '/' . $thumbfile);
@@ -961,7 +891,7 @@ class modSlideshowckHelper {
 				$img_new = imagecreate($x, $y);
 				# création de la miniature
 				$img_mini = imagecreatetruecolor($x, $y) or $img_mini = imagecreate($x, $y);
-				// copie de l'image, avec le redimensionnement.
+
 				imagecopyresized($img_mini, $img_big, 0, 0, 0, 0, $x, $y, $size[0], $size[1]);
 
 				imagepng($img_mini, JPATH_ROOT . '/' . $thumbfile);
@@ -970,12 +900,12 @@ class modSlideshowckHelper {
 				$img_new = imagecreate($x, $y);
 				# création de la miniature
 				$img_mini = imagecreatetruecolor($x, $y) or $img_mini = imagecreate($x, $y);
-				// copie de l'image, avec le redimensionnement.
+
 				imagecopyresized($img_mini, $img_big, 0, 0, 0, 0, $x, $y, $size[0], $size[1]);
 
 				imagegif($img_mini, JPATH_ROOT . '/' . $thumbfile);
 			}
-			//echo 'Image redimensionnée !';
+
 		}
 
 		return $thumbfile;
@@ -1008,7 +938,7 @@ class modSlideshowckHelper {
 		} else if ($params->get($prefix . 'bgcolor1') AND $params->get($prefix . 'usebackground')) {
 			$css['background'] = 'background: ' . $bgcolor1 . ';';
 		}
-//		$css['background'] = ($params->get($prefix . 'bgcolor1') AND $params->get($prefix . 'usebackground')) ? 'background: ' . $bgcolor1 . ';' : '';
+
 		$css['background'] .= ( $params->get($prefix . 'bgimage') AND $params->get($prefix . 'usebackground')) ? 'background-image: url("' . JURI::ROOT() . $params->get($prefix . 'bgimage') . '");' : '';
 		$css['background'] .= ( $params->get($prefix . 'bgimage') AND $params->get($prefix . 'usebackground')) ? 'background-repeat: ' . $params->get($prefix . 'bgimagerepeat') . ';' : '';
 		$css['background'] .= ( $params->get($prefix . 'bgimage') AND $params->get($prefix . 'usebackground')) ? 'background-position: ' . $params->get($prefix . 'bgpositionx') . ' ' . $params->get($prefix . 'bgpositiony') . ';' : '';
@@ -1063,25 +993,22 @@ class modSlideshowckHelper {
 	 */
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true) {
 		if ($length == 0) return '';
-		// Check if HTML tags are allowed.
+
 		if (!$allowHtml) {
-			// Deal with spacing issues in the input.
+
 			$text = str_replace('>', '> ', $text);
 			$text = str_replace(array('&nbsp;', '&#160;'), ' ', $text);
 			$text = JString::trim(preg_replace('#\s+#mui', ' ', $text));
 
-			// Strip the tags from the input and decode entities.
 			$text = strip_tags($text);
 			$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 
-			// Remove remaining extra spaces.
 			$text = str_replace('&nbsp;', ' ', $text);
 			$text = JString::trim(preg_replace('#\s+#mui', ' ', $text));
 		}
 
-		// Truncate the item text if it is too long.
 		if ($length > 0 && JString::strlen($text) > $length) {
-			// Find the first space within the allowed length.
+
 			$tmp = JString::substr($text, 0, $length);
 
 			if ($noSplit) {
@@ -1091,33 +1018,29 @@ class modSlideshowckHelper {
 				}
 				$tmp = JString::substr($tmp, 0, $offset);
 
-				// If we don't have 3 characters of room, go to the second space within the limit.
 				if (JString::strlen($tmp) > $length - 3) {
 					$tmp = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
 				}
 			}
 
 			if ($allowHtml) {
-				// Put all opened tags into an array
+
 				preg_match_all("#<([a-z][a-z0-9]*)\b.*?(?!/)>#i", $tmp, $result);
 				$openedTags = $result[1];
 				$openedTags = array_diff($openedTags, array("img", "hr", "br"));
 				$openedTags = array_values($openedTags);
 
-				// Put all closed tags into an array
 				preg_match_all("#</([a-z]+)>#iU", $tmp, $result);
 				$closedTags = $result[1];
 
 				$numOpened = count($openedTags);
 
-				// All tags are closed
 				if (count($closedTags) == $numOpened) {
 					return $tmp . '...';
 				}
 				$tmp .= '...';
 				$openedTags = array_reverse($openedTags);
 
-				// Close tags
 				for ($i = 0; $i < $numOpened; $i++) {
 					if (!in_array($openedTags[$i], $closedTags)) {
 						$tmp .= "</" . $openedTags[$i] . ">";
@@ -1132,7 +1055,7 @@ class modSlideshowckHelper {
 
 		return $text;
 	}
-	
+
 	/**
 	 * Convert a hexa decimal color code to its RGB equivalent
 	 *
@@ -1144,19 +1067,19 @@ class modSlideshowckHelper {
 	static function hex2RGB($hexStr, $opacity) {
 		if (!stristr($opacity, '.'))
 			$opacity = $opacity / 100;
-		$hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr); // Gets a proper hex string
+		$hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr);
 		$rgbArray = array();
-		if (strlen($hexStr) == 6) { //If a proper hex code, convert using bitwise operation. No overhead... faster
+		if (strlen($hexStr) == 6) {
 			$colorVal = hexdec($hexStr);
 			$rgbArray['red'] = 0xFF & ($colorVal >> 0x10);
 			$rgbArray['green'] = 0xFF & ($colorVal >> 0x8);
 			$rgbArray['blue'] = 0xFF & $colorVal;
-		} elseif (strlen($hexStr) == 3) { //if shorthand notation, need some string manipulations
+		} elseif (strlen($hexStr) == 3) {
 			$rgbArray['red'] = hexdec(str_repeat(substr($hexStr, 0, 1), 2));
 			$rgbArray['green'] = hexdec(str_repeat(substr($hexStr, 1, 1), 2));
 			$rgbArray['blue'] = hexdec(str_repeat(substr($hexStr, 2, 1), 2));
 		} else {
-			return false; //Invalid hex color code
+			return false;
 		}
 		$rgbacolor = "rgba(" . $rgbArray['red'] . "," . $rgbArray['green'] . "," . $rgbArray['blue'] . "," . $opacity . ")";
 
@@ -1238,13 +1161,13 @@ class modSlideshowckHelper {
 	 * @return tring;
 	 */
 	public static function substring($text, $length = 100, $replacer = '...', $isStrips = true, $stringtags = '') {
-	
+
 		if($isStrips){
 			$text = preg_replace('/\<p.*\>/Us','',$text);
 			$text = str_replace('</p>','<br/>',$text);
 			$text = strip_tags($text, $stringtags);
 		}
-		
+
 		if(function_exists('mb_strlen')){
 			if (mb_strlen($text) < $length)	return $text;
 			$text = mb_substr($text, 0, $length);
@@ -1252,7 +1175,8 @@ class modSlideshowckHelper {
 			if (strlen($text) < $length)	return $text;
 			$text = substr($text, 0, $length);
 		}
-		
+
 		return $text . $replacer;
 	}
 }
+

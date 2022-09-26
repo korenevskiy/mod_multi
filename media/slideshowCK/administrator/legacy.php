@@ -6,7 +6,7 @@
  * Module Slideshow CK
  * @license		GNU/GPL
  * */
-// no direct access
+
 defined('_JEXEC') or die;
 
 if ($params->get('slideshowckhikashop_enable', '0') == '1') {
@@ -41,7 +41,7 @@ if ($params->get('slideshowckhikashop_enable', '0') == '1') {
 		echo '<p style="color:red;font-weight:bold;">File /plugins/system/slideshowckk2/helper/helper_slideshowckk2.php not found ! Please download the patch for Slideshow CK - K2 on <a href="https://www.joomlack.fr">https://www.joomlack.fr</a></p>';
 		return false;
 	}
-} 
+}
 
 else {
 	switch ($params->get('slidesssource', 'slidesmanager')) {
@@ -64,10 +64,9 @@ else {
 			$items = SlideshowckHelpersourceGoogle::getItems($params);
 			break;
 		default:
-//			$items = modSlideshowckHelper::getItems($params);
+
 			break;
 	}
 
-//	if ($params->get('displayorder', 'normal') == 'shuffle')
-//		shuffle($items);
 }
+
