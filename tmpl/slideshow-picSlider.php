@@ -114,8 +114,8 @@ if($module_tag2)
     JHtml::_('jquery.ui');
 
     $path_jft = JUri::base() . 'modules/mod_multi/media/jqfancytransitions/';
-JHtml::stylesheet('
-$script = "
+JHtml::stylesheet('https://raw.githubusercontent.com/YoneChen/picSlider/gh-pages/picSlider/picSlider.css');
+$script = "https://raw.githubusercontent.com/YoneChen/picSlider/gh-pages/picSlider/picSlider.js";
     JHtml::script($script);
 
 static $accordion;
@@ -149,7 +149,7 @@ return;
 return;
 
             console.log('000 x'+src);
-    jQuery('<script/>').attr('type', 'text/javascript').attr('src', '
+    jQuery('<script/>').attr('type', 'text/javascript').attr('src', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js').appendTo('head').ready(
         function(){
             console.log('111');
             jQuery(".carousel.id$module_id").slick({
@@ -193,18 +193,18 @@ return;
 
 <!--
 <script xsrc="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="
-<script type="text/javascript" src="
-<link rel="stylesheet" type="text/css" href="
-<link rel="stylesheet" type="text/css" href="
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>;
 -->
 <!--
-<script type="text/javascript" src="
-<script type="text/javascript" src="
-<script type="text/javascript" src="
-<link rel="stylesheet" type="text/css" href="
-<link rel="stylesheet" type="text/css" href="
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
 -->
 
 <script type="text/javascript">

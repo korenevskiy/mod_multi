@@ -168,7 +168,7 @@ for (var i = 0; i < aImgs<?=$param->id?>.length; i++) {
 window.onload = function(){
     width = document.getElementById('multislideshowid<?= $param->id?>').clientWidth;
     height = document.getElementById('multislideshowid<?= $param->id?>').clientHeight;
-
+    // creating canvas<?=$param->id?> objects
     canvas<?=$param->id?> = document.getElementById('slideshow<?= $param->id?>');
     canvas<?=$param->id?>.width = width;
     canvas<?=$param->id?>.height = height;
@@ -219,7 +219,7 @@ function drawScene<?=$param->id?>() {
     for (var iv = 0; iv < vertices<?=$param->id?>.length; iv++) {
         var v = vertices<?=$param->id?>[iv];
         var r = v.rotateY(angle<?=$param->id?>);
-
+        //var r = v.rotateX(angle<?=$param->id?>).rotateY(angle<?=$param->id?>);
         var prj = r.projection(ctx<?=$param->id?>.canvas.width, ctx<?=$param->id?>.canvas.height, 1000, 3);
         t.push(prj)
     }

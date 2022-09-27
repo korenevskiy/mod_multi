@@ -207,13 +207,14 @@ if($module_tag2)
     JHtml::stylesheet($mod_path . "OwlCarousel/owl.theme.default.css");
     JHtml::stylesheet($mod_path . "OwlCarousel/style.css");
 
-    JHtml::stylesheet("
-    JHtml::script( "
-    JHtml::script( "
+    JHtml::stylesheet("https://raw.githubusercontent.com/round/enhance.js/master/css/zoom.css");
+    JHtml::script( "https://cdn.jsdelivr.net/velocity/1.2.2/velocity.min.js");
+    JHtml::script( "https://raw.githubusercontent.com/round/enhance.js/master/js/enhance.js");
 
 $id      = $params->get('id');
 $json_owlCarousel      = $params->get('json_layout','') ?: $params->get('json_owlCarousel','');
 
+/* https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html */
  $script = <<< script
 
 jQuery( function() {

@@ -166,7 +166,7 @@ $JText_ = function ($str = '') use ($langs){
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?= $return ?>" />
-		<?php $token;
+		<?php $token;/*echo JHtml::_('form.token');*/ ?>
 	</fieldset>
 	</form>
 	</div>

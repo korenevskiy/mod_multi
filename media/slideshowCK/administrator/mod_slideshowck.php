@@ -6,6 +6,7 @@
  * @license		GNU/GPL
  * */
 
+/*  no direct access  */
 defined('_JEXEC') or die;
 
 include_once JPATH_ROOT . '/administrator/components/com_slideshowck/helpers/defines.php';
@@ -14,6 +15,7 @@ include_once JPATH_ROOT . '/administrator/components/com_slideshowck/helpers/hel
 if (version_compare(JVERSION, '4', '<')) include_once dirname(__FILE__) . '/helper.php';
 if (! defined('SLIDESHOWCK_PATH')) define('SLIDESHOWCK_PATH', JPATH_ROOT . '/administrator/components/com_slideshowck');
 
+/*  load the items  */
 $source = $params->get('source', 'slidesmanager');
 if ($source != 'slidesmanager') {
 	$sourceFile = JPATH_ROOT . '/plugins/slideshowck/' . strtolower($source) . '/helper/helper_' . strtolower($source) . '.php';
@@ -25,11 +27,12 @@ if ($source != 'slidesmanager') {
 } else {
 	include_once SLIDESHOWCK_PATH . '/helpers/source/' . $source . '.php';
 }
-
+/*  store the module ID in the params  */
 $params->set('moduleid', $module->id);
 $loaderClass = 'SlideshowckHelpersource' . ucfirst($source);
 $items = $loaderClass::getItems($params);
 
+/*   load items for B/C if the save action has not yet been triggered */
 if (version_compare(JVERSION, '4', '<')) require dirname(__FILE__) . '/legacy.php';
 
 if (empty($items) || $items === false) {
@@ -71,7 +74,8 @@ if ($theme == 'default' && file_exists(JPATH_ROOT . '/templates/' . $doc->templa
 }
 $doc->addStylesheet(JUri::root(true) . '/' . $cssfilesrc);
 
-if (count($items) == 1) {
+/*  set the navigation variables  */
+if (count($items) == 1) { /*  for only one slide, no navigation, no button  */
 	$navigation = "navigationHover: false,
 			mobileNavHover: false,
 			navigation: false,
@@ -79,14 +83,14 @@ if (count($items) == 1) {
 } else {
 	switch ($params->get('navigation', '2')) {
 		case 0:
-
+			/*  aucune  */
 			$navigation = "navigationHover: false,
 				mobileNavHover: false,
 				navigation: false,
 				playPause: false,";
 			break;
 		case 1:
-
+			/*  toujours  */
 			$navigation = "navigationHover: false,
 				mobileNavHover: false,
 				navigation: true,
@@ -94,7 +98,7 @@ if (count($items) == 1) {
 			break;
 		case 2:
 		default:
-
+			/* on mouseover   */
 			$navigation = "navigationHover: true,
 				mobileNavHover: true,
 				navigation: true,
@@ -104,7 +108,7 @@ if (count($items) == 1) {
 }
 
 $autoAdvance = (count($items) > 1) ? $params->get('autoAdvance', '1') : '0';
-
+/*   load the slideshow script */
 $js = "
 		jQuery(document).ready(function(){
 			new Slideshowck('#camera_wrap_" . $module->id . "', {
@@ -146,9 +150,10 @@ if ($params->get('loadinline', '0') == '1') {
 }
 
 $css = '';
-
+/*  load some css  */
 $css = "#camera_wrap_" . $module->id . " .camera_pag_ul li img, #camera_wrap_" . $module->id . " .camera_thumbs_cont ul li > img {height:" . SlideshowckHelper::testUnit($params->get('thumbnailheight', '75')) . ";}";
 
+/*  load the caption styles  */
 if (version_compare(JVERSION, '4', '<')) {
 $captioncss = modSlideshowckHelper::createCss($params, 'captionstyles');
 $fontfamily = ($params->get('captionstylesusefont','0') && $params->get('captionstylestextgfont', '0')) ? "font-family:'" . $params->get('captionstylestextgfont', 'Droid Sans') . "';" : '';
@@ -183,6 +188,7 @@ if ($params->get('usecaptionresponsive') == '1' || $params->get('usecaptionrespo
 }";
 }
 
+/*  load the style   */
 if ($styleId = $params->get('styles', '')) {
 	$layoutcss = str_replace('|ID|', '#camera_wrap_' . $module->id, SlideshowckHelper::getStyleLayoutcss($styleId) );
 	$css .= $layoutcss;
@@ -190,7 +196,9 @@ if ($styleId = $params->get('styles', '')) {
 
 $doc->addStyleDeclaration($css);
 
+/*  load the php Class for the html fixer */
 if ($params->get('fixhtml', '0') == '1') include_once SLIDESHOWCK_PATH . '/helpers/htmlfixer.php';
 
+/*  display the module  */
 require JModuleHelper::getLayoutPath('mod_slideshowck', $params->get('layout', 'default'));
 

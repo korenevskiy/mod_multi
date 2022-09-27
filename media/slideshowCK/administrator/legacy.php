@@ -6,7 +6,7 @@
  * Module Slideshow CK
  * @license		GNU/GPL
  * */
-
+/*  no direct access */
 defined('_JEXEC') or die;
 
 if ($params->get('slideshowckhikashop_enable', '0') == '1') {
