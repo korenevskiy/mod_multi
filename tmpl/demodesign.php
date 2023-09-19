@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die;
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');

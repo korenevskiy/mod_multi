@@ -12,10 +12,10 @@
  */
 defined('_JEXEC') or die;
 
-class JFormFieldPosition extends JFormField
+class JFormFieldPosition extends JFormField // extends JFormField
 {
   public $type = 'article';
-
+  
   protected function getInput(){
               require_once (JPATH_SITE.'/administrator/components/com_content/models/fields/modal/helper.php');
 

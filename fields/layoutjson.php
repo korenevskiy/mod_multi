@@ -47,6 +47,8 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
     protected $labelclass = 'field-spacer';
 
     protected $class = 'field-spacer';
+	
+    protected $editor = null;
 
 	/**
 	 * Method to get a control group with label and input.
@@ -84,7 +86,7 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
         $files_ini = [];
 
         $this->fileFilter = '^[^_]*\.php$';
-        $this->filter = '^[^_]*\.php$';
+//        $this->filter = '^[^_]*\.php$';
 
         $path_mod = realpath(__DIR__.'/../');
         $this->directory = realpath(__DIR__.'/../tmpl/') ;
@@ -165,12 +167,12 @@ class JFormFieldLayoutjson extends JFormFieldFileList {
 		$params = array(
 
 		);
-
+//$name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
 		return $this->editor->display(
 			$this->name,
 			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
-			$this->width,
-			$this->height?:300,
+			$this->width ?? '100%',
+			$this->height ?: 300,
 			$this->columns,
 			$this->rows?:20,
 			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,

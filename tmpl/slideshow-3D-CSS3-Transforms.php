@@ -14,9 +14,9 @@
 defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
-JHtml::_('jquery.ui');
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -98,7 +98,7 @@ $count = count($elements);
 echo "<ul class=\"slider items refineSlide  count$count $moduleclass_sfx \"  itemscope itemtype=\"http://schema.org/ImageGallery\">";
 
 foreach ($elements as $i => & $module){
-    $module->text =  $module->content = & $prepare($module->content);
+    $module->text =  $module->content = & $prepare($module->content ?? '');
 
     if($tag_container)
         echo "<li $tag_container class=\"item i$i $type sfx$module->moduleclass_sfx id$module->id $module->module  \">";
@@ -162,10 +162,10 @@ endif;
 $content_tag3 = $params->get('content_tag3');
 if($content_tag3 == 'default')
     $content_tag3 = $module->module_tag;
-if($module->content && $content_tag3 != 'none' && $content_tag3) {
+if($module->content ?? '' && $content_tag3 != 'none' && $content_tag3) {
     echo ("<$content_tag3 class='info'>$module->content</$content_tag3>");
 }
-if($module->content && empty($content_tag3))
+if($module->content ?? '' && empty($content_tag3))
     echo ($module->content);
 
     if($module->urls->urla){

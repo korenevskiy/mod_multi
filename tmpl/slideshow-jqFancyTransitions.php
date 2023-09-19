@@ -14,9 +14,9 @@
 defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework', true, TRUE, true);
-JHtml::_('jquery.ui');
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $positon = $params->get('position');
 

@@ -15,7 +15,7 @@
 *** ------------------------ Просто плитки с картинками -------------------------------------------- ***
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -116,7 +116,7 @@ if($module_tag2)
 static $script;
 
 JHtml::_('jquery.framework');
-JHtml::_('jquery.ui');
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
 if(empty($script)) {
 

@@ -16,15 +16,8 @@ use Joomla\CMS\HTML\HTMLHelper as JHtml;
  * @since  3.0
  */
 
-class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField
+class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField //ModuletagField JFormFieldModuletag
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-
 	/**
 	 * Method to get the field options.
 	 *
@@ -34,6 +27,12 @@ class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField
 	 */
 	protected function getOptions()
 	{
+		
+		if(JVersion::MAJOR_VERSION < 5)
+			$this->default = 'div';
+		else
+			$this->default = '';
+		
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
 		$options = parent::getOptions();
@@ -70,7 +69,12 @@ class JFormFieldModtag extends Joomla\CMS\Form\Field\ModuletagField
 	}
     protected function getInput() {
 
-        $hide_mod = "<style type='text/css'>#jform_params_module_tag-lbl,#jform_params_module_tag,#jform_params_module_tag_chzn{display:none;}</style>";
+		if(JVersion::MAJOR_VERSION < 5)
+			$hide_mod = "<style type='text/css'>#jform_params_module_tag-lbl,#jform_params_module_tag,#jform_params_module_tag_chzn{display:none;}</style>";
+		else
+			$hide_mod = "<style type='text/css'>#jform_params_mod_tag-lbl,#jform_params_mod_tag,#jform_params_mod_tag_chzn{display:none;}</style>";
+
+        
 
         return parent::getInput().$hide_mod;
     }

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 *** ------------------------ Просто Слайдшоу показывающий 1 элемент во всю ширину -------------------------------------------- ***
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $module_id      = $params->get('id');
 $positon = $params->get('position');
@@ -117,7 +117,7 @@ foreach ($items as $id => $module){
     if($params->get('content_tag3') != 'none'){
     if(isset($tag_item) && $tag_item)
         echo "<$tag_item class=\" item_content $module->moduleclass_sfx\">";
-    echo  $module->content;
+    echo  $module->content ?? '';
     if(isset($tag_item) && $tag_item)
         echo "</$tag_item>";
     }
@@ -133,7 +133,7 @@ if($module_tag2)
     echo "</$module_tag2>";
 
     JHtml::_('jquery.framework');
-    JHtml::_('jquery.ui');
+    JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
     $path = JUri::base() . 'modules/mod_multi/media/box-slider/';
     $script = $path."js/box-slider.js";

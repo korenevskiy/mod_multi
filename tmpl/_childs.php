@@ -31,7 +31,7 @@ $childs = $item->childs;
 		<a title="<?= $title?>" href="<?= $item->link;?>">
 
 		<?php if ($image_display && isset($item->images)) :
-			$item->params = new Joomla\Registry\Registry($item->params);
+			$item->params = new \Reg($item->params);
 			$item->images = json_decode($item->images, false);
 
 			$src	= htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');

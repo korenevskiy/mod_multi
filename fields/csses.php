@@ -18,9 +18,10 @@ class JFormFieldCsses extends JFormField {
 
     function folder_exist($folder)
         {
-
+        /* Get canonicalized absolute pathname  */
         $path = realpath($folder);
 
+        /* If it exist, check if it's a directory */
         return ($path !== false AND is_dir($path)) ? $path : false;
     }
 
@@ -49,11 +50,8 @@ class JFormFieldCsses extends JFormField {
                     unset($files[$f]);
         }
 
-//        $db->setQuery(" SHOW COLUMNS FROM `#__jshopping_products` WHERE Type='datetime'; ");
-
         $i = 0;
         foreach ($files as $k=> $f){
-
             $files[$k]->Title =ucfirst($f->name);
             if($i==0)
                 $value=$f->Title;
@@ -65,4 +63,3 @@ class JFormFieldCsses extends JFormField {
         return JHTML::_('select.genericlist', $files, $this->name,'class="inputbox   chzn-custom-value" id = "category_ordering"  multiple="multiple" ','path','Title', $value );
   }
 }
-

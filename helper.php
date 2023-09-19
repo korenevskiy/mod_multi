@@ -9,17 +9,16 @@
 # Technical Support:  Forum - //fb.com/groups/multimodule
 # Technical Support:  Forum - //vk.com/multimodule
 -------------------------------------------------------------------------*/
-/*  */
 
 use \Joomla\CMS;
 use \Joomla\CMS\HTML;
 use \Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper as JHtml;
 use Joomla\CMS\Router\Route as JRoute;
-use Joomla\Registry\Registry as JRegistry;
+//use Joomla\Registry\Registry as JRegistry;
 use Joomla\CMS\Factory as JFactory;
 
-        jimport('joomla.application.module.helper');
+jimport('joomla.application.module.helper');
 
 abstract class modMultiHelper
 {
@@ -45,7 +44,7 @@ abstract class modMultiHelper
 
         JFactory::getLanguage()->load($module->module);
 
-        $params = new JRegistry($module->params);
+        $params = new \Reg($module->params);
 
         $content = '';
         ob_start();
@@ -210,10 +209,10 @@ abstract class modMultiHelper
             JFactory::getDocument()->addStyleDeclaration($style);
 
         }
-
     }
-    public static function fontsGoogle($fonts, $moduleid = 0)
-    {
+	
+    public static function fontsGoogle($fonts, $moduleid = 0){
+		
 /* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">  */
 /* <link href='http://fonts.googleapis.com/css?family=ПРОБЛЕМНЫЙ+ШРИФТ&subset=latin,cyrillic' rel='stylesheet' type='text/css'> */
 /*   <link href='http://fonts.googleapis.com/css?family=ПРОБЛЕМНЫЙ+ШРИФТ&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>  */
@@ -257,7 +256,7 @@ abstract class modMultiHelper
     public static function requireWork(&$param)
     {
 
-        if(empty ($param->work_type_require) || $param->work_type_require == 'all')
+        if(empty ($param->get('work_type_require')) || $param->work_type_require == 'all')
             return TRUE;
 
         if($param->work_type_require == 'and'):
@@ -299,7 +298,7 @@ abstract class modMultiHelper
 
             if(file_exists(__DIR__.'/fields/use.php'))
                 $res = require __DIR__.'/fields/use.php';
-
+			
             return $res;
             return TRUE;
 
@@ -349,8 +348,6 @@ abstract class modMultiHelper
         endif;
     }
 
-//    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-
     /**
      * Get Images from image directory
      * @param array||string $folder
@@ -391,7 +388,9 @@ abstract class modMultiHelper
                     'text'=>$texts[$i]??'',
                     'id'=>$i,
                     'type'=>'images',
-                    'module_tag'=>'div'
+                    'module_tag'=>'div',
+					'module' => '',
+//					'src'=>JPATH_SITE.$folder.'/'.$file
                 ];
             }
         }
@@ -415,7 +414,7 @@ abstract class modMultiHelper
      * @param string $article_mode
      * @return array list
      */
-    public static function getArticles($articles_id = [],$categorys_id = [],$article_mode='full', $mod_id = 0){
+    public static function getArticles($articles_id = [], $categorys_id = [], $article_mode = 'full', $mod_id = 0){//full,intro,content
         $where = '';
 
         if(!is_array($articles_id))
@@ -497,26 +496,26 @@ ORDER BY av.ordering
             if($art->f_content)
                 $items[$id]->fields = "<ul class=\"fields\">$art->f_content</ul>";
 
-            $params = new JRegistry($items[$id]->f_params);
+            $params = new \Reg($items[$id]->f_params);
             $items[$id]->params = $params->toObject();
 
             $items[$id]->module_tag = 'div';
             $items[$id]->moduleclass_sfx = "article $art->id";
             jimport( 'joomla.registry.registry' );
-            $images = new JRegistry($items[$id]->images);
+            $images = new \Reg($items[$id]->images);
             $items[$id]->images = $images->toObject();
             $items[$id]->image = $items[$id]->images->image_intro ?? $items[$id]->images->image_fulltext;
-            $attribs = new JRegistry($items[$id]->attribs);
+            $attribs = new \Reg($items[$id]->attribs);
             $items[$id]->attribs = $attribs->toObject();
-            $urls = new JRegistry($items[$id]->urls);
+            $urls = new \Reg($items[$id]->urls);
             $items[$id]->urls = $urls->toObject();
             $items[$id]->type = 'article';
-            JHtml::addIncludePath(JPATH_ROOT . '/components/com_content/helpers');
+            JHtml::addIncludePath(JPATH_ROOT . '/components/com_content/src/Helper');
 /* require_once JPATH_BASE . '/components/com_content/helpers/route.php'; */
             require_once JPATH_BASE . '/components/com_content/src/Helper/RouteHelper.php';
 
 				/* We know that user has the privilege to view the article */
-
+//			$items[$key]->link = JRoute::_(ContentHelperRoute::getArticleRoute($key, $item->catid)); 
             $items[$id]->link = ContentHelperRoute::getArticleRoute($id, $art->catid);
 
         }
@@ -527,7 +526,7 @@ ORDER BY av.ordering
      * @param string $query
      * @return array list
      */
-    public static function getSelects($query = ''){
+    public static function getSelects($query = ''){//full,intro,content
 
         $items = JFactory::getDBO()->setQuery((string)$query)->loadObjectList();
 
@@ -539,18 +538,18 @@ ORDER BY av.ordering
                     $items[$key]->moduleclass_sfx = "article id$item->id";
 
                     if(empty($items[$key]->image) && $items[$key]->images){
-                        $images = new JRegistry($items[$key]->images);
+                        $images = new \Reg($items[$key]->images);
                         $items[$key]->images = $images->toObject();
                         $items[$key]->image = $items[$key]->images->image_intro ?? $items[$key]->images->image_fulltext;
                     }
 
                     if(empty($items[$key]->attribs)){
-                        $attribs = new JRegistry($items[$key]->attribs);
+                        $attribs = new \Reg($items[$key]->attribs);
                         $items[$key]->attribs = $attribs->toObject();
                     }
 
                     if(empty($items[$key]->urls) && $items[$key]->urls){
-                        $urls = new JRegistry($items[$key]->urls);
+                        $urls = new \Reg($items[$key]->urls);
                         $items[$key]->urls = $urls->toObject();
                     }
 
@@ -564,7 +563,7 @@ ORDER BY av.ordering
                     $items[$key]->module_tag = 'div';
                     $items[$key]->moduleclass_sfx = "article id$item->id";
 
-                    $params = new JRegistry($items[$key]->params);
+                    $params = new \Reg($items[$key]->params);
                     $items[$key]->params = $params->toObject();
 
                     if(empty($items[$key]->content) && $items[$key]->description)
@@ -573,7 +572,7 @@ ORDER BY av.ordering
                     if(empty($items[$key]->image) && $items[$key]->params)
                         $items[$key]->image = $items[$key]->params->image;
                     if(empty($items[$key]->link))
-                        $items[$key]->link = JRoute::_(ContentHelperRoute::getCategoryRoute($item->id, ($item->language??0)));
+                        $items[$key]->link = JRoute::_(ContentHelperRoute::getCategoryRoute($item->id, ($item->language??0))); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<---------
                 }
 
             endif;
@@ -587,15 +586,21 @@ ORDER BY av.ordering
      * @param int $catid
      * @return array list
      */
-    public static function getCategories($catid = NULL){
+    public static function getCategories($catid = NULL){//full,intro,content
+
+		if($catid)
+			$catid = " AND id = $catid";
 
          $items = [];
          $query = "
 SELECT id, parent_id, lft, rgt, level, path, title, alias, description, published, params, description, language
 FROM #__categories
-WHERE access AND published
+WHERE access AND published $catid
 ORDER BY lft LIMIT 300; ";
 
+//        if($modules_ordering)
+//            $query .= "ORDER BY ordering ";
+//        $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
 /* https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js */
 
         return $items;
@@ -823,6 +828,8 @@ ORDER BY $order  LIMIT $maximum ;
 
     public static function getModules($multi_items, $chromestyle = '', $parentId=0){
 
+		$app = JFactory::getApplication();
+
         foreach ($multi_items as $multi_module_id => $module){
 
             $file = JPATH_SITE."/modules/$module->module/$module->module.php";
@@ -830,12 +837,12 @@ ORDER BY $order  LIMIT $maximum ;
 
             if(file_exists($file)){
 
-                $params = $module->params = new \Joomla\Registry\Registry($module->params);
+                $params = $module->params = new \Reg($module->params);
 
-		$module->style = $module->params->get('style','');
+				$module->style = $params->style ?: '';
 
                 if($chromestyle)
-                    $module->params->set('style',$chromestyle);
+                    $module->params->style = $chromestyle;
 
 				$module->parentId = $parentId;
 				$module->style = $module->params->get('style','');
@@ -865,8 +872,6 @@ ORDER BY $order  LIMIT $maximum ;
                 $multi_items[$multi_module_id]->header_class= $module->header_class;
                 $multi_items[$multi_module_id]->type= 'modules';
 
-				$app = JFactory::getApplication();
-
                 JFactory::getLanguage()->load($module->module);
 
                 $content = '';
@@ -886,18 +891,18 @@ ORDER BY $order  LIMIT $maximum ;
 
     public static function getModulesLegacy($multi_items, $chromestyle = '', $parentId=0){
 
+		$app = JFactory::getApplication();
+			
         foreach ($multi_items as $multi_module_id => &$module){
 
-            $module->params =  new \Joomla\Registry\Registry($module->params);
+            $module->params =  new \Reg($module->params);
             if($chromestyle && $chromestyle != '0'){
                 $module->params->set('style',$chromestyle);
             }
             $module->image = $module->params->get('backgroundimage',FALSE);
             $module->image = $module->params->get('image',$module->image);
 
-			$app = JFactory::getApplication();
-
-            $module->content = \Joomla\CMS\Helper\ModuleHelper::renderModule($module);
+            $module->content = JModuleHelper::renderModule($module);
             $module->type = 'modules';
 
             if(empty($module->published))
@@ -1021,21 +1026,68 @@ ORDER BY $order  LIMIT $maximum ;
 	}
 }
 
-abstract class JModHelp extends Joomla\CMS\Helper\ModuleHelper{
+abstract class JModHelp extends JModuleHelper{
     static function &ModeuleDelete($module){
         $modules = &static::load();
+		
+		$count = 0;
+
         foreach ($modules as $i => &$mod){
             if($mod->id == $module->id){
-                unset ($modules[$i]);
+                unset ($modules[$i]); // Вызывает ошибку свойства Position объекта модуля, 
                 unset ($mod);
-            }
+            }elseif($module->position == $mod->position ){
+				$count++;
+			}
+//			else{
+//				$modules[$i]->position = $mod->position == null ? '' : $mod->position;
+//			}
+			
         }
+
         $modules = &static::getModules($module->position);
 
-        $module->published = FALSE;
-        $module->position = FALSE;
-        $module->module = FALSE;
+        $module->published = '';
+        $module->position = '';
+        $module->module = '';
         $module->style = 'System-none';
-        return $modules;
+        return $count;
     }
+}
+
+if(empty(class_exists('Reg'))){
+class Reg extends \Joomla\Registry\Registry{
+	function __get($nameProperty) {
+		return $this->get($nameProperty, '');
+	}
+	function __set($nameProperty, $value = null) {
+		$this->set($nameProperty, $value);
+	}
+	
+	function __isset($nameProperty) {
+		return $this->exists($nameProperty);
+	}
+	
+	function ArrayItem($nameProperty, $index = null, $value = null){
+		
+		if(!isset($this->data->$nameProperty))
+			$this->data->$nameProperty = [];
+		
+		
+		if($index === null && $value === null)
+			return $this->data->$nameProperty ?? [];
+		
+		$old = $this->data->$nameProperty[$index] ?? null;
+		
+		if($value === null)
+			return $old;
+		
+		if($index === '' || $index === null)
+			$this->data->$nameProperty[] = $value;
+		else
+			$this->data->$nameProperty[$index] = $value;
+		
+		return $old;
+	}
+}
 }

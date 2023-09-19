@@ -3,15 +3,16 @@
 	<name>_Multi</name>
 	<author>Korenevskiy Sergei</author>
 	<creationDate>2016-03-01</creationDate>
-	<modificationDate>2022-09-28</modificationDate>
+	<modificationsDate>2023-01-27,2023-07-23,2023-09-20</modificationsDate>
+	<modificationDate>2023-09-20</modificationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>korenevskiys@ya.ru</authorEmail>
 	<authorUrl>//www.explorer-office.ru</authorUrl>
-	<version>4.03</version>
+	<version>4.33</version>
     <description>[[%1:]] &lt;br&gt; &lt;b&gt; Multi Module &lt;/b&gt; &lt;span  class="badge alert-primary " &gt; [[%2:]]:[[%3:]] / [[%4:]]:[[%5:]]&lt;/span&gt; [[%6:]]
             ,MOD_MULTI_DESCRIPTION,JVersion,
-            4.03,JDate,2022-09-28,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
+            4.33,JDate,__DEPLOY_DATE__,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
     
      <!--  <b> Multi Module </b> <span class="badge badge-info" >...   <customContent /> -->
     
@@ -209,6 +210,8 @@
                         default="0"> 
                             <option value="ha">[[%1:]] , &lt; h*> &lt; a/&gt; </option>  
                             <option value="ah">[[%1:]] , &lt; a&gt; &lt; h*/> </option>  
+                            <option value="a">[[%1:]] , &lt; a/&gt; </option>  
+                            <option value="h">[[%1:]] , &lt; h*/> </option>  
                             <option value="0">JNO</option>
                     </field>      
                     
@@ -219,7 +222,7 @@
                            multiple="false"      debug='0'
                            addfieldpath="/modules/mod_multi/fields"
                            label="MOD_MULTIMODULE_FIELD_TITLELINKMENU_LABEL" description="Select a menu item" 
-                                 showon="link_show:ha[OR]link_show:ah[OR]link_show:1">
+                                 showon="link_show:ha[OR]link_show:ah[OR]link_show:a[OR]link_show:1">
                             <option value="text" group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_OPT</option> 
                             <option value="home_menu" group="JCURRENTPAGE">Home page '/'</option> 
                             <option value="main_menu" group="JCURRENTPAGE">MOD_MULTIMODULE_FIELD_TITLELINKMENU_MAIN</option> 
@@ -227,7 +230,7 @@
                     </field>      
                     
                     <field name="link" type="url" default=" " label="MOD_MULTIMODULE_FIELD_TITLEURL_LABEL" description="" size="10" 
-                           showon="link_show:ha[OR]link_show:ah[OR]link_show:1"/>
+                           showon="link_show:ha[OR]link_show:ah[OR]link_show:a[OR]link_show:1"/>
                     
 
                
@@ -829,36 +832,36 @@
                     <field name="images_order" type="number" default="8" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
                            showon="images_show:sort[OR]images_show:rnd"/> 
                     
-                    <field name="images_folder2" type="text" default="/" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Example: &lt;br> /images/ &lt;br> /images/gallery/"  showon="images_show:sort[OR]images_show:rnd"/>
+                    <field name="images_folder2" type="textarea" default="" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Example: &lt;br> /images/ &lt;br> /images/gallery/"  showon="images_show:sort[OR]images_show:rnd"/>
                     <field name="images_folder" type="folderlist" default="-1" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Folders in /images/" fileFilter="" exclude="" stripext="" directory="images" multiple="true"
                             showon="images_show:sort[OR]images_show:rnd"/> 
                     <field name="images_count" type="number" default="12" label="MOD_MULTIMODULE_FIELD_IMAGESCHOOSE_LABEL" description="" min="0" max="128" step="1"
                             showon="images_show:sort[OR]images_show:rnd"/>
 
-                    <field 
-                        name="images_links"
-			type="textarea"
+					<field 
+						name="images_links"
+						type="textarea"
                         default="&#13;&#10;"
-			label="MOD_MULTIMODULE_FIELD_LINKS_LABEL"
-			description="Separator links &#166;"  
+						label="MOD_MULTIMODULE_FIELD_LINKS_LABEL"
+						description="Separator links &#166;"  
                         rows="4"
                         showon="images_show:sort[OR]images_show:rnd"
 				/>
                     <field 
                         name="images_titles"
-			type="textarea"
-                        default="&#13;&#10;" filter="raw"
-			label="MOD_MULTIMODULE_FIELD_TITLES_LABEL"
-			description="Separator titles &#166;"  
+						type="textarea"
+						default="&#13;&#10;" fileFilter="raw"
+						label="MOD_MULTIMODULE_FIELD_TITLES_LABEL"
+						description="Separator titles &#166;"  
                         rows="4"
                         showon="images_show:sort[OR]images_show:rnd"
 				/>
                     <field 
                         name="images_texts"
-			type="textarea"
+						type="textarea"
                         default=""
-			label="MOD_MULTIMODULE_FIELD_TEXTS_LABEL"
-			description="Separator texts &#166;
+						label="MOD_MULTIMODULE_FIELD_TEXTS_LABEL"
+						description="Separator texts &#166;
 "  
                         rows="4"
                         showon="images_show:sort[OR]images_show:rnd"
@@ -895,7 +898,7 @@
 					label="JCATEGORY"
 					showon="tags_show!:0" 
 					multiple="true"
-					filter="intarray"
+					fileFilter="intarray"
 					layout="joomla.form.field.list-fancy-select" 
 					class="multipleCategories" 
 				>
@@ -985,9 +988,6 @@
                     
                     
                     
-                    
-                    
-                    
                     <field
                         type="spacer"
                         default=""
@@ -1052,7 +1052,7 @@ SELECT id, catid, title, alias, &#13;&#10;CONCAT_WS('',introtext, `fulltext`) co
 FROM #__content &#13;&#10; 
 WHERE access AND state &#13;&#10; 
 ORDER BY id DESC LIMIT 3; &#13;&#10;"
-						label="SQL Query Select" 
+						label="SQL Query Select"
 						rows="5"   filter="raw"
 						showon="query_show:1[AND]myfile:use.php" comment="for FULL version"
 						class="input-large"
@@ -1274,9 +1274,12 @@ ORDER BY lft)t) ;
                     </field>  
                   <field name="date_start" type="calendar" default="NOW"
                         label="MOD_MULTIMODULE_FIELD_FILTERDATESTART_LABEL"     showon="date_is:on"  
-                        showtime="false"  singleheader="true" />     
+                        showtime="false"  singleheader="true"
+						filterFormat="Y-m-d H:i:00" filter="USER_UTC" translateformat="true" timeformat="24"  todaybutton="true"
+				  />     
                     <field name="date_stop" type="calendar" default="NOW -1day"
                         label="MOD_MULTIMODULE_FIELD_FILTERDATESTOP_LABEL"     showon="date_is:on"  
+						filterFormat="Y-m-d H:i:00" filter="USER_UTC" translateformat="true" timeformat="24"  todaybutton="true"
                         showtime="false"  singleheader="true" />     
                         
                         
@@ -1395,7 +1398,29 @@ ORDER BY lft)t) ;
                         default=""
                         label="&lt;hr>"
                         description=""
-                    />
+                    /> 
+                    <field
+                        name="url_is"
+                        type="radio" 
+                        default=""  
+                        class="btn-group  btn-group-yesno "
+                        label="MOD_MULTIMODULE_FIELD_FILTERURL_LABEL"
+                        
+                         >
+                        <option value="">JOFF</option>
+                        <option value="only">MOD_MULTIMODULE_FIELD_FILTERWITH_LABEL</option>
+                        <option value="without">MOD_MULTIMODULE_FIELD_FILTERWITHOUT_LABEL</option>
+                    </field> 
+					
+                    <field 
+                        name="url_site"
+						type="textarea"
+                        default="?option=com_content&amp;view=article&amp;id=22&amp;Itemid=1"
+						label="MOD_MULTIMODULE_FIELD_FILTERURL_LABEL"
+						description="Examples: /, /category, ?option=com_content&amp;view=article&amp;id=22&amp;Itemid=1'" 
+                        rows="4"
+                        showon="url_is:only[OR]url_is:without"
+					/>
                 </fieldset>      
                 <fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL"> 
                 </fieldset>      
@@ -1754,7 +1779,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 		<fieldset name="advanced">
             
                 <field
-                    name="header_tag" class="xade xhide"
+                    name="header_tag" class=" chzn-color-state radio"
                     type="headertag"
                     label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
                     description="COM_MODULES_FIELD_HEADER_TAG_DESC"
@@ -1762,43 +1787,22 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
                     <option value="figcaption">&lt;figcaption></option> 
                     <option value="legend">&lt;legend></option>
                     <option value="label">&lt;label></option> 
-                    <option value="summary">&lt;summary></option>   
+                    <option value="summary">&lt;summary></option>
+                    <option value="0"> - -Empty - - </option> 
 				</field>
-                <field name="module_tag" type="moduletag" class="xfade xhide"
+				
+                <field name="module_tag" type="moduletag" class="chzn-color-state radio"
                        label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
                        description="COM_MODULES_FIELD_MODULE_TAG_DESC"
 					   default="div" >
-                    <option value="figure">&lt;figure></option> 
+					<option value="figure">&lt;figure></option> 
                     <option value="fieldset">&lt;fieldset></option>
                     <option value="li">&lt;li></option> 
                     <option value="details">&lt;details></option>  
+                    <option value="0"> - -Empty - - </option>
 				</field>
                 
-            
-                <field
-                    name="head_tag" debug="false"
-                    type="headtag"   xaddfieldpath="modules/mod_multi_form/field"
-                    label="[[%1:]],COM_MODULES_FIELD_HEADER_TAG_LABEL"
-                    description="COM_MODULES_FIELD_HEADER_TAG_DESC"
-                    class="chzn-color-state radio "
-                    default="div" > 
-                    <option value="figcaption">&lt;figcaption></option> 
-                    <option value="legend">&lt;legend></option>
-                    <option value="label">&lt;label></option> 
-                    <option value="summary">&lt;summary></option>  
-                </field>
-                <field
-                    name="mod_tag" debug="false"
-                    type="modtag"   xaddfieldpath="modules/mod_multi_form/field"
-                    label="[[%1:]],COM_MODULES_FIELD_MODULE_TAG_LABEL"
-                    description="COM_MODULES_FIELD_MODULE_TAG_DESC"
-                    class="chzn-color-state radio "
-                    default="div" > 
-                    <option value="figure">&lt;figure></option> 
-                    <option value="fieldset">&lt;fieldset></option>
-                    <option value="li">&lt;li></option> 
-                    <option value="details">&lt;details></option>  
-                </field>
+   
 				<field
 					name="header_class"
 					type="text"
@@ -2012,8 +2016,8 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
                         name="json_tabbootstrap"
                         type="list"  showon="layout:_:tabs-bootstrap"
                         class=""
-                           label="&lt;b>Bootstrap - Style class tabs &lt;/b>"
-                                        description="Select one from .. and Uncomment"
+                        label="&lt;b>Bootstrap - Style class tabs &lt;/b>"
+                        description="Select one from .. and Uncomment"
                         default="nav-justified">
                             <option value="nav-fill">nav-fill</option>
                             <option value="nav-pills">nav-pills</option>

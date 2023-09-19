@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 JHtml::_('jquery.ui', array('core', 'sortable'));
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id         = $params->get('id');
 $positon    = $params->get('position');
@@ -253,7 +253,7 @@ foreach ($modules as $id=>$module){
         if($modules_tag == 'dl')            echo "<dt class=\"$module->header_class\">";
         else if($modules_tag == 'table')    echo "<td class=\"$module->header_class\">";
         else                                echo "<$module->header_tag  class=\"$module->header_class\">";
-      echo $module->title;
+      echo $module->title ?? '';
         if($modules_tag == 'dl')            echo "</dt>";
         else if($modules_tag == 'table')    echo "</td>";
         else                                echo "</$module->header_tag>";
@@ -262,7 +262,7 @@ foreach ($modules as $id=>$module){
     if($modules_tag == 'dl')                echo "<dd class=\"moduletable$module->moduleclass_sfx\">";
     if($modules_tag == 'table')             echo "<td class=\"moduletable$module->moduleclass_sfx\">";
 
-                                    echo $module->content;
+                                    echo $module->content ?? '';
     if($modules_tag == 'dl')                echo '</dd>';
     if($modules_tag == 'table')             echo '</td>';
 

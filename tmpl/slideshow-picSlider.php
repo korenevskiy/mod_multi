@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 *** ------------------------ Просто Слайдшоу показывающий 1 элемент во всю ширину -------------------------------------------- ***
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $module_id      = $params->get('id');
 $positon = $params->get('position');
@@ -111,7 +111,7 @@ if($module_tag2)
  */
 
     JHtml::_('jquery.framework');
-    JHtml::_('jquery.ui');
+    JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
     $path_jft = JUri::base() . 'modules/mod_multi/media/jqfancytransitions/';
 JHtml::stylesheet('https://raw.githubusercontent.com/YoneChen/picSlider/gh-pages/picSlider/picSlider.css');

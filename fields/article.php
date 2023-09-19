@@ -17,15 +17,14 @@ use Joomla\CMS\Version as JVersion;
 if((new JVersion)->isCompatible('4')){
     require_once (JPATH_SITE.'/administrator/components/com_content/src/Field/Modal/ArticleField.php');
 
-    class JFormFieldArticle extends Joomla\Component\Content\Administrator\Field\Modal\ArticleField
+    class JFormFieldArticle extends Joomla\Component\Content\Administrator\Field\Modal\ArticleField // extends JFormField
     {
     }
 
 }else{
     require_once (JPATH_SITE.'/administrator/components/com_content/models/fields/modal/article.php');
-    class JFormFieldArticle extends JFormFieldModal_Article
-    {
+    class JFormFieldArticle extends JFormFieldModal_Article // extends JFormField
+    { //JFormFieldModal_Article
     }
 }
-
 ?>

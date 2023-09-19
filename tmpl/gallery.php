@@ -18,9 +18,9 @@
 defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
-JHtml::_('jquery.ui');
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -109,8 +109,8 @@ foreach ($elements as $i => $module){
 
     echo "<a class=\"linkthumb\"  target=\"_blank\" href=\"$module->link\"  title=\"$module->title\" >";
     echo "<img class=\" $module->moduleclass_sfx thumb \" src=\"$module->image\" style=\" width: 220px;\">";
-if($module->title) echo  "<span class='title'>$module->title</span>";
-if($module->content) echo  "<span class='info'>$module->content</span>";
+if($module->title ?? '') echo  "<span class='title'>$module->title</span>";
+if($module->content ?? '') echo  "<span class='info'>$module->content</span>";
     echo "</a>";
 
     if($tag_container)

@@ -13,6 +13,9 @@
 
 defined('_JEXEC') or die;
 use \Joomla\CMS\Version as JVersion;
+use \Joomla\CMS\HTML\HTMLHelper as JHtml;
+use Joomla\CMS\Uri\Uri as JUri;
+use Joomla\CMS\Factory as JFactory;
 
 JHtml::_('jquery.framework', true, TRUE, true);
 
@@ -21,12 +24,33 @@ if(JVersion::MAJOR_VERSION == 3){
 }
 else{
 
-    JHtml::script('modules/mod_multi/media/jquery/jquery-migrate-1.4.1.min.js');
-    JHtml::script('modules/mod_multi/media/jquery/jquery-migrate-3.4.0.min.js');
-    JHtml::script('modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
+//$wa = new \Joomla\CMS\WebAsset\WebAssetManager;
+$wa = JFactory::getApplication()->getDocument()->getWebAssetManager();
+//$wa->registerAndUseScript('Instascan', 'https://rawgit.com/schmich/instascan-builds/master/instascan.min.js', [], ['defer' => true]);
+
+$wa->registerScript('jquery','modules/mod_multi/media/jquery/jquery-3.7.0.min.js',
+		['version'=>'3.6.0']);
+
+$wa->registerScript('jquery-migrate-old','modules/mod_multi/media/jquery/jquery-migrate-1.4.1.min.js',
+		['version'=>'1.4.1','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery']);
+
+$wa->registerScript('jquery-migrate','modules/mod_multi/media/jquery/jquery.migrate-3.4.1.min.js',
+		['version'=>'3.4.0','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate-old']);
+
+$wa->registerScript('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js',
+		['version'=>'1.13.2'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate']);
+
+$wa->registerStyle('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css',
+		['version'=>'1.13.2'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate']);
+
+//$wa->registerScript('jquery-ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
+//$wa->registerStyle('jquery-ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css');
+//JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery-ui')->useScript('jquery-ui');
+
+//$wa->addInlineScript('document.addEventListener("DOMContentLoaded", function(){form_QR_'.$id.'.t = "'.JFactory::getApplication()->getFormToken().'"});');
 }
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $base= JUri::base();
 
@@ -83,7 +107,7 @@ if($tag = $params->get('modules_tag3')){
 
 }
 
-$keys = array_keys($modules);
+//$keys = array_keys($modules);
 
 $elements = [];
 
@@ -101,14 +125,13 @@ foreach ($modules as $type => $items){
         $elements[] = $module;
     }
 }
-
-$keys = array_keys($elements);
+//$keys = array_keys($elements);
 
 $count = count($elements);
 
-echo "<div id='multislideshowid$param->id' class=\"$moduleclass_sfx slideshowCK camera_wrap ". ($param->skin??'')."        slider items   count$count  id$param->id \">";
+echo "<div id='multislideshowid$param->id' class='$moduleclass_sfx slideshowCK camera_wrap $param->skin  cameraCont  cameraContents    slider items   count$count  id$param->id '>";
 
-foreach ($elements as $i => $module){
+foreach ($elements as $i => $module):
 
     if(empty($module->link))
         $module->link = $module->image;
@@ -119,7 +142,7 @@ foreach ($elements as $i => $module){
 $class = $isImage($module->link);
 $img_path = trim($module->image,'/');
 
-echo "<div data-thumb=\"$base$module->image\"  data-src=\"$base$module->image\" data-alt=\" $module->title\" class=\"image $module->moduleclass_sfx\"   >";
+echo "<div data-thumb='$base$module->image'  data-src='$base$module->image' data-alt='$module->title' class='image $module->moduleclass_sfx cameraContent cameraSlide'   >";
 
 switch ($param->header_tag3){
     case 'item':// тэг модуля
@@ -142,19 +165,23 @@ switch ($param->content_tag3){
         $module->module_tag = $param->content_tag3;
 }
 
+//toPrint($module->link, '', 0, 'message', true);
+//	$img_parts = explode("images/", $module->link);
+//	$img = end($img_parts);
+//toPrint($img, '', 0, 'message', true);
+
 $mod_title = ($param->items_image && $param->items_image != 'i') ?
-        "<a class=\"$class image\"  target=\"_blank\" href=\"$module->link\"  title=\"$module->title\" ></a>" : $module->title;
-
-if($module->header_tag && $module->title || $module->module_tag && $module->content){
-    echo "<div class='camera_caption fadeIn'>";
-    if($module->header_tag && $module->title) echo "<$module->header_tag class='camera_caption_title'>$mod_title</$module->header_tag>";
-    if($module->module_tag && $module->content) echo "<$module->module_tag class='camera_caption_desc'>$module->content</$module->module_tag>";
-    echo "</div>";
-
-}
+        "<a class=\"$class image camera_link\"  target=\"_blank\" href=\"$module->link\"  title=\"$module->title\" ></a>" : $module->title;
+echo $mod_title;
+//if($module->header_tag && $module->title || $module->module_tag && $module->content){
+//    echo "<div class='_camera_caption fadeIn  '>";
+//    if($module->header_tag && $module->title) echo "<$module->header_tag class='camera_caption_title '>$mod_title</$module->header_tag>";
+//    if($module->module_tag && $module->content) echo "<div class='camera_caption_desc '>$module->content</div>";
+//    echo "</div>";
+//}
 echo " </div>";
 
-}
+endforeach;
 
 echo "</div>";
 
@@ -167,26 +194,35 @@ $css = "#camera_wrap_" . $param->id . " .camera_pag_ul li img, #camera_wrap_" . 
 
 JFactory::getDocument()->addStyleDeclaration($css);
 
-JHtml::script('modules/mod_multi/media/slideshowCK/camera.min.js');
-JHtml::stylesheet('modules/mod_multi/media/slideshowCK/administrator/themes/default/css/camera.css');
+//JHtml::script('modules/mod_multi/media/slideshowCK/camera.min.js');
+//JHtml::stylesheet('modules/mod_multi/media/slideshowCK/administrator/themes/default/css/camera.css');
+
+
+$wa->registerAndUseScript('slideshowck','modules/mod_multi/media/slideshowCK/camera.min.js',
+		['version'=>'auto'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate','jquery-ui']); // 
+$wa->registerAndUseStyle('slideshowck','modules/mod_multi/media/slideshowCK/administrator/themes/default/css/camera.css',
+		['version'=>'auto'],['defer' => false, 'nomodule' => false]);
 
 $param->json_layout = $param->json_layout ?? $param->json_slideshowCK ?? '';
 
 $style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'])? '':basename (__FILE__,'.php');
 //https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html  #multislideshowid$param->id .slider.items.id$param->id
  $script = <<< script
-
 /* MultiModule ModuleID:$param->id - $style_layout */
-jQuery( function() {
+jQuery(document).ready( function() {
         new Slideshowck('#multislideshowid$param->id', {
-            \nimagePath: '$base/modules/mod_multi/media/slideshowCK/images/',
+//            \nimagePath: '$base/modules/mod_multi/media/slideshowCK/images/',
             \n$param->json_layout
         });
 });
 
+//             imagePath: '$base/images/slideshow/',
 script;
 
-JFactory::getDocument()->addScriptDeclaration($script);
+  
+$wa->addInlineScript($script,
+		['version'=>'auto'],['defer' => false, 'nomodule' => false],['jquery','jquery-ui','jquery-migrate']);
+//JFactory::getDocument()->addScriptDeclaration($script);
 
 return;
 ?>

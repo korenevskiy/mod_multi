@@ -43,4 +43,3 @@ class JFormFieldFields extends JFormField {
         return JHTML::_('select.genericlist', $fields, $this->name,'class="inputbox" id = "category_ordering"  ','Field','Title', $value );
   }
 }
-

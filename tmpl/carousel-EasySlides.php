@@ -16,7 +16,7 @@
  * https://www.jqueryscript.net/slider/jQuery-Waterwheel-Carousel-Plugin.html
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -91,6 +91,8 @@ echo "<div id='multislideshowid$param->id'  class='-gallery items count$count $m
 
 foreach ($elements as $i => $module):
 
+/* Show content modules   */
+    
     $base = JUri::base();
 
     echo "<div id='bu$i'>";
@@ -109,25 +111,22 @@ echo "</div>";
 if($module_tag2)
     echo "</$module_tag2>";
 
-JHtml::_('jquery.framework');
-JHtml::_('jquery.ui');
 
 static $script;
 
+// <editor-fold defaultstate="collapsed" desc="Scrypt Carousel for count 5">
 if(empty($script)):
+
+JHtml::_('jquery.framework');
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
     $mod_path = Juri::base() . "modules/mod_multi/media/carousel-EasySlides/";
     JHtml::script($mod_path . "jquery.easy_slides.js");
     JHtml::stylesheet($mod_path . "jquery.easy_slides.css");
 
-$script = <<< script
-
-/* MultiModule ModuleID:$param->id - $param->layout */
-
-script;
-
 ?>
 <script type="text/javascript">
+/* MultiModule ModuleID:<?= $param->id .' - '. $param->layout ?> */
 jQuery(function($){
     $('.id<?=$param->id?>.slider_clock').EasySlides({
         <?= $param->json_layout ?? '' ?>
@@ -139,8 +138,9 @@ jQuery(function($){
 
 endif;
 
+// </editor-fold>
 ?>
-<style>
+<style type="text/css">
 .slider_clock .next_button:after{
   border-left-color: white;
 }

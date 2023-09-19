@@ -15,7 +15,7 @@
 *** ------------------------ Карусель с вращающимся фотками/карточками  -------------------------------------------- ***
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -100,6 +100,7 @@ var textureWidth<?=$param->id?>, textureHeight<?=$param->id?>;
 var lev<?=$param->id?> = 3;
 var angle<?=$param->id?> = 0;
 
+/* scene vertices */
 var vertices<?=$param->id?> = [
     new Point3D<?=$param->id?>(-2,-1,2),
     new Point3D<?=$param->id?>(2,-1,2),
@@ -111,6 +112,7 @@ var vertices<?=$param->id?> = [
     new Point3D<?=$param->id?>(-2,1,-2)
 ];
 
+/* scene faces (6 faces) */
 var faces<?=$param->id?>  = [[0,1,2,3],[1,5,6,2],[5,4,7,6],[4,0,3,7],[0,4,5,1],[3,2,6,7]];
 
 function Point3D<?=$param->id?>(x,y,z) {
@@ -174,6 +176,7 @@ window.onload = function(){
     canvas<?=$param->id?>.height = height;
     ctx<?=$param->id?> = canvas<?=$param->id?>.getContext('2d');
 
+    /* prepare points */
     for (var i = 0; i <= lev<?=$param->id?>; i++) {
         for (var j = 0; j <= lev<?=$param->id?>; j++) {
             var tx = (i * (textureWidth<?=$param->id?> / lev<?=$param->id?>));
@@ -189,6 +192,7 @@ window.onload = function(){
         }
     }
 
+    /* prepare triangles ---- */
     var levT = lev<?=$param->id?> + 1;
     for (var i = 0; i < lev<?=$param->id?>; i++) {
         for (var j = 0; j < lev<?=$param->id?>; j++) {
@@ -212,9 +216,10 @@ window.onload = function(){
 };
 
 function drawScene<?=$param->id?>() {
-
+    /* clear context */
     ctx<?=$param->id?>.clearRect(0, 0, ctx<?=$param->id?>.canvas.width, ctx<?=$param->id?>.canvas.height);
 
+    /*  rotate scene */
     var t = new Array();
     for (var iv = 0; iv < vertices<?=$param->id?>.length; iv++) {
         var v = vertices<?=$param->id?>[iv];
@@ -230,12 +235,14 @@ function drawScene<?=$param->id?>() {
         avg_z[i] = {"ind":i, "z":(t[f[0]].z + t[f[1]].z + t[f[2]].z + t[f[3]].z) / 4.0};
     }
 
+    /*  get around through all faces  */
     for (var i = 0; i < faces<?=$param->id?>.length; i++) {
         var f = faces<?=$param->id?>[avg_z[i].ind];
 
         if (t[f[3]].z+t[f[2]].z+t[f[1]].z+t[f[0]].z > -3) {
             ctx<?=$param->id?>.save();
 
+            /* draw surfaces */
             ctx<?=$param->id?>.fillStyle = "rgb(252,211,164)";
             ctx<?=$param->id?>.beginPath();
             ctx<?=$param->id?>.moveTo(t[f[0]].x,t[f[0]].y);
@@ -245,6 +252,7 @@ function drawScene<?=$param->id?>() {
             ctx<?=$param->id?>.closePath();
             ctx<?=$param->id?>.fill();
 
+            /* draw stretched images */
             if (i < 4) {
                 var ip = points<?=$param->id?>.length;
                 while (--ip > -1) {
@@ -273,6 +281,7 @@ function drawScene<?=$param->id?>() {
                     ctx<?=$param->id?>.closePath();
                     ctx<?=$param->id?>.clip();
 
+                    /* transformation */
                     var d = p0.tx * (p2.ty - p1.ty) - p1.tx * p2.ty + p2.tx * p1.ty + (p1.tx - p2.tx) * p0.ty;
                     ctx<?=$param->id?>.transform(
                         -(p0.ty * (p2.px - p1.px) -  p1.ty * p2.px  + p2.ty *  p1.px + (p1.ty - p2.ty) * p0.px) / d, // m11
@@ -289,6 +298,7 @@ function drawScene<?=$param->id?>() {
         }
     }
 
+    /*  shift angle and redraw scene */
     angle<?=$param->id?> += 0.3;
     setTimeout(drawScene<?=$param->id?>, 40);
 }
@@ -302,6 +312,7 @@ if($module_tag2)
 
 static $script;
 
+// <editor-fold defaultstate="collapsed" desc="Scrypt Carousel for count 5">
 if(empty($script)) {
 
     $mod_path = Juri::base() . "modules/mod_multi/media/carousel-Animated-3D-Cube-Slideshow/";
@@ -318,6 +329,5 @@ script;
 JFactory::getDocument()->addScriptDeclaration($script);
 
 }
-
-?>
-
+// </editor-fold>
+?> 

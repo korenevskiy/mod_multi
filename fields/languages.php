@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper as JHtml;
 
 JFormHelper::loadFieldClass('list');
 
-class JFormFieldLanguages extends JFormFieldList  {
+class JFormFieldLanguages extends JFormFieldList  {/*JFormField*/
 
  	/**
 	 * The form field type.
@@ -41,18 +41,18 @@ class JFormFieldLanguages extends JFormFieldList  {
         $opts = [];
         $options = [];
 
-        $opts['*']= ['*', '- - '.JText::_('JALL_LANGUAGE'). ": ★ " , '✔ - -'];
+        $opts['*']= ['*', '- - '.JText::_('JALL_LANGUAGE'). ": ★ " , '✔ - -'];//JHtml ✔
 
         foreach (Joomla\CMS\Language\LanguageHelper::getKnownLanguages() as $opt){
-            $opts[$opt['tag']]= [$opt['tag'], "$opt[nativeName]: $opt[tag]" , ' ◯'];
+            $opts[$opt['tag']]= [$opt['tag'], "$opt[nativeName]: $opt[tag]" , ' ◯'];//JHtml ✔
         }
         foreach (Joomla\CMS\Language\LanguageHelper::getContentLanguages() as $opt){
 
-            $opts[$opt->lang_code]= [$opt->lang_code, "$opt->title: $opt->lang_code", $opt->published?'✔':'◯'];
+            $opts[$opt->lang_code]= [$opt->lang_code, "$opt->title: $opt->lang_code", $opt->published?'✔':'◯'];//JHtml
         }
-
+        
         foreach($opts as $opt){
-            $options[$opt[0]]= JHtml::_('select.option', $opt[0], "$opt[1]: $opt[2]");
+            $options[$opt[0]]= JHtml::_('select.option', $opt[0], "$opt[1]: $opt[2]");//JHtml ✔✔✔✓✔
         }
 
         $options = array_merge($options,parent::getOptions() );

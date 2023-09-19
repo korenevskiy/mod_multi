@@ -222,7 +222,7 @@ foreach ($item as  $i=>$module){
     if($modules_tag == 'dl')                echo "<dd class=\"moduletable$module->moduleclass_sfx\">";
     if($modules_tag == 'table')             echo "<td class=\"moduletable$module->moduleclass_sfx\">";
 
-											echo  $module->content ?? '';
+			echo  $module->content ?? '';
     if($modules_tag == 'dl')                echo '</dd>';
     if($modules_tag == 'table')             echo '</td>';
 

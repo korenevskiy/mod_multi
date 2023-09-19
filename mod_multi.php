@@ -10,7 +10,9 @@
 # Technical Support:  Forum - https://vk.com/multimodule
 -------------------------------------------------------------------------*/
 
-use Joomla\CMS\Factory as JFactory;
+use \Joomla\CMS\Factory as JFactory;
+use \Joomla\CMS\HTML\HTMLHelper as JHtml;
+use \Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 
 defined('MULTIMOD_PATH') || define('MULTIMOD_PATH', __DIR__);
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
@@ -20,36 +22,45 @@ if(file_exists(__DIR__ . '/../mod_multi_form/functions.php'))
 
 require_once MULTIMOD_PATH . '/helper.php';
 
-$params->set('header_tag', $params->get('head_tag'));
-$params->set('module_tag', $params->get('mod_tag'));
+$params = new Reg($params);
 
-$param = $params->toObject();
-$module->params = $params;
+$param = &$params; // $params->toObject();
+$module->params = &$params;
+$param->id = $module->id;
 
 /* Проверка условий показов */
+// <editor-fold defaultstate="collapsed" desc="Проверка условий показов">
 
 if($module->position && $module->id):
 
 if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
-
-    $pos = $module->position;
-    $id = $module->id;
-    $name = $module->module;
-    $mod_list_pos = JModHelp::ModeuleDelete($module);
+//toPrint($module,'$module',0, 'message',true);
+    $pos	= $module->position;
+    $id		= $module->id;
+    $name	= $module->module;
+	$mod_count_pos = 0;
+    $mod_count_pos = &JModHelp::ModeuleDelete($module);
 
     static $jj;
     if(is_null($jj)){
         $jj = [];
     }
 
-    if(empty($mod_list_pos))
+    if(empty($mod_count_pos))
         JFactory::getDocument()->addStyleDeclaration("/* Module:$id */\n.container-$pos{\ndisplay:none;}\n");
-    if(empty($mod_list_pos))
-        JFactory::getDocument()->setBuffer(FALSE,'modules',$pos);
-    if(empty($mod_list_pos))
-        unset(JFactory::getDocument()->_buffer['modules'][$pos]);
+    if(empty($mod_count_pos))
+        JFactory::getDocument()->setBuffer(FALSE,['type' => 'modules','name' => $pos]);
+    if(empty($mod_count_pos))
+        JFactory::getDocument()->setBuffer(FALSE,['type' => 'module','name' => $pos]);
+    if(empty($mod_count_pos)){
+//toPrint(JFactory::getDocument()::$_buffer ,' ',0, 'message',true);
+//		$buf = &JFactory::getDocument()::$_buffer['modules'][$pos];
+//		unset($buf);
+		unset(JFactory::getDocument()::$_buffer['modules'][$pos]);
+		unset(JFactory::getDocument()::$_buffer['module'][$pos]);
+	}
 
-    if(empty($mod_list_pos) && empty($jj[$pos])){
+    if(empty($mod_count_pos) && empty($jj[$pos])){
         $jj[$pos] = '';
         $jj[$pos] .= "/*m$id*/var pos_count = {};var pos_del = '$pos';";
         $jj[$pos] .= "if(document.querySelector('.grid-child.container-$pos')){";
@@ -59,11 +70,10 @@ if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
         $jj[$pos] .= "}";
         $jj[$pos] = "document.addEventListener('DOMContentLoaded', function(){ $jj[$pos] });";
         JFactory::getDocument()->addScriptDeclaration($jj[$pos]);
-
 //        $script = "/*m$id*/document.body.classList.remove('has-$module->position');";
 
     }
-    if(($mod_list_pos)){
+    if(($mod_count_pos)){
         unset($jj[$pos]);
     }
 
@@ -75,6 +85,7 @@ if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
 endif;
 
 $modules = array();
+// <editor-fold defaultstate="collapsed" desc="field HTML">
 
 if ($params->get('html_show')) {
 
@@ -90,12 +101,12 @@ if ($params->get('html_show')) {
         $copyright_text = "<div class='copyright'>$copyright_text</div>";
     }
 
-    $fontsFiles = $param->fontsFiles ?? '';
+    $fontsFiles = $param->fontsFiles ?? [];
 
-    $fontsGoogle = $param->fontsGoogle ?? '';
+    $fontsGoogle = $param->fontsGoogle ?? [];
 
 /* Показ иконок в Head */
-
+// <editor-fold defaultstate="collapsed" desc="Показ иконок в Head">
     if ($param->favicon_show && JFactory::getDocument()->getType() == 'html'){
 
         JFactory::getDocument()->addCustomTag("<meta name='msapplication-starturl' content='./'>");
@@ -105,9 +116,9 @@ if ($params->get('html_show')) {
         $favicon_files_ico = $param->favicon_files_ico ?:[];
 
         foreach ($favicon_files_ico as $key => $value) {
-
-            JFactory::getDocument()->addFavicon(''.$value);
-
+            //JDocument::getInstance()->_links[] = trim($value, "");//JUri::base().
+            JFactory::getDocument()->addFavicon(''.$value);  // ??????
+            //JFactory::getDocument()->addCustomTag("<link rel='icon'  type='image/vnd.microsoft.icon' href='$value'>");
         }
         $favicon_files = $param->favicon_files;
         $icons_any_size = [16,32,48,64,96];
@@ -122,7 +133,7 @@ if ($params->get('html_show')) {
         if ($favicon = $param->favicon_files_100){
 
             JFactory::getDocument()->addFavicon($favicon, $type = FALSE, $relation = 'apple-touch-icon');
-
+            //JFactory::getDocument()->addCustomTag("<link rel='icon' sizes='any' type='image/png' href='$favicon'>");
             JFactory::getDocument()->addHeadLink($favicon, 'icon', 'rel', ['sizes'=>'any','type'=>'image/png']);
             JFactory::getDocument()->addCustomTag("<meta name='msapplication-TileImage' content='$favicon'>");
             JFactory::getDocument()->addCustomTag("<meta name='yandex-tableau-widget' content='logo=$uri_base$favicon, color=$favicon_color' />");
@@ -135,7 +146,7 @@ if ($params->get('html_show')) {
         }
 
         foreach ($icons_any_size as $size){
-            if($favicon = $para->{'favicon_files_'.$size})
+            if($favicon = $param->{'favicon_files_'.$size})
 
             JFactory::getDocument()->addHeadLink($favicon, 'icon', 'rel', ['sizes'=>"{$size}x{$size}",'type'=>'image/png']);
         }
@@ -157,6 +168,7 @@ if ($params->get('html_show')) {
             JFactory::getDocument()->addCustomTag("<meta name='apple-mobile-web-app-status-bar-style' content='$favicon_color'/>");
         }
     }
+// </editor-fold>      
 
     $html = $param->html_code ?? '';
 
@@ -193,7 +205,7 @@ if ($params->get('html_show')) {
         echo $html;}
     else {
         $modules[sprintf("%02d", $param->html_order) . 'html'] = $html;}
-}
+}// </editor-fold>
 
 $current_id          = $module->id;
 $current_position    = $module->position;
@@ -221,21 +233,21 @@ if($params->get('title_alt_show')){
         }
     }
 
-    if(in_array($param->title_alt_show, ['text','cur_menu','cur_tab','cur_page'])){
-        switch($param->title_alt_header){
+    if(in_array($param->title_alt_show ?? '', ['text','cur_menu','cur_tab','cur_page'])){
+        switch($param->title_alt_header ?? ''){
             case 'cur_menu': $menuitem = JFactory::getApplication()->getMenu()->getActive(); break;
             case 'main_menu': $menuitem = JFactory::getApplication()->getMenu()->getDefault(); break;
             default: $menuitem = JFactory::getApplication()->getMenu()->getItem($param->title_alt_header); break;
         }
     }
-    switch ($param->title_alt_show){
-        case 'text':  $module->title = $param->title_alt?:$module->title; break;
-        case 'cur_menu': $module->title = $menuitem->title; break;
-        case 'cur_tab':  $module->title = $menuitem->getParams()->get('page_title',$menuitem->title); break;
-        case 'cur_page':$module->title = $menuitem->getParams()->get('page_heading',$menuitem->title); break;
+    switch ($param->title_alt_show ?? ''){
+        case 'text':  $module->title = $param->title_alt?:$module->title; break;     //toPrint('TextBreak'); 
+        case 'cur_menu': $module->title = $menuitem->title; break;                          //toPrint('CurMenuBreak');
+        case 'cur_tab':  $module->title = $menuitem->getParams()->get('page_title',$menuitem->title); break; //toPrint($menuitem,'CurTabBreak');
+        case 'cur_page':$module->title = $menuitem->getParams()->get('page_heading',$menuitem->title); break; //toPrint('CurPageBreak'); ; 
         default: $module->title = $menuitem->title; break;
     }
-    $param->title = $params->set('title',  $module->title);
+    $param->title = $module->title;
 
 }
 /* Определение ссылки для Заголовка */
@@ -264,18 +276,18 @@ if($param->link_show && $param->link_menu!='_'){
 
 }
 
-$param->moduleclass_sfx = $params->set('moduleclass_sfx',"$param->moduleclass_sfx multimodule id$current_id pos$current_position");
-$param->header_class    = $params->set('header_class',($param->header_class?:'module-header').' multiheader ');
+$module->moduleclass_sfx = $param->moduleclass_sfx = "$param->moduleclass_sfx multimodule id$current_id pos$current_position ";
+$module->header_class = $param->header_class = ($param->header_class?:'module-header').' multiheader ';
 
-$param->id          = $params->set('id',      $module->id);
-$param->position    = $params->set('position',$module->position);
-$param->module      = $params->set('module',  $module->module);
+$param->id          = $module->id;
+$param->position    = $module->position;
+$param->module      = $module->module;
 
-$param->showtitle = $params->set('showtitle',   $module->showtitle);
-$param->title     = $params->set('title',       $module->title);
+$param->showtitle = $module->showtitle;
+$param->title     = $module->title;
 
-$param->menuid    = $params->set('menuid',      $module->menuid??false);
-$param->name      = $params->set('name',        $module->name??'multi');
+$param->menuid    = $module->menuid??false;
+$param->name      = $module->name??'multi';
 
 /* Отключение внешнего Заголовка при пустом макете для того чтобы включился внутренний*/
 if (in_array($param->style, ['System-none','none','no','0',0,'']))
@@ -320,7 +332,6 @@ if($param->articles_show && $param->articles_id){
     $modules[sprintf("%02d", $param->articles_order).'articles'] = modMultiHelper::getArticles([],$param->articles_id,$param->articles_show, $module->id);
     if($modules[sprintf("%02d", $param->articles_order).'articles'])
         $module->empty_list = FALSE;
-
 }
 /* В разработке!!!!!!! categories */
 if($param->categories_show && $param->categories_id){
@@ -426,27 +437,29 @@ if( $param->image_show   && $param->image){
 }
 /* Images */
 if($rnd = $param->images_show){
-
-    $param->images_folder2 = trim($param->images_folder2)?:'/';
-
+	
     foreach ((array)$param->images_folder as $i => $fold){
         if($fold==-1){
             unset($param->images_folder[$i]);
             continue;
         }
-        $param->images_folder[$i] = '/images/'.$fold;
+		$param->ArrayItem('images_folder', $i, '/images/'.$fold);
+//		$param->images_folder[$i] = '/images/'.$fold;
     }
-
-    if( $param->images_folder2 != '/' && is_dir(JPATH_SITE.'/'. $param->images_folder2)){
-        $param->images_folder[] = $param->images_folder2;
+    
+    foreach(explode("\n",trim($param->images_folder2)) as $img){
+    	if($img && is_dir(JPATH_SITE.'/images/'. $img))
+			$param->ArrayItem('images_folder','', '/images/'.$img);
+//      $param->images_folder[] = $img;
     }
+    
     $modules[sprintf("%02d", $param->images_order).'images'] = $items = modMultiHelper::getImages($param->images_folder,$rnd,$param->images_count, $param->images_links,$param->images_titles,$param->images_texts);
 
     if($modules[sprintf("%02d", $param->images_order).'images'])
         $module->empty_list = FALSE;
 }
 /* Tags */
-if($param->tags_show){
+if($param->tags_show ?? false){
 
     $modules[sprintf("%02d", $param->tags_order).'tags'] = $items
 		= modMultiHelper::getTags($param->tags_show, $param->tags_catids??[], $param->tags_parents??[], $param->tags_maximum, $param->tags_sort, $param->tags_count, $param->tags_category_title, $param->Itemid ?? 0);
@@ -454,15 +467,14 @@ if($param->tags_show){
 }
 /*  */
 if($param->query_show && trim($param->query_select)){
-
-    $modules[sprintf("%02d", $param->query_order).'query'] = $items = modMultiHelper::getSelects(trim($param->query_select));
+	$modules[sprintf("%02d", $param->query_order).'query'] = $items = modMultiHelper::getSelects(trim($param->query_select));
 
     if($modules[sprintf("%02d", $param->query_order).'query'])
         $module->empty_list = FALSE;
 }
 
 if($current_id == 308){
-//    toPrint('<style type="text/css"> #page_wrap,.wcm_chat, #wcm_chat, #page_wrap{display:none!important;}
+//    toPrint('<style type="text/css"> #page_wrap,.wcm_chat, #wcm_chat, #page_wrap{display:none!important;} </style>');
 
 }
 
@@ -472,31 +484,52 @@ ksort($modules, SORT_NATURAL);
 reset($modules);
 
 /* Завершение пустого модуля */
-
+// <editor-fold defaultstate="collapsed" desc="Завершение пустого модуля">
 if($params->get('disable_module_empty_count')):// && empty($modules)
     $mod_keys = array_keys($modules);
     $exit = $module->empty_list;
 
     if($exit){
 
-    $pos = $module->position;
-    $mod_list_pos = JModHelp::ModeuleDelete($module);
+		$pos = $module->position;
+		$mod_count_pos = JModHelp::ModeuleDelete($module);
 
-    if(empty($mod_list_pos))
-        JFactory::getDocument()->addStyleDeclaration("/* Module:$module->id */\n.container-$pos{\ndisplay:none;}\n");
-    if(empty($mod_list_pos))
-        JFactory::getDocument()->setBuffer(FALSE,'modules',$module->position);
+		if(empty($mod_count_pos))
+			JFactory::getDocument()->addStyleDeclaration("/* Module:$module->id */\n.container-$pos{\ndisplay:none;}\n");
+		if(empty($mod_count_pos))
+			JFactory::getDocument()->setBuffer(FALSE,['type' => 'modules','name' => $module->position]);
+		if(empty($mod_count_pos))
+			JFactory::getDocument()->setBuffer(FALSE,['type' => 'module','name' => $module->position]);
+		if(empty($mod_count_pos)){
+//			toPrint(JFactory::getDocument()::$_buffer ,' ',0, 'message',true);
+			unset(JFactory::getDocument()::$_buffer['modules'][$pos]);
+			unset(JFactory::getDocument()::$_buffer['module'][$pos]);
+		}
 
-    $module = NULL;
-    unset($module);
-    return FALSE;
+		$module = NULL;
+		unset($module);
+		return FALSE;
     }
 endif;
+// </editor-fold>
 
 $module=$$mod;
 $params=$$par;
 
 modMultiHelper::$params = $params;
+
+
+//JHtml::script($img);// register($img, $function);
+//$wa = new \Joomla\CMS\WebAsset\WebAssetManager;
+$wa = JFactory::getApplication()->getDocument()->getWebAssetManager();
+$wa->registerScript('jquery.ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
+$wa->registerStyle('jquery.ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css');
+
+//JFactory::getApplication()->getDocument()->getWebAssetManager()->usePreset('jquery.ui');
+//JFactory::getApplication()->getDocument()->getWebAssetManager()->usePreset('jquery.ui');
+//$wa->useAsset($img, $link_title);
+//$wa->useStyle('jquery.ui')->useScript('jquery.ui');
+
 
 require JModuleHelper::getLayoutPath('mod_multi',$params->get('layout', 'default'));
 

@@ -16,7 +16,7 @@
  * https://www.jqueryscript.net/slider/jQuery-Waterwheel-Carousel-Plugin.html
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -120,24 +120,24 @@ echo "</div>";
 if($module_tag2)
     echo "</$module_tag2>";
 
-JHtml::_('jquery.framework');
-JHtml::_('jquery.ui');
 
 static $script;
 
 if(empty($script)):
 
-    $mod_path = Juri::base() . "modules/mod_multi/media/carousel-waterwheelCarousel/";
-    JHtml::script($mod_path . "js/jquery.waterwheelCarousel.min.js");
+	JHtml::_('jquery.framework');
+	JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
+//    $mod_path = Juri::base() . "/modules/mod_multi/media/carousel-waterwheelCarousel/";
+    JHtml::script( Juri::base() . "modules/mod_multi/media/carousel-waterwheelCarousel/js/jquery.waterwheelCarousel.min.js");
 
-$script = <<< script
-
-/* MultiModule ModuleID:$param->id - $style_layout */
-
-script;
+$script = true;
+endif;
 
 ?>
+
+
 <script type="text/javascript">
+/* MultiModule ModuleID:<?= $param->id .' - '. $style_layout?> */
 jQuery(function($){
         var carousel = $("#carousel").waterwheelCarousel({
             <?= $param->json_layout ?? '' ?>
@@ -161,9 +161,3 @@ jQuery(function($){
         });
 });
 </script>
-<?php
-
-endif;
-
-?>
-

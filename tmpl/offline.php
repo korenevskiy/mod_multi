@@ -20,7 +20,7 @@ $app->redirect(JRoute::_('/modules/mod_multi/tmpl/offline.php',false));
     return;
 }
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
     defined('JPATH_SITE') or define('JPATH_SITE', realpath(__DIR__.'/../../..'));
     defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', JPATH_SITE.'/libraries');

@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die;
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -130,7 +130,7 @@ $i = 0;
 
 echo "<div class='tab-content'>";
 foreach ($elements as $id => $module){
-    $module->text = $module->content = & $prepare($module->content);
+    $module->text = $module->content = & $prepare($module->content ?? '');
 
     $i++;
     $current = empty($current)?"in show active ":"noactive";
@@ -159,7 +159,7 @@ foreach ($elements as $id => $module){
 
     if($content_tag3)
         echo "<$content_tag3 class=\" $module->moduleclass_sfx\">";
-    echo $prepare($module->content) ;
+    echo $prepare($module->content ?? '') ;
     if($content_tag3)
         echo "</$content_tag3>";
 

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 *** ------------------------ Просто Слайдшоу показывающий 1 элемент во всю ширину -------------------------------------------- ***
 */
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $module_id      = $params->get('id');
 $positon = $params->get('position');
@@ -107,20 +107,23 @@ if($module_tag2)
  */
 
     JHtml::_('jquery.framework');
-    JHtml::_('jquery.ui');
+ 
+	JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
-    $path_jft = JUri::base() . 'modules/mod_multi/media/jqfancytransitions/';
-$script = "https:://www.jqueryscript.net/demo/Fancy-Slideshow-Plugin-jQuery-BSC-Slider/assets/js/jquery.bscslider.js";
-    JHtml::stylesheet('https://www.jqueryscript.net/demo/Fancy-Slideshow-Plugin-jQuery-BSC-Slider/assets/css/jquery.bscslider.css');
+//    $path_jft = JUri::base() . 'modules/mod_multi/media/jqfancytransitions/';
 
-    JHtml::script($script);
+    /* 'https://www.jqueryscript.net/demo/Fancy-Slideshow-Plugin-jQuery-BSC-Slider/assets/css/jquery.bscslider.css'); */
+    JHtml::stylesheet('modules/mod_multi/media/bscslider/jquery.bscslider.css');
+
+	/* "https:://www.jqueryscript.net/demo/Fancy-Slideshow-Plugin-jQuery-BSC-Slider/assets/js/jquery.bscslider.js"; */
+    JHtml::script('modules/mod_multi/media/bscslider/jquery.bscslider.js');
 
 static $accordion;
 
-if(TRUE && empty($accordion)){
-
-$accordion = <<< script
-
+if(true && empty($accordion)){
+	$accordion = <<< script
+	
+ 
 jQuery( function() {
 
     console.log("jQuery('.carousel.id$module_id').bscSlider()");
@@ -136,49 +139,14 @@ jQuery( function() {
         scriptElem.setAttribute('type','text/javascript');
         document.getElementsByTagName('head')[0].appendChild(scriptElem);
 
-    scriptElem.onload =     function() {
+    scriptElem.onload =  function() {
         jQuery(".carousel.id$module_id").bscSlider({
             autoplay    : true,
             /*height      : 300,*/
 
         });
         };
-return;
-
-            console.log('000 x'+src);
-    jQuery('<script/>').attr('type', 'text/javascript').attr('src', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js').appendTo('head').ready(
-        function(){
-            console.log('111');
-            jQuery(".carousel.id$module_id").slick({
-                dots: false,
-                infinite: true,
-                centerMode: true,
-                slidesToShow: 1,
-                    arrows: false,
-                    variableWidth: true,
-                    speed: 1200,
-                    autoplaySpeed: 6000,
-                    adaptiveHeight: true,
-                slidesToScroll: 1,
-                autoplay: true
-            });
-            console.log('222');
-        }
-    );return;
-
-    jQuery(".carousel.id149").slick({
-        dots: false,
-        infinite: true,
-        centerMode: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        adaptiveHeight: true,
-    });
-    console.log("carousel 2 id"+$module_id);
-
 });
-
 script;
 
 JFactory::getDocument()->addScriptDeclaration($accordion);

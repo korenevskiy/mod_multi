@@ -14,10 +14,10 @@
 defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
-JHtml::_('jquery.ui');
-JHtml::_('jquery.ui', array('core', 'sortable'));
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
+ 
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+$param = new \Reg($params);//*** ->toObject()
 
 $id = $mod_id   = $params->get('id');
 $positon        = $params->get('position');
@@ -162,11 +162,11 @@ endif;
 $content_tag3 = $params->get('content_tag3');
 if($content_tag3 == 'default')
     $content_tag3 = $module->module_tag;
-if($module->content && $content_tag3 != 'none' && $content_tag3) {
+if($module->content ?? '' && $content_tag3 != 'none' && $content_tag3) {
     echo ("<$content_tag3 class='info'>$module->content</$content_tag3>");
 }
 if($module->content && empty($content_tag3))
-    echo ($module->content);
+    echo ($module->content ?? '');
 
     if($module->urls->urla){
         $class = $isImage($module->urls->urla);

@@ -11,36 +11,58 @@
 # Technical Support:  Forum - //vk.com/multimodule
 -------------------------------------------------------------------------*/
 
-$param = (new Joomla\Registry\Registry($params))->toObject();//***
+
+//$wa = new \Joomla\CMS\WebAsset\WebAssetManager;
+//$wa = JFactory::getApplication()->getDocument()->getWebAssetManager();
+//$wa->registerAndUseScript('Instascan', 'https://rawgit.com/schmich/instascan-builds/master/instascan.min.js', [], ['defer' => true]);
+//$wa->registerAndUseStyle('slideshowck','modules/mod_multi/media/slideshowCK/administrator/themes/default/css/camera.css');
+
+//$wa->registerScript('jquery','modules/mod_multi/media/jquery/jquery-3.7.0.min.js',
+//		['version'=>'3.6.0','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],[]);
+//$wa->registerScript('jquery-migrate-old','modules/mod_multi/media/jquery/jquery-migrate-1.4.1.min.js',
+//		['version'=>'1.4.1','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery']);
+//$wa->registerScript('jquery-migrate','modules/mod_multi/media/jquery/jquery.migrate-3.4.1.min.js',
+//		['version'=>'3.4.0','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery']);
+//$wa->registerScript('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js',
+//		['version'=>'1.13.2','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery']);
+//$wa->registerStyle('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css',
+//		['version'=>'1.13.2','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery']);
+
+//JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery-ui')->useScript('jquery-ui');
+//$wa->registerScript('jquery-ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
+//$wa->registerStyle('jquery-ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css');
+//$wa->addInlineScript('document.addEventListener("DOMContentLoaded", function(){form_QR_'.$id.'.t = "'.JFactory::getApplication()->getFormToken().'"});');
+
+$param = new \Reg($params);//*** ->toObject()
 $param->id = $module->id;
 
 $base = JUri::base();
 
-$id      = $params->get('id');
-$positon = $params->get('position');
+$id      = $param->id;
+$positon = $param->position;
 
 $mod_show = count($modules);
 
-$module_tag = $params->get('module_tag', 'div');
-$moduleclass_sfx = $params->get('moduleclass_sfx');
+$module_tag 		= $param->module_tag ?? 'div';
+$moduleclass_sfx 	= $param->moduleclass_sfx;
 
-$showtitle = $params->get('showtitle');
+//$showtitle = $params->get('showtitle');
+$showtitle = $module->showtitle;
 
-$title = ($params->get('title'));
+$title = $param->title ?? '';
 
-$header_tag = $params->get('header_tag', 'h3');
-$header_class = htmlspecialchars($params->get('header_class', 'module-header'));
+$header_tag = $param->header_tag ?? 'h3';
+$header_class = htmlspecialchars($param->header_class ?? 'module-header');
 
 $prepare = function ( $item, $param = null, $context = 'com_content.article'){
     return modMultiHelper::preparePlugin($item, $param, $context);
 };
 
-$params->get('items_link');
-$params->get('items_image');
+$param->items_link;
+$param->items_image;
+$param->content_tag3;
 
-$params->get('content_tag3');
-
-if($tag = $params->get('modules_tag3')){
+if($tag = $param->modules_tag3){
     $tgs = explode('/', $tag);
     $tag_title = $tgs[0] ?? FALSE;
     $tag_block = $tgs[1] ?? FALSE;
@@ -48,11 +70,10 @@ if($tag = $params->get('modules_tag3')){
     $tag_item  = $tgs[3] ?? FALSE;
 }
 
-$link_show = $params->get('link_show');
-$link = $params->get('link');
-
+$link_show = $param->link_show;
+$link = $param->link;
 $modules;
-$modules_tag = $params->get('modules_tag');
+$modules_tag = $param->modules_tag;
 
 $count_items = 0;
 foreach ($modules as $items){
@@ -60,28 +81,40 @@ foreach ($modules as $items){
     $count_items += count($items);
 }
 
-if($module_tag2 = $params->get('module_tag2'))
+if($module_tag2 = $param->module_tag2)
     echo "<$module_tag2 class=\"multimodule".$params->get('moduleclass_sfx2')." count$count_items id$id $param->style\"  >";
 else
-    $param->moduleclass_sfx = $params->set('moduleclass_sfx',$params->get('moduleclass_sfx')." count$count_items ");
+    $param->moduleclass_sfx = $param->moduleclass_sfx." count$count_items ";
+
+
+//if($param->id == 112)
+//toPrint($param->style, '$param->style', 0, 'message', true);
+//toPrint(null, '', 0, '', false);
+//if($param->id == 112)
+//toPrint($showtitle, '$showtitle', 0, 'message', true);
+//if($param->id == 112)
+//toPrint($link_show, '$link_show', 0, 'message', true);
 
 if($showtitle):
     $titlea = "";
     if($link_show == 'ha')
-        $titlea = "<$header_tag class=\"$header_class \"><a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a></$header_tag>";
-    elseif($link_show || $link_show == 'ah')
-        $titlea = "<a  href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
-    elseif(empty($link_show))
-        $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
+        $titlea = "<$header_tag class='$header_class '><a href='$link' title='".strip_tags($title)."' class='id$id multiheadera'>$title</a></$header_tag>";
+    elseif($link_show == 'ah')
+        $titlea = "<a  href='$link' title='".strip_tags($title)."' class='id$id multiheadera'><$header_tag class='$header_class'>$title</$header_tag></a>";
+    elseif($link_show == 'h')
+        $titlea = "<$header_tag class='$header_class id$id multiheadera' title='".strip_tags($title)."' >$title</$header_tag>";
+    elseif($link_show == 'a')
+        $titlea = "<a href='$link'  title='".strip_tags($title)."' class='id$id multiheadera $header_class'>$title</a>";
+    else
+        $titlea =  "<$header_tag class='$header_class'>$title</$header_tag>";
 
     if(in_array($param->style, ['System-none','none','no','0',0,'']))
         echo $titlea;
-
     else
         $$mod->title = "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a>";
 endif;
 
-foreach ($modules as $type => $items){
+foreach ($modules as $type => $items):
     if(is_string($items)){
         echo $items;
         unset($modules[$type]);
@@ -97,7 +130,7 @@ foreach ($modules as $type => $items){
         echo "<$tag_block class=\"items count$count order$order $type  \">";
 
 foreach ($items as $id => $module){
-    $module->text = $module->content =  $prepare($module->content);
+    $module->text = $module->content =  $prepare($module->content ?? '');
 
     $i++;
 
@@ -107,9 +140,9 @@ foreach ($items as $id => $module){
     if($tag_item)
         echo "<$tag_item class=\" item_tag3 $module->moduleclass_sfx\">";
 
-    if(empty($param->style_tag3) || $param->style_tag3 == '0'):
-        echo $module->content;
-    else:
+if(empty($param->get('style_tag3')) || $param->style_tag3 == '0'):
+    echo $module->content;
+else:
 
     $content_tag3 = $params->get('content_tag3');
 
@@ -133,12 +166,12 @@ foreach ($items as $id => $module){
     $isImage = function($url){
         $ext = strtolower(substr($url, strrpos($url, '.') + 1)) ;
 
-        return in_array($ext, ['png','apng','svg','bmp','jpg','jpeg','gif','webp','ico'])?' imagelink '.$ext:' url ';
+        return in_array($ext, ['png','apng','svg','bmp','jpg','jpeg','gif','webp','ico'])?' imagelink '.$ext : ' url ';
     };
     $class = $isImage($module->link);
 
-$header_tag3 = $params->get('header_tag3');
-$items_link = $params->get('items_link');
+$header_tag3 = $param->header_tag3 ?? '';
+$items_link = $param->items_link;
 
 if($params->get('header_tag3') == 'default'){
     $header_tag3 = '';
@@ -149,9 +182,12 @@ if($params->get('header_tag3') == 'default' && ($module->showtitle??FALSE)){
 if($params->get('header_tag3') == 'item'){
     $header_tag3 = $module->header_tag ?? '';
 }
+if($params->get('header_tag3') == '0'){
+    $module_title = $header_tag3 = '';
+}
 
 if($header_tag3 && $module->title){
-    $module_title = $module->title;
+    $module_title = $module->title;//'';// $module->title;
 
     if($params->get('items_link')=='ha'){
         $module_title = "<$header_tag3 class=\" item_title $module->header_class\"><a href='$module->link' class='$class' title='$module->title' >$module->title</a></$header_tag3>";
@@ -198,7 +234,7 @@ if($header_tag3 && $module->title){
     if($param->content_tag3 != 'none'){
     if($content_tag3)
         echo "<$content_tag3 class=\" item_content  $module->moduleclass_sfx\">";
-    echo  $module->content;
+    echo  $module->content ?? '';
 
 	if(isset($module->items) && is_array($module->items) && $module->items){
 		$item = $module;
@@ -227,7 +263,8 @@ if($header_tag3 && $module->title){
 
     if(isset($tag_block) && $tag_block)
         echo "</$tag_block>";
-}
+	
+endforeach; // foreach $modules as $type => $items
 
 if($module_tag2)
     echo "</$module_tag2>";

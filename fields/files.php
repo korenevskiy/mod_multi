@@ -17,7 +17,6 @@ class JFormFieldFiles extends JFormField {
   public $type = 'Files';
 
   protected function getInput(){
-
         $query = " SELECT template FROM #__template_styles WHERE home=1 AND client_id=0; ";
         $template_name = JFactory::getDBO()->setQuery($query)->loadResult();
 
@@ -64,10 +63,7 @@ class JFormFieldFiles extends JFormField {
                 unset($files[$f]);
                 continue;
             }
-
         }
-
-//        $db->setQuery(" SHOW COLUMNS FROM `#__jshopping_products` WHERE Type='datetime'; ");
 
         if($this->default){
             $this->default = str_replace([',','|',';',':',' '], '/', $this->default);
@@ -89,10 +85,10 @@ class JFormFieldFiles extends JFormField {
 
     function folder_exist($folder)
     {
-
+        /* Get canonicalized absolute pathname */
         $path = realpath($folder);
 
+        /* If it exist, check if it's a directory */
         return ($path !== false AND is_dir($path)) ? $path : false;
     }
 }
-

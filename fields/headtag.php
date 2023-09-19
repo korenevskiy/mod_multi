@@ -15,8 +15,9 @@ use Joomla\CMS\HTML\HTMLHelper as JHtml;
  *
  * @since  3.0
  */
-
-class JFormFieldHeadtag extends Joomla\CMS\Form\Field\HeadertagField
+/* Joomla\CMS\Form\Field\ModtagField */
+/* JFormFieldModtag */
+class JFormFieldHeadtag extends Joomla\CMS\Form\Field\HeadertagField //ModuletagField JFormFieldModuletag
 {
 	/**
 	 * The form field type.
@@ -34,6 +35,13 @@ class JFormFieldHeadtag extends Joomla\CMS\Form\Field\HeadertagField
 	 */
 	protected function getOptions()
 	{
+		
+		if(JVersion::MAJOR_VERSION < 5)
+			$this->default = 'div';
+		else
+			$this->default = '';
+		
+		
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
 		$options = parent::getOptions();
@@ -70,7 +78,11 @@ class JFormFieldHeadtag extends Joomla\CMS\Form\Field\HeadertagField
 	}
     protected function getInput() {
 
-        $hide_mod = "<style type='text/css'>#jform_params_header_tag-lbl,#jform_params_header_tag,#jform_params_header_tag_chzn{display:none;}</style>";
+		
+		if(JVersion::MAJOR_VERSION < 5)
+			$hide_mod = "<style type='text/css'>#jform_params_header_tag-lbl,#jform_params_header_tag,#jform_params_header_tag_chzn{display:none;}</style>";
+		else
+			$hide_mod = "<style type='text/css'>#jform_params_head_tag-lbl,#jform_params_head_tag,#jform_params_head_tag_chzn{display:none;}</style>";
 
         return parent::getInput().$hide_mod;
     }
