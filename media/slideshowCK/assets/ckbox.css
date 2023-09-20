@@ -1,0 +1,113 @@
+/**
+ * @copyright	Copyright (C) 2015 Cedric KEIFLIN alias ced1870
+ * http://www.joomlack.fr
+ * @license		GNU/GPL
+ * */
+
+.ckboxmodal {
+	border: #666 1px solid;
+	box-shadow: #000 0px 0px 5px;
+	-moz-box-shadow: #000 0px 0px 5px;
+	background: #fff;
+	padding: 0;
+	left: 50%;
+	top: 10px;   
+	padding-bottom: 50px;
+	z-index: 100000;
+	height: 500px;
+	margin-left: -400px;
+	width: 800px;
+	position: absolute;
+}
+
+.ckboxmodal.fullscreen {
+	position: fixed;
+	left: 10px;
+	right: 10px;
+	top: 10px;
+	bottom: 10px;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+}
+
+.ckboxmodal iframe,
+.ckboxmodal .ckboxmodal-body {
+	width: 100%;
+	height: 100%;
+	border: none;
+	box-sizing: border-box;
+}
+
+.ckboxmodal iframe {
+	overflow-y: auto;
+}
+
+.ckboxmodal-back {
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	z-index: 99999;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	background: #000;
+	opacity: 0.6;
+}
+
+.ckboxmodal-header:empty,
+.ckboxmodal-footer:empty,
+.ckboxmodal-button:empty {
+	display: none !important;
+}
+
+.ckboxmodal-footer {
+	height: 50px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #e1e1e1;
+	color: #aaa;
+	border-top: 1px solid #ccc;
+	/*box-shadow: #ccc 0px 0px 5px;
+	-moz-box-shadow: #ccc 0px 0px 5px;*/
+}
+
+.ckboxmodal-footer .ckboxmodal-button {
+	display: inline-block !important;
+	float: right !important;
+	height: 50px !important;
+	min-width: 50px !important;
+	box-sizing: border-box !important;
+	line-height: 50px !important;
+	padding: 0 14px !important;
+	background: #cfcfcf !important;
+	color: #555 !important;
+	font-size: 1.3em !important;
+	border: none;
+	border-left: 1px solid #aaa !important;
+	box-shadow: 0 0 15px #b5b5b5 inset !important;
+	text-align: center !important;
+	cursor: pointer !important;
+	font-weight: normal  !important;
+	border-radius: 0;
+}
+.ckboxmodal-footer .ckboxmodal-button:hover {
+	text-decoration: underline;
+	background: #bbb;
+}
+
+.ckwait {
+	background: url(ajax-loader.gif) center center no-repeat;
+	min-height: 16px;
+}
+
+.ckboxmodal .btn {
+	display: inline-block;
+	cursor: pointer;
+}

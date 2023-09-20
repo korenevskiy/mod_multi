@@ -1,0 +1,1006 @@
+/** CSS CK Framework **/
+/*
+* Februar 2016
+* Cédric KEIFLIN
+* http://www.joomlack.fr - http://www.template-creator.com
+* @version		1.0.0 
+*/
+
+.ckclr {
+	clear : both;
+}
+
+/* ===========================================================
+ * CK Button
+ * ========================================================== */
+
+.ckbutton {
+	display: inline-block;
+	background: #f9f9f9;
+	border: #bbb 1px solid;
+	border-color: #bbb #bbb #a2a2a2;
+	border-radius: 2px;
+	color: #333;
+	font-size: 13px;
+	cursor: pointer;
+	text-align: center;
+	line-height: 18px;
+	margin: 0px 5px 3px 5px;
+	vertical-align: top;
+	padding: 4px 12px;
+	text-decoration: none;
+}
+
+.ckbutton:hover {
+	background: #f1f1f1;
+	text-decoration: none;
+	color: #333;
+}
+
+/*.ckbutton:empty {
+	display: none !important;
+}
+*/
+.ckbutton [class^="icon-"], .ckbutton [class*=" icon-"] {
+	margin: 0;
+}
+
+.ckbutton-small {
+	padding: 2px 4px;
+}
+
+.ckbutton:active,
+.ckinterface :checked + label.ckbutton,
+.ckbutton.active {
+	color: #333;
+	background: #e6e6e6;
+	outline: 0;
+	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+	box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+}
+
+.ckbutton-group {
+	display: inline-block;
+	font-size: 0;
+	position: relative;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.ckbutton-group {
+	display: inline-block;
+	font-size: 0;
+	position: relative;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.ckbutton-group > .ckbutton {
+	margin-left: 2px;
+	margin-right: 0px;
+	border-radius: 0;
+	/*min-width: 30px;*/
+}
+
+.ckbutton-group.small > .ckbutton {
+	padding: 4px 8px;
+}
+
+.ckbutton-group > label.ckbutton {
+	width: auto;
+}
+
+.ckbutton-group > input[type="radio"] {
+	display: none !important;
+}
+
+.ckbutton-group > .ckbutton + .ckbutton,
+.ckbutton-group > input:not(:first-child) + .ckbutton {
+	margin-left: -1px;
+}
+
+.ckbutton-primary.active,
+.ckbutton-warning.active,
+.ckbutton-danger.active,
+.ckbutton-success.active,
+.ckbutton-info.active,
+.ckbutton-inverse.active {
+	color: rgba(255,255,255,0.75);
+}
+.ckbutton-primary {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #1d6cb0;
+	border-color: #15497c #15497c #0a223b;
+}
+.ckbutton-primary:hover,
+.ckbutton-primary:focus,
+.ckbutton-primary:active,
+.ckbutton-primary.active,
+.ckbutton-primary.disabled,
+.ckbutton-primary[disabled] {
+	color: #fff;
+	background-color: #15497c;
+}
+
+.ckbutton-warning {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #faa732;
+	border-color: #f89406 #f89406 #ad6704;
+}
+
+.ckbutton-warning:hover,
+.ckbutton-warning:focus,
+.ckbutton-warning:active,
+.ckbutton-warning.active,
+.ckbutton-warning.disabled,
+.ckbutton-warning[disabled] {
+	color: #fff;
+	background-color: #f89406;
+}
+
+.ckbutton-danger {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #da4f49;
+	border-color: #bd362f #bd362f #802420;
+}
+
+.ckbutton-danger:hover,
+.ckbutton-danger:focus,
+.ckbutton-danger:active,
+.ckbutton-danger.active,
+.ckbutton-danger.disabled,
+.ckbutton-danger[disabled] {
+	color: #fff;
+	background-color: #bd362f;
+}
+
+.ckbutton-success {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #5bb75b;
+	border-color: #51a351 #51a351 #387038;
+}
+.ckbutton-success:hover,
+.ckbutton-success:focus,
+.ckbutton-success:active,
+.ckbutton-success.active,
+.ckbutton-success.disabled,
+.ckbutton-success[disabled] {
+	color: #fff;
+	background-color: #51a351;
+}
+.ckbutton-success:active,
+.ckbutton-success.active {
+	background-color: #408140 \9;
+}
+.ckbutton-info {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #49afcd;
+	border-color: #2f96b4 #2f96b4 #1f6377;
+}
+.ckbutton-info:hover,
+.ckbutton-info:focus,
+.ckbutton-info:active,
+.ckbutton-info.active,
+.ckbutton-info.disabled,
+.ckbutton-info[disabled] {
+	color: #fff;
+	background-color: #2f96b4;
+}
+
+.ckbutton-inverse {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #363636;
+	border-color: #222 #222 #000000;
+}
+.ckbutton-inverse:hover,
+.ckbutton-inverse:focus,
+.ckbutton-inverse:active,
+.ckbutton-inverse.active,
+.ckbutton-inverse.disabled,
+.ckbutton-inverse[disabled] {
+	color: #fff;
+	background-color: #222;
+}
+
+
+/* ===========================================================
+ * CK Forms
+ * ========================================================== */
+
+.ckinterface {
+	font-family: Segoe UI, "Helvetica Neue",Helvetica,Arial,sans-serif;
+	background: #fff;
+	line-height: 22px;
+	font-size: 13px;
+}
+
+.ckinterface label {
+	width: 150px;
+}
+
+.ckinterface textarea,
+.ckinterface select,
+.ckinterface input[type="text"], 
+.ckinterface input[type="password"], 
+.ckinterface input[type="datetime"], 
+.ckinterface input[type="datetime-local"], 
+.ckinterface input[type="date"], 
+.ckinterface input[type="month"], 
+.ckinterface input[type="time"], 
+.ckinterface input[type="week"], 
+.ckinterface input[type="number"], 
+.ckinterface input[type="email"], 
+.ckinterface input[type="url"], 
+.ckinterface input[type="search"], 
+.ckinterface input[type="tel"], 
+.ckinterface input[type="color"], 
+.ckinterface .uneditable-input {
+	border-radius: 0;
+	margin: 0px 0px 3px 0px;
+	padding: 4px 6px;
+	/*vertical-align: middle;*/
+	display: inline-block;
+	font-size: 13px;
+	min-height: 28px;
+	line-height: 18px;
+	vertical-align: top;
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	   -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+		 -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+			transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+/*textarea,select {
+	height: auto;
+	border-radius: 0;
+}*/
+
+.ckinterface textarea:focus, .ckinterface  input[type="text"]:focus, .ckinterface  input[type="password"]:focus, .ckinterface  input[type="datetime"]:focus, .ckinterface  input[type="datetime-local"]:focus, .ckinterface  input[type="date"]:focus, .ckinterface  input[type="month"]:focus, .ckinterface  input[type="time"]:focus, .ckinterface  input[type="week"]:focus, .ckinterface  input[type="number"]:focus, .ckinterface  input[type="email"]:focus, .ckinterface  input[type="url"]:focus, .ckinterface  input[type="search"]:focus, .ckinterface  input[type="tel"]:focus, .ckinterface  input[type="color"]:focus, .ckinterface  .uneditable-input:focus {
+	border-color: rgba(82, 168, 236, 0.8);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+/* ===========================================================
+ * CK Tooltip
+ * ========================================================== */
+
+.cktooltip {
+	position: absolute;
+	z-index: 10030;
+	display: block;
+	visibility: visible;
+	font-size: 11px;
+	line-height: 1.4;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.cktooltip.in {
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+.cktooltip.top {
+	margin-top: -3px;
+	padding: 5px 0;
+}
+.cktooltip.right {
+	margin-left: 3px;
+	padding: 0 5px;
+}
+.cktooltip.bottom {
+	margin-top: 3px;
+	padding: 5px 0;
+}
+.cktooltip.left {
+	margin-left: -3px;
+	padding: 0 5px;
+}
+.cktooltip-inner {
+	max-width: 200px;
+	padding: 8px;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	background-color: #000;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.cktooltip-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+.cktooltip.top .cktooltip-arrow {
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px 5px 0;
+	border-top-color: #000;
+}
+.cktooltip.right .cktooltip-arrow {
+	top: 50%;
+	left: 0;
+	margin-top: -5px;
+	border-width: 5px 5px 5px 0;
+	border-right-color: #000;
+}
+.cktooltip.left .cktooltip-arrow {
+	top: 50%;
+	right: 0;
+	margin-top: -5px;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #000;
+}
+.cktooltip.bottom .cktooltip-arrow {
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 0 5px 5px;
+	border-bottom-color: #000;
+}
+
+/* ===========================================================
+ * CK General settings
+ * ========================================================== */
+ 
+.ckrow {
+	margin-top: 0;
+	margin-bottom: 5px;	
+}
+
+.ckinterface .ckicon {
+	vertical-align: -3px;
+}
+
+/* ===========================================================
+ * Table
+ * ========================================================== */
+
+.cktable {
+	width: 100%;
+	margin-bottom: 18px;
+	max-width: 100%;
+	background-color: transparent;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.cktable th,
+.cktable td {
+	padding: 8px;
+	line-height: 18px;
+	text-align: left;
+	vertical-align: top;
+	/*border-top: 1px solid #ddd;*/
+}
+.cktable th {
+	font-weight: bold;
+}
+.cktable thead th {
+	vertical-align: bottom;
+}
+.cktable caption + thead tr:first-child th,
+.cktable caption + thead tr:first-child td,
+.cktable colgroup + thead tr:first-child th,
+.cktable colgroup + thead tr:first-child td,
+.cktable thead:first-child tr:first-child th,
+.cktable thead:first-child tr:first-child td {
+	border-top: 0;
+}
+.cktable tbody + tbody {
+	border-top: 2px solid #ddd;
+}
+.cktable .cktable {
+	/*background-color: #fff;*/
+}
+.cktable-condensed th,
+.cktable-condensed td {
+	padding: 4px 5px;
+}
+.cktable-bordered {
+	border: 1px solid #ddd;
+	border-collapse: separate;
+	*border-collapse: collapse;
+	border-left: 0;
+	/*-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;*/
+}
+.cktable-bordered th,
+.cktable-bordered td {
+	border-left: 1px solid #ddd;
+}
+.cktable-bordered caption + thead tr:first-child th,
+.cktable-bordered caption + tbody tr:first-child th,
+.cktable-bordered caption + tbody tr:first-child td,
+.cktable-bordered colgroup + thead tr:first-child th,
+.cktable-bordered colgroup + tbody tr:first-child th,
+.cktable-bordered colgroup + tbody tr:first-child td,
+.cktable-bordered thead:first-child tr:first-child th,
+.cktable-bordered tbody:first-child tr:first-child th,
+.cktable-bordered tbody:first-child tr:first-child td {
+	border-top: 0;
+}
+.cktable-striped tbody > tr:nth-child(odd) > td,
+.cktable-striped tbody > tr:nth-child(odd) > th {
+	background-color: #f9f9f9;
+}
+.cktable-hover tbody tr:hover > td,
+.cktable-hover tbody tr:hover > th {
+	background-color: #f5f5f5;
+}
+
+/* ===========================================================
+ * Messages
+ * ========================================================== */
+
+[class^="ckalert"] {
+	padding: 8px 35px 8px 14px;
+	margin-bottom: 18px;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.ckalert {
+	background-color: #fcf8e3;
+	border: 1px solid #faebcc;
+}
+.ckalert,
+.ckalert h4 {
+	color: #8a6d3b;
+}
+.ckalert h4 {
+	margin: 0 0 .5em;
+}
+.ckalert .ckclose {
+	position: relative;
+	top: -2px;
+	right: -21px;
+	line-height: 18px;
+	float: right;
+	font-size: 20px;
+	line-height: 20px;
+	padding: 5px;
+	cursor: pointer;
+}
+.ckalert-success {
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+	color: #3c763d;
+}
+.ckalert-success h4 {
+	color: #3c763d;
+}
+.ckalert-danger,
+.ckalert-error {
+	background-color: #f2dede;
+	border-color: #ebccd1;
+	color: #a94442;
+}
+.ckalert-danger h4,
+.ckalert-error h4 {
+	color: #a94442;
+}
+.ckalert-info {
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+	color: #31708f;
+}
+.ckalert-info h4 {
+	color: #31708f;
+}
+
+
+/* ===========================================================
+ * Interface with tabs
+ * ========================================================== */
+
+.ckinterfacetab {
+	/*min-height: 500px;
+	overflow-y: auto;*/
+	position: relative;
+	/*padding: 10px;*/
+}
+
+.ckinterfacetab:not(.current) {
+	display: none;
+}
+
+.ckinterfacetablink {
+	float: left;
+	padding: 7px 14px;
+	margin: 5px 3px 0 5px;
+	cursor: pointer;
+	color: #a6a6a6;
+	background: #eee;
+	border-radius: 2px 2px 0 0;
+	border: 1px solid #ddd;
+	position: relative;
+	z-index: 1;
+}
+
+.ckinterfacetablinkdesc {
+	text-align: center;
+	font-size: 10px;
+	color: #a6a6a6;
+	line-height: 10px;
+}
+
+.ckinterfacetablink:hover, .ckinterfacetablink.current {
+	color: #000;
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+
+.ckinterfacetablink + .ckclr {
+	clear: both;
+	border-top: 1px solid #ddd;
+	margin-bottom: 5px;
+	position: relative;
+	z-index: 0;
+	top: -1px;
+	visibility: visible;
+}
+
+.ckinterfacetab input[type="radio"], input[type="checkbox"] {
+	border: none;
+}
+
+.ckinterfacetab .ckinterfacetablink {
+	cursor: pointer;
+	position: relative;
+	z-index: 1;
+	/*height: 20px;*/
+	margin: 5px 0 3px 3px;
+	padding: 15px;
+	color: #a6a6a6;
+	background: #eee;
+	border-radius: 5px 0 0 5px;
+	border: 1px solid #ddd;
+	float: none;
+}
+
+.ckinterfacetab .ckinterfacetablink:hover, .ckinterfacetab .ckinterfacetablink.current {
+	background: #fff;
+	border-right: 1px solid #fff;
+	color: #21759b;
+}
+
+.ckinterfacetab .ckinterfacetab {
+	padding: 0 0 0 10px;
+}
+
+.ckinterfacetab.hascol:after {
+	border-right: 1px solid #ddd;
+	content: "";
+	display: block;
+	float: left;
+	height: 100%;
+	left: 169px;
+	margin: 0;
+	position: absolute;
+	top: 0;
+	width: 0;
+}
+
+.ckcol_left {
+	float: left;
+	width: 170px;
+	height: 250px;
+}
+
+.ckcol_right {
+	float: left;
+	width: 610px;
+}
+
+.ckdisabled {
+	cursor: default;
+	background-image: none;
+	opacity: 0.65;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+
+/* ===========================================================
+ * Options field
+ * ========================================================== */
+ 
+.ckoption {
+	margin-bottom: 3px;
+	padding: 2px 5px;
+	clear: both;
+}
+
+.ckoption > span {
+	display: inline-block;
+	vertical-align: middle;
+	box-sizing: border-box;
+	padding: 0 3px;
+}
+
+.ckoption > span:first-child {
+	width: 170px;
+}
+
+.ckoption .ckoption-desc {
+	font-style: italic;
+	display: inline;
+}
+
+.ckoption-label, .ckoption > span.ckoption-label:first-child {
+	width: 115px;
+	float: left;
+	margin-top: 5px;
+}
+
+.ckinterface-labels-big .ckoption-label, .ckinterface-labels-big .ckoption > span.ckoption-label:first-child {
+	width: 200px;
+	line-height: 16px;
+	float: none;
+	display: inline-block;
+}
+.ckoption-field {
+	width: calc(100% - 115px);
+}
+
+#ckelementscontainer .ckoption-field  > input[type="text"], .ckoption-field  > input[type="text"],
+.ckelementscontainer .ckoption-field  > input[type="text"], .ckoption-field  > input[type="text"]{
+	width: auto;
+}
+
+
+.ckoption-suffix {
+	display: inline-block;
+	margin-top: 4px;
+}
+
+img.ckoption-icon {
+	float: right;
+}
+
+/*--------------------------------------------
+--- 			Page header menu 			--
+----------------------------------------------*/
+
+#ckheader *:not([class*="fa-"]) {
+	box-sizing: border-box;
+	font-family: Open Sans, Verdana, Arial, Sans Serif;
+}
+
+#ckheader {
+	background: #333;
+	height: 65px;
+	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	min-width: 800px;
+}
+
+#ckheader .ckheaderlogo {
+	float: left;
+	padding: 15px 15px;
+	margin: 0 10px 0 0;
+	background: #222;
+	border-right: 1px solid #000;
+	height: 65px;
+	overflow: hidden;
+}
+
+#ckheader .ckheaderlogo a:before{
+	display: none;
+}
+#ckheader .ckheadertitle {
+	float: left;
+	margin: 20px 5px;
+	font-size: 14px;
+	color: #777777;
+}
+
+#ckheader .ckheadermenu {
+	text-align: left;
+	min-width: 800px;
+}
+
+#ckheader .ckheadermenu .ckheadermenuitem {
+	display: inline-block;
+	color: #d1d1c6;
+	border: 1px solid transparent;
+	padding: 8px 12px;
+	margin: 12px 5px;
+	font-size: 13px;
+	text-align: center;
+	background: none;
+	border-radius: 3px;
+	font-weight: bold;
+	text-decoration: none;
+	transition: all 0.1s ease;
+}
+
+#ckheader .ckheadermenu .ckheadermenuitem:not(.cksave):not(.ckcancel):hover {
+	background: #000;
+	color: #fff;
+	border: 1px solid rgba(255,255,255, 0.4);
+}
+
+#ckheader .ckheadermenu .ckheadermenuitem:hover {
+	border: 1px solid rgba(255,255,255, 0.4);
+}
+
+#ckheader .ckheadermenu .cksave {
+	background: #007feb;
+	color: #fff;
+	text-transform: uppercase;
+	float: right;
+}
+
+#ckheader .ckheadermenu .ckcancel {
+	background: #000;
+	color: #fff;
+	text-transform: uppercase;
+	float: right;
+	margin-right: 10px;
+}
+
+.ckheadermenuitem:not(.ckundo):not(.ckredo):not(.ckcancel):not(.cksave) .fa {
+	display: none;
+}
+
+@media screen and (max-width: 1300px) {
+	#ckheader .ckheadermenu .ckheadermenuitem {
+		padding: 8px 8px;
+		margin: 12px 2px;
+	}
+}
+
+@media screen and (max-width: 1155px) {
+	.ckheadermenuitem .fa,
+	.ckheadermenuitem .fas {
+		display: block !important;
+		font-size: 30px;
+	}
+	.ckheadermenuitemtext {
+		display: none;
+	}
+	#ckheader .ckheadermenu .ckheadermenuitem {
+		min-width: 50px;
+		min-height: 50px;
+		margin: 8px 2px;
+	}
+	#ckheader .ckheadermenu .ckheadertitle {
+		font-size: 12px;
+	}
+}
+
+#ckheader .ckhassubmenu {
+	display: inline-block;
+}
+
+#ckheader .cksubmenu > a {
+	display: block;
+	color: #d1d1c6;
+	border: none;
+	padding: 8px 12px;
+	margin: 5px 10px;
+	font-size: 14px;
+	text-align: left;
+	background: none;
+	border-radius: 0px;
+	font-weight: normal;
+	text-decoration: none;
+	transition: all 0.1s ease;
+}
+
+#ckheader .cksubmenu > a:hover {
+	color: #fff;
+	background: #000;
+}
+
+#ckbody {
+	margin-top: 65px;
+}
+/*--------------------------------------------
+--- 	Left panel							--
+----------------------------------------------*/
+
+.ckleftpanel {
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	display: block;
+	left: 0;
+	padding: 0 0 10px 0px;
+	width: 310px;
+	box-sizing: border-box;
+	z-index: 999;
+	position: fixed;
+	top: 66px;
+	bottom: 0;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	margin: 0;
+	font-family: Segoe UI, arial;
+}
+
+.ckleftpanel > .inner {
+	padding: 0 20px 0 2px;
+}
+
+.ckleftpanelheader {
+	cursor: pointer;
+	padding: 0 0 0 5px;
+	background: #ececec;
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	min-height: 40px;
+}
+
+.ckleftpaneltitle {
+	display: inline-block;
+	width: 120px;
+	line-height: 32px;
+	vertical-align: top;
+	padding-left: 5px;
+	height: 40px;
+}
+
+.ckleftpanelsubtitle {
+	margin: 5px 0;
+	padding: 5px;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+.ckleftpanelsubtitleunder {
+	display: block;
+	line-height: 0;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+.ckleftpanelheadericon {
+	width: 40px;
+	height: 40px;
+	float: right;
+	display: inline-block;
+	box-sizing: border-box;
+	line-height: 35px;
+	padding: 0;
+	background: #cfcfcf;
+	color: #555;
+	font-size: 13px;
+	border: none;
+	border-left: 1px solid #aaa;
+	box-shadow: 0 0 15px #b5b5b5 inset;
+	text-align: center;
+	cursor: pointer;
+	font-weight: normal;
+	border-radius: 0;
+}
+
+.ckleftpanelheadericon.ckclose {
+	font-size: 1.3em;
+	line-height: 32px;
+}
+
+.cksticked .ckleftpanelheadericon.ckstick .fa {
+	transform: rotate(45 deg);
+	color: cornflowerblue;
+}
+
+
+/*--------------------------------------------
+--- 	Label and Badge						--
+----------------------------------------------*/
+
+.cklabel,
+.ckbadge {
+	display: inline-block;
+	padding: 2px 4px;
+	font-size: 10.998px;
+	font-weight: bold;
+	line-height: 14px;
+	color: #fff;
+	vertical-align: baseline;
+	white-space: nowrap;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #999;
+}
+.cklabel {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.ckbadge {
+	padding-left: 9px;
+	padding-right: 9px;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
+.cklabel:empty,
+.ckbadge:empty {
+	display: none;
+}
+a.cklabel:hover,
+a.cklabel:focus,
+a.ckbadge:hover,
+a.ckbadge:focus {
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+}
+.cklabel-important,
+.ckbadge-important {
+	background-color: #b94a48;
+}
+.cklabel-important[href],
+.ckbadge-important[href] {
+	background-color: #953b39;
+}
+.cklabel-warning,
+.ckbadge-warning {
+	background-color: #f89406;
+}
+.cklabel-warning[href],
+.ckbadge-warning[href] {
+	background-color: #c67605;
+}
+.cklabel-success,
+.ckbadge-success {
+	background-color: #468847;
+}
+.cklabel-success[href],
+.ckbadge-success[href] {
+	background-color: #356635;
+}
+.cklabel-info,
+.ckbadge-info {
+	background-color: #3a87ad;
+}
+.cklabel-info[href],
+.ckbadge-info[href] {
+	background-color: #2d6987;
+}
+.cklabel-inverse,
+.ckbadge-inverse {
+	background-color: #333;
+}
+.cklabel-inverse[href],
+.ckbadge-inverse[href] {
+	background-color: #1a1a1a;
+}
+
+#cktoolbar-fixed {
+	position: absolute;
+	margin: 0;
+	top: 65px;
+	left: 0;
+	background: #f0f0f0;
+	border-bottom: 1px solid #dedede;
+	right: 0;
+	padding: 0 10px;
+}
