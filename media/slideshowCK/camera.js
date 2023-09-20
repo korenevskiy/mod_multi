@@ -1,8 +1,9 @@
-// Camera slideshow v1.4.17 - a jQuery slideshow with many effects, transitions, easy to customize, using canvas and mobile ready, based on jQuery 1.4+
+// Camera slideshow - a jQuery slideshow with many effects, transitions, easy to customize, using canvas and mobile ready, based on jQuery 1.4+
 // Copyright (c) 2012 by Manuel Masia - www.pixedelic.com
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 // Updated by Cédric KEIFLIN - https://www.joomlack.fr - https://www.ceikay.com
 
+// v1.4.22	- 15/10/22 : fix issue with alt tags on images
 // v1.4.21	- 22/04/22 : add option for title in thumbs
 // v1.4.20	- 09/01/22 : fix issue with joomla 4 when user is logged on
 // v1.4.19	- 13/12/21 : fix issue when there is only 1 image and a video
@@ -350,17 +351,18 @@ var Slideshowck = function (container, opts, callback) {
 	}
 
 	var allImg = new Array();
+	var allImgName = new Array();
 	var imgsrc;
 	$('> div[data-src]', elem).each( function() {
 		imgsrc = $(this).attr('data-src');
-		
+		imgsrctmp = imgsrc.split('\/');
+		imgnametmp = imgsrctmp[imgsrctmp.length - 1];
 		if (imgresolution) {
-			imgsrctmp = imgsrc.split('\/');
-			imgnametmp = imgsrctmp[imgsrctmp.length - 1];
 			imgsrctmp[imgsrctmp.length - 1] = imgresolution + '/' + imgnametmp;
 			imgsrc = imgsrctmp.join('\/');
 		}
 		allImg.push(imgsrc);
+		allImgName.push(imgnametmp);
 	});
 
 //        newImg = new Image(); // test pour afficher image directement au chargement de la page, mais manque dimensions
@@ -371,7 +373,7 @@ var Slideshowck = function (container, opts, callback) {
 	var allRels = new Array();
 	var allTitles = new Array();
 	var allAlts = new Array();
-	$('> div[data-src]', elem).each( function() {
+	$('> div[data-src]', elem).each( function(i) {
 		if($(this).attr('data-link')){
 			allLinks.push($(this).attr('data-link'));
 		} else {
@@ -390,7 +392,7 @@ var Slideshowck = function (container, opts, callback) {
 		if($(this).attr('data-alt')){
 			allAlts.push($(this).attr('data-alt'));
 		} else {
-			allAlts.push('');
+			allAlts.push(allImgName[i]);
 		}
 	});
 
@@ -1552,7 +1554,7 @@ var Slideshowck = function (container, opts, callback) {
 					$(imgLoaded2).attr('data-alignment',allAlign[slideI+1]).attr('data-portrait',allPor[slideI+1]);
 					$(imgLoaded2).attr('width',wT);
 					$(imgLoaded2).attr('height',hT);
-					$(imgLoaded2).attr('alt',allAltText[slideI+1]);
+					$(imgLoaded2).attr('alt', (allAltText[slideI+1] ? allAltText[slideI+1] : allAlts[slideI+1]) );
 					resizeImage();
 				};
 			}
