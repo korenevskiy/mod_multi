@@ -1,0 +1,96 @@
+=================================
+Version 2.3.0 - Mar 2013
+=================================
+- Added a new option to control if the carousel is moved when non-center images are clicked
+
+=================================
+Version 2.2.0 - Mar 2013
+=================================
+- Adjusted legal header a bit, also include legal header in minified version
+- Three new options that allow you to disable the preloader and specify forced width/height for images
+- Fixed autoplay bug where it would continue to rotate the carousel automatically after user interaction
+
+=================================
+Version 2.1.3 - Mar 2013
+=================================
+- bug fix where opacity and depth for items are not set properly on start/reload
+
+=================================
+Version 2.1.2 - Mar 2013
+=================================
+- bug fixes in preloader and how images are counted
+
+=================================
+Version 2.1 - Mar 2013
+=================================
+- New option "edgeFadeEnabled" - items will animate to a hidden position in the center instead of fading off the edge. Now default option.
+- Add support for images of different proportions
+- typo in preloader
+
+=================================
+Version 2.0 - Feb 2013
+=================================
+- first image in DOM now placed in center by default
+- some options renamed, with their meanings changed. See options descriptions for info
+- code cleanup, some inefficiencies removed
+- full support for circular rotation - and thus removed the edgeReaction configuration
+- fixed bug where you could click a "hidden" item
+- callbacks no longer fire multiple times if the carousel rotates more than once
+- all items no longer need to animate to position during setup, decreasing load on browser
+- 'up' and 'down' arrow keys now only apply if the carousel is in vertical orientation
+- next/prev buttons as well as keyboard nav will always turn off autoplay now
+- updated jQuery compatability from 1.4 to 1.9
+- Intialize multiple carousels from the same selector
+- added public API methods: next, prev, reload
+- removed built in next and prev button handling, use the API methods instead now
+
+=================================
+Version 1.3 - May 22 2011
+=================================
+- three new callbacks: movingToCenter, movingFromCenter, and movedFromCenter
+- 'active' class now added to item in center, configureable thru options
+- keyboard arrow nav can now be used to move the carousel
+- allow for zero opacity, just set opacity option to 1
+- autoplay only moves carousel when animations completed
+- circular is supported now, tho not infinite. see new option 'edgeReaction'
+- general code cleanup
+- updated jQuery to 1.6.1
+
+=================================
+Version 1.2.3 - March 21 2011
+=================================
+[note that 1.2.2 was just a fix for missing files]
+- Added latest version of jQuery (1.5.1)
+- Chrome fix where images were not always shown
+- IE9 fix where images were not preloaded properly
+
+=================================
+Version 1.2.1 - February 8 2011
+=================================
+- fixed bug in movedToCenter callback. Will not call for null item now.
+
+=================================
+Version 1.2 - January 15 2011
+=================================
+- support for more than one carousel on a page
+- autoplay works properly
+- control box with previous next
+- added a bunch of example cases to index.html in release
+- internet explorer bugs fixed
+- changed HTML structure
+- lots of bug fixes
+
+=================================
+Version 1.1 - December 2010
+=================================
+- fixed some lines of code that prevented vertical carousel from working
+- added support for Facebox/Facybok jQuery plugins
+- adjusted the way movedToCenter works. Now it will call the event after ALL animations complete
+- added "linkHandling" option
+- animation performance enhanced by removing some calculations
+- various bug fixes
+
+=================================
+Version 1.0 - Februrary 2009
+=================================
+Original release

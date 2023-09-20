@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Waterwheel Carousel Demo</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.waterwheelCarousel.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var carousel = $("#carousel").waterwheelCarousel({
+          flankingItems: 3,
+          movingToCenter: function ($item) {
+            $('#callback-output').prepend('movingToCenter: ' + $item.attr('id') + '<br/>');
+          },
+          movedToCenter: function ($item) {
+            $('#callback-output').prepend('movedToCenter: ' + $item.attr('id') + '<br/>');
+          },
+          movingFromCenter: function ($item) {
+            $('#callback-output').prepend('movingFromCenter: ' + $item.attr('id') + '<br/>');
+          },
+          movedFromCenter: function ($item) {
+            $('#callback-output').prepend('movedFromCenter: ' + $item.attr('id') + '<br/>');
+          },
+          clickedCenter: function ($item) {
+            $('#callback-output').prepend('clickedCenter: ' + $item.attr('id') + '<br/>');
+          }
+        });
+
+        $('#prev').bind('click', function () {
+          carousel.prev();
+          return false
+        });
+
+        $('#next').bind('click', function () {
+          carousel.next();
+          return false;
+        });
+
+        $('#reload').bind('click', function () {
+          newOptions = eval("(" + $('#newoptions').val() + ")");
+          carousel.reload(newOptions);
+          return false;
+        });
+
+      });
+    </script>
+
+    <style type="text/css">
+      body {
+        font-family:Arial;
+        font-size:12px;
+        background:#ededed;
+      }
+      .example-desc {
+        margin:3px 0;
+        padding:5px;
+      }
+
+      #carousel {
+        width:960px;
+        margin: 60px auto;
+        border:1px solid #222;
+        height:300px;
+        position:relative;
+        clear:both;
+        overflow:hidden;
+        background:#FFF;
+      }
+      #carousel img {
+        visibility:hidden; /* hide images until carousel can handle them */
+        cursor:pointer; /* otherwise it's not as obvious items can be clicked */
+      }
+
+      .split-left {
+        width:450px;
+        float:left;
+      }
+      .split-right {
+        width:400px;
+        float:left;
+        margin-left:10px;
+      }
+      #callback-output {
+        height:250px;
+        overflow:scroll;
+      }
+      textarea#newoptions {
+        width:430px;
+      }
+      .nav {
+	    width: 80px; margin: 20px auto
+      }
+    </style>
+  </head>
+  <body>
+    <div id="carousel">
+      <a href="#"><img src="images/1.jpg" id="item-1" /></a>
+      <a href="#"><img src="images/2.jpg" id="item-2" /></a>
+      <a href="#"><img src="images/3.jpg" id="item-3" /></a>
+      <a href="#"><img src="images/4.jpg" id="item-4" /></a>
+      <a href="#"><img src="images/5.jpg" id="item-5" /></a>
+      <a href="#"><img src="images/6.jpg" id="item-6" /></a>
+      <a href="#"><img src="images/7.jpg" id="item-7" /></a>
+      <a href="#"><img src="images/8.jpg" id="item-8" /></a>
+      <a href="#"><img src="images/9.jpg" id="item-9" /></a>
+    </div>
+    <div class="nav">
+    	<a href="#" id="prev">Prev</a> | <a href="#" id="next">Next</a>
+    </div>
+
+    <br/>
+
+    
+
+  </body>
+</html>
+
