@@ -21,25 +21,44 @@ if($param->work_type_require == 'and'):
                 $domen_sites = $param->domen_site ?: $_SERVER['HTTP_HOST'];
                 $domen_sites = self::replace('/','',$domen_sites);
                 $domen_sites = self::replace('www.','',$domen_sites);
-                if($param->domen_is == 'only' && !self::inArray ($_SERVER['HTTP_HOST'],$domen_sites,'www.')){
-
+                if($param->domen_is == 'only' && !self::inArray($_SERVER['HTTP_HOST'],$domen_sites,'www.')){
                     return FALSE;
                 }
-                else if($param->domen_is == 'without' && self::inArray ($_SERVER['HTTP_HOST'],$domen_sites,'www.')){
+                else if($param->domen_is == 'without' && self::inArray($_SERVER['HTTP_HOST'],$domen_sites,'www.')){
 
                     return FALSE;
                 }
             endif;
-
+//echo $param->ip_user_is;
             #2 Require for ip user address
             if($param->ip_user_is):
-                $ip_user = $param->ip_user;
-                $ip_user = self::replace(',','.',$ip_user);
-                $ips_user = self::replace('00.','0.',$ip_user);
-                if($param->ip_user_is == 'only' && !self::inArray($_SERVER['REMOTE_ADDR'], $ips_user)){
+                $ip_param = $param->ip_user;
+                $ip_param = modMultiHelper::replace('.000.','.0.',$ip_param);
+                $ip_param = modMultiHelper::replace('.00.','.0.',$ip_param);
+				$ip_param = modMultiHelper::replace(' ',',',$ip_param);
+				$ip_param = modMultiHelper::replace(';',',',$ip_param);
+				$ip_user = ip2long($_SERVER['REMOTE_ADDR']);
+				$ip_exist = false;
+				foreach (explode(',', $ip_param) as $ip){
+					if(ip2long($ip) == $ip_user){
+						$ip_exist = true;
+						break;
+					}
+				}
+//                
+//echo $param->ip_user_is;
+//echo ' <br>';
+//echo $ips_user;
+//echo ' <br>';
+//echo $_SERVER['REMOTE_ADDR'];
+//echo ' :'. modMultiHelper::inArray($_SERVER['REMOTE_ADDR'], $ips_user);
+				
+                if($param->ip_user_is == 'only' && !$ip_exist){
                     return FALSE;
                 }
-                else if($param->ip_user_is == 'without' && self::inArray($_SERVER['REMOTE_ADDR'], $ips_user)){
+                else if($param->ip_user_is == 'without' && $ip_exist){
+
+echo $_SERVER['REMOTE_ADDR'];
                     return FALSE;
                 }
             endif;
@@ -208,13 +227,23 @@ else://$param->work_type_require == 'or'
 
             #2 Require for ip user address
             if($param->ip_user_is):
-                $ip_user = $param->ip_user;
-                $ip_user = self::replace(',','.',$ip_user);
-                $ips_user = self::replace('00.','0.',$ip_user);
-                if($param->ip_user_is == 'only' && self::inArray ($_SERVER['REMOTE_ADDR'],$ips_user)){
+                $ip_param = $param->ip_user;
+                $ip_param = modMultiHelper::replace('.000.','.0.',$ip_param);
+                $ip_param = modMultiHelper::replace('.00.','.0.',$ip_param);
+				$ip_param = modMultiHelper::replace(' ',',',$ip_param);
+				$ip_param = modMultiHelper::replace(';',',',$ip_param);
+				$ip_user = ip2long($_SERVER['REMOTE_ADDR']);
+				$ip_exist = false;
+				foreach (explode(',', $ip_param) as $ip){
+					if(ip2long($ip) == $ip_user){
+						$ip_exist = true;
+						break;
+					}
+				}
+                if($param->ip_user_is == 'only' && $ip_exist){
                     return TRUE;
                 }
-                else if($param->ip_user_is == 'without' && !self::inArray ($_SERVER['REMOTE_ADDR'],$ips_user)){
+                else if($param->ip_user_is == 'without' && !$ip_exist){
                     return TRUE;
                 }
             endif;
