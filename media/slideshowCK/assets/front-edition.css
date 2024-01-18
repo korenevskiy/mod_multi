@@ -1,0 +1,14 @@
+/**
+ * @copyright	Copyright (C) 2019 Cedric KEIFLIN alias ced1870
+ * http://www.joomlack.fr
+ * @license		GNU/GPL
+ * */
+
+#modules-form {
+	position: absolute;
+	left: 0;
+	right: 0;
+	background: #fff;
+	padding: 20px;
+	z-index: 100;
+}

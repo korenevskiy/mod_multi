@@ -1,0 +1,206 @@
+/**
+ * @name		Slideshow CK
+ * @package		com_slideshowck
+ * @copyright	Copyright (C) 2019. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @author		Cedric Keiflin - https://www.template-creator.com - https://www.joomlack.fr
+ */
+
+.animate {
+	transition: all 0.5s ease;
+}
+
+#ckpopupstyleswizard * {
+	box-sizing: border-box;
+}
+
+.styleswizard_options {
+	/*margin-top: 20px;*/
+}
+
+.styleswizard label {
+	display: inline-block !important;
+	width: 150px;
+}
+
+.styleswizard input {
+	display: inline-block !important;
+	max-width: 100px;
+	border-radius: 0;
+	height: 18px;
+}
+
+.styleswizard span {
+	margin-right: 3px;
+}
+
+.styleswizard img {
+	vertical-align: 0;
+}
+
+.styleswizard label.radiobutton {
+	display: inline-block !important;
+	width: 30px;
+	padding: 3px;
+	margin: 0 1px 0 0;
+	text-align: center;
+	background: #f1f1f1;
+	border: 1px solid #bbb;
+	height: 20px;
+	vertical-align: top;
+	min-width: 30px;
+}
+
+.btn-group > .btn {
+	vertical-align: top;
+}
+
+.btn-group > input + .btn {
+	margin-left: -1px;
+}
+
+.styleswizard input[type=radio].radiobutton {
+	display: none !important;
+}
+
+.styleswizard input[type=radio].radiobutton:checked + label {
+	background: #2e9fd2; /* Old browsers */
+	background: -moz-linear-gradient(top,  #2e9fd2 0%, #21759b 100%, #21759b 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e9fd2), color-stop(100%,#21759b), color-stop(100%,#21759b)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e9fd2', endColorstr='#21759b',GradientType=0 ); /* IE6-9 */
+	color: #FFFFFF;
+	border: 1px solid #21759b ;
+}
+
+#previewarea .swiper-container {
+	overflow: visible;
+}
+
+.ckrow {
+	margin-top: 3px;
+}
+
+.ckheading {
+	color: #2EA2CC;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.ckheading:first-child {
+	margin-top: 0px;
+}
+
+/*------------------------
+	Wait icon
+--------------------------*/
+
+.ckwait {
+	background-image: url(../images/ajax-loader.gif) !important;
+	min-height: 16px;
+}
+
+.ckwait.black {
+	background-image: url(../images/ajax-loader-black.gif) !important;
+}
+
+.ckbutton.blackhover:hover .ckwait {
+	background-image: url(../images/ajax-loader-black.gif) !important;
+}
+
+/*------------------------
+	Presets
+--------------------------*/
+
+.themethumb, .layoutthumb {
+	float: left;
+	padding: 3px;
+	margin: 3px;
+	border: 1px solid transparent;
+	cursor: pointer;
+	width: 200px;
+}
+
+.themethumbimg {
+	width: 200px;
+	height: 150px;
+	overflow: hidden;
+}
+
+.themethumb:hover, .themethumb.selected,
+.layoutthumb:hover, .layoutthumb.selected {
+	border: 1px solid #3399ff;
+	box-shadow: 0 0 5px #3399ff;
+}
+.themename, .layoutname {
+	text-align: center;
+	text-transform: uppercase;
+	padding: 2px;
+	border-top: 1px solid #ddd;
+}
+
+.ckinfo {
+	position:relative;
+	background:#efefef;
+	border: none;
+	border-radius: 0px;
+	color: #333;
+	font-weight: normal;
+	line-height: 24px;
+	padding: 5px 5px 5px 35px;
+	margin: 3px 0;
+	text-align: left;
+	text-decoration: none;
+}
+
+.ckinfo > .fas {
+	font-size: 15px;
+	padding: 3px 5px;
+	background: rgba(0, 0, 0, 0.1);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	line-height: 25px;
+	width: 20px;
+	text-align: center;
+}
+.ckinfo img {
+	margin: 0 10px 0 0;
+}
+
+.ckpropreview {
+	position: relative;
+}
+
+.ckpropreview a {
+	opacity: 0;
+	transition: all 0.2s ease;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #efefef;
+	display: block;
+	padding: 5px 10px;
+	color: #333;
+	font-weight: normal;
+	line-height: 24px;
+	border: 2px solid #000;
+}
+
+.ckpropreview:hover a {
+	opacity: 1;
+}
+
+.ckpropreview img {
+	transition: all 0.2s ease;
+	opacity: 1;
+}
+
+.ckpropreview:hover img {
+	opacity: 0.5;
+}
