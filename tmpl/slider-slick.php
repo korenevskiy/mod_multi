@@ -98,7 +98,7 @@ $count = count($elements);
 echo "<div class=\"slider items slick  count$count $moduleclass_sfx \"  itemscope itemtype=\"http://schema.org/ImageGallery\">";
 
 foreach ($elements as $i => & $module){
-    $module->text =  $module->content = & $prepare($module->content ?? '');
+    $module->text =  $module->content = $prepare($module->content ?? '');
 
     if($tag_container)
         echo "<$tag_container class=\"item i$i $type sfx$module->moduleclass_sfx id$module->id $module->module  \">";
@@ -162,25 +162,25 @@ endif;
 $content_tag3 = $params->get('content_tag3');
 if($content_tag3 == 'default')
     $content_tag3 = $module->module_tag;
-if($module->content ?? '' && $content_tag3 != 'none' && $content_tag3) {
+if(($module->content ?? '') && $content_tag3 != 'none' && $content_tag3) {
     echo ("<$content_tag3 class='info'>$module->content</$content_tag3>");
 }
-if($module->content ?? '' && empty($content_tag3))
+if(($module->content ?? '') && empty($content_tag3))
     echo ($module->content);
 
-    if($module->urls->urla){
+    if(isset($module->urls)	&& $module->urls->urla){
         $class = $isImage($module->urls->urla);
         $class .= ($module->urls->targeta===2)?"lightbox":($module->urls->targeta===3)?"modal":'';
         $target = ($module->urls->targeta==0)?"_parent":(($module->urls->targeta==1)?"_blank":(($module->urls->targeta==2)?"_self":''));
         echo $prepare("<a class=\"linka urls $class\"  target=\"$target\" href=\"{$module->urls->urla}\"  title=\"{$module->urls->urlatext}\" >{$module->urls->urlatext}</a>");
     }
-    if($module->urls->urlb){
+    if(isset($module->urls)	&& $module->urls->urlb){
         $class = $isImage($module->urls->urlb);
         $class .= ($module->urls->targetb===2)?"lightbox":($module->urls->targetb===3)?"modal":'';
         $target = ($module->urls->targetb===0)?"_parent":($module->urls->targetb===1)?"_blank":($module->urls->targetb===2)?"_self":'';
         echo $prepare("<a class=\"linkb urls $class\"  target=\"$target\" href=\"{$module->urls->urlb}\"  title=\"{$module->urls->urlbtext}\" >{$module->urls->urlbtext}</a>");
     }
-    if($module->urls->urlc){
+    if(isset($module->urls)	&& $module->urls->urlc){
         $class = $isImage($module->urls->urlc);
         $class .= ($module->urls->targetc===2)?"lightbox":($module->urls->targetc===3)?"modal":'';
         $target = ($module->urls->targetc===0)?"_parent":($module->urls->targetc===1)?"_blank":($module->urls->targetc===2)?"_self":'';

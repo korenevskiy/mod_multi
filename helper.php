@@ -89,7 +89,7 @@ abstract class modMultiHelper
      */
     public static function getMenuLink($idItemMenu)
     {
-        if(empty($aliasMenu))
+        if(empty($idItemMenu))
             return '';
         $query= "SELECT * FROM #__menu WHERE id = $idItemMenu; ";
         $item = JFactory::getDBO()->setQuery($query)->loadObject();
@@ -142,36 +142,52 @@ abstract class modMultiHelper
 
     /**
      * Проверяет наличие слова в массиве
-     * @param string $word
-     * @param string|array $full_string
-     * @param array $separators
-     * @param string $trim_mask
+     * @param string $needle
+     * @param string|array $haystack
+     * @param array $separators [";","\n","\r","\t"]
+     * @param string $trim_mask " \t\n\r\0\x0B"
      * @return bool
      */
-    public static function inArray($needle, $haystack, $separators=[';'],$trim_mask = ' ')
+    public static function inArray($needle, $haystack, $separators=[";","\t","\n","\r"],$trim_mask = " \t\n\r\0\x0B")
     {
-        if(empty($word) || empty($haystack))
+        if(empty($needle) || empty($haystack))
             return false;
         if(empty($separators))
             $separators = ['|'];
+		
         $sep = reset($separators);
 
-        $needle = str_replace(['\n','\r','\t'], '', $needle);
-        $needle = str_replace($separators, $sep, $needle);
+        $needle = str_replace($separators, '', trim($needle, $trim_mask));
 
         if(is_string($haystack)){
-            $haystack = str_replace([','], ';', $haystack);
-            $haystack = explode(';', $haystack);
+            $haystack = str_replace($separators, $sep, $haystack);
+            $haystack = explode($sep, $haystack);
         }
-        $needle= trim(trim($needle),$trim_mask);
         foreach ($haystack as $k=>$str)
-            $haystack[$k] = trim(trim($str),$trim_mask);
+            $haystack[$k] = trim($str, $trim_mask);
 
-        return in_array($needle,$haystack);
+        return in_array($needle, $haystack);
     }
 
     public static function fontsFiles($files, $moduleid = 0)
     {
+//<link rel="preconnect" href="https://fonts.googleapis.com">
+//<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+//<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,300;1,400&family=Roboto+Condensed&display=swap" rel="stylesheet">
+/* Module ID: 114 */ 
+// @font-face { 
+//		font-family: 'Jost-VariableFont_wght' ;
+//		src: local("Jost-VariableFont_wght"),
+//		url("/templates/fonts/Jost-VariableFont_wght.ttf")  format('truetype');
+//		}
+//.Jost-VariableFont_wght{font-family: 'Jost-VariableFont_wght';}
+ /* Module ID: 114 */ 
+// @font-face { font-family: 'Jost-VariableFont_wght' ;
+//src: local("Jost-VariableFont_wght"),
+//url("/templates/fonts/Jost-VariableFont_wght.ttf")  format('truetype');}
+//.Jost-VariableFont_wght{font-family: 'Jost-VariableFont_wght';}
+
+
         $files;
 
         $sortFonts = ['eot' => 'embedded-opentype','woff' => 'woff','ttf' => 'truetype','otf' => '','svg' => 'svg'];
@@ -186,9 +202,9 @@ abstract class modMultiHelper
 
         foreach ($fonts as $filename => $font){
             $style = " /* Module ID: $moduleid */ \n";
-            $style .= " @font-face { font-family: '$filename' ;\n";
+            $style .= "@font-face {\n font-family: '$filename' ;\n";
             $style .= "src: ";
-            $style .= "local(\"$filename\"),";
+            $style .= "local($filename),";
             $fnt = str_replace(' ', '', $filename);
             if(strpos($filename, ' '))
                 $style .= $fnt = "local(\"$fnt\"),";
@@ -203,7 +219,7 @@ abstract class modMultiHelper
                 $style .= (--$count)?',':'';
 
             }
-            $style .= ";}\n";
+            $style .= ";\n}\n";
             $style .= ".$fnt{font-family: '$filename';}\n";
 
             JFactory::getDocument()->addStyleDeclaration($style);
@@ -377,20 +393,21 @@ abstract class modMultiHelper
             $files = JFolder::files(JPATH_SITE.$folder, '\.jpg|\.jpeg|\.JPG|\.JPEG|\.png|\.PNG|\.apng|\.APNG|\.gif|\.GIF|\.WEBP|\.webp|\.HEIF|\.heif|\.HEIC|\.heic|\.AVIF|\.avif$');
             foreach ($files as $i => $file){
                 $items[$file] = (object)[
-                    'image'=>$folder.'/'.$file,
-                    'link'=>$links[$i]??'',
-                    'title'=>$titles[$i]??$file,
-                    'text'=>isset($texts[$i])?"<p>$texts[$i]</p>":'',
-                    'content'=>$texts[$i]??'',
-                    'moduleclass_sfx'=>'img_file',
-                    'header_class'=>'img_title',
-                    'text'=>$texts[$i]??'',
-                    'text'=>$texts[$i]??'',
-                    'id'=>$i,
-                    'type'=>'images',
-                    'module_tag'=>'div',
-					'module' => '',
-//					'src'=>JPATH_SITE.$folder.'/'.$file
+                    'image'		=>	$folder . '/' . $file,
+                    'link'		=>	$links[$i]	??	'',
+                    'title'		=>	$titles[$i]	??	$file,
+                    'text'		=>	isset($texts[$i]) ? "<p>$texts[$i]</p>" : '',
+                    'content'	=>	$texts[$i]	??	'',
+                    'moduleclass_sfx' => 'img_file',
+                    'header_class' => 'img_title',
+                    'text'		=>	$texts[$i]??'',
+                    'text'		=>	$texts[$i]??'',
+                    'id'		=>	$i,
+                    'type'		=>	'images',
+                    'module_tag'=>	'div',
+					'module'	=>	'',
+					'style'		=>	'',
+//					'src'		=>	JPATH_SITE.$folder.'/'.$file
                 ];
             }
         }
@@ -414,8 +431,10 @@ abstract class modMultiHelper
      * @param string $article_mode
      * @return array list
      */
-    public static function getArticles($articles_id = [], $categorys_id = [], $article_mode = 'full', $mod_id = 0){//full,intro,content
+    public static function getArticles($articles_id = [], $categorys_id = [], $article_mode = 'full', $mod_id = 0, $withContent=true){//full,intro,content
         $where = '';
+		
+//		$type = is_array($articles_id) ? 'articles' : 'article';
 
         if(!is_array($articles_id))
             $articles_id = array($articles_id);
@@ -433,6 +452,9 @@ abstract class modMultiHelper
                 . "FROM #__content av"
                 . "WHERE   av.state = 1 "
                 . "$where ; ";
+		
+		$ContentText = $withContent ? 'a.introtext,a.fulltext,' : '';
+		
         $query = "
 SELECT av.*, GROUP_CONCAT(av.f_content SEPARATOR ' ') as f_content
 FROM (
@@ -461,7 +483,7 @@ SELECT
 
     IF(LOCATE('\"render_class\":\"', f.params, 1), SUBSTRING_INDEX(SUBSTRING(f.params, LOCATE('\"render_class\":\"', f.params, 1)+16),'\"',1),'')  f_render_class,
 
-    a.id , a.catid, a.featured,a.state,a.ordering, a.version,a.title, a.checked_out, a.checked_out_time,  a.images,a.attribs,a.urls, a.introtext,a.fulltext,a.alias,a.access, a.language,
+    a.id , a.catid, a.featured,a.state,a.ordering, a.version,a.title, a.checked_out, a.checked_out_time,  a.images,a.attribs,a.urls, $ContentText a.alias,a.access, a.language,
     f.id f_id, f.group_id f_group_id,  f.state f_state, f.required f_required,
     f.name f_name,  f.title f_title, f.label f_label,
     IF(LOCATE('\"showlabel\":', f.params, 1), TRIM('}' FROM TRIM(',' FROM TRIM('\"' FROM SUBSTRING(f.params, LOCATE('\"showlabel\":', f.params, 1)+12,2)))),'')  f_showlabel,
@@ -488,19 +510,21 @@ ORDER BY av.ordering
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
         foreach ($items as $id => &$art){
             if($article_mode == 'full')
-                $items[$id]->content = $art->introtext.$art->fulltext;
+                $items[$id]->content = $art->introtext.' '.$art->fulltext;
             if($article_mode == 'intro')
                 $items[$id]->content = $art->introtext;
             if($article_mode == 'content')
                 $items[$id]->content = $art->fulltext;
             if($art->f_content)
-                $items[$id]->fields = "<ul class=\"fields\">$art->f_content</ul>";
+                $items[$id]->fields = "<ul class='fields'>$art->f_content</ul>";
 
             $params = new \Reg($items[$id]->f_params);
             $items[$id]->params = $params->toObject();
 
+            $items[$id]->module = 'article';
             $items[$id]->module_tag = 'div';
             $items[$id]->moduleclass_sfx = "article $art->id";
+            $items[$id]->header_class = "title ";
             jimport( 'joomla.registry.registry' );
             $images = new \Reg($items[$id]->images);
             $items[$id]->images = $images->toObject();
@@ -509,14 +533,17 @@ ORDER BY av.ordering
             $items[$id]->attribs = $attribs->toObject();
             $urls = new \Reg($items[$id]->urls);
             $items[$id]->urls = $urls->toObject();
-            $items[$id]->type = 'article';
+            $items[$id]->type = 'article';//$type;
             JHtml::addIncludePath(JPATH_ROOT . '/components/com_content/src/Helper');
 /* require_once JPATH_BASE . '/components/com_content/helpers/route.php'; */
             require_once JPATH_BASE . '/components/com_content/src/Helper/RouteHelper.php';
 
 				/* We know that user has the privilege to view the article */
-//			$items[$key]->link = JRoute::_(ContentHelperRoute::getArticleRoute($key, $item->catid)); 
-            $items[$id]->link = ContentHelperRoute::getArticleRoute($id, $art->catid);
+			$items[$id]->link = JRoute::_(ContentHelperRoute::getArticleRoute($id, $art->catid)); 
+//            $items[$id]->link = ContentHelperRoute::getArticleRoute($id, $art->catid);
+			
+//toPrint($items);
+//			$items[$id]->dt = HTML\Helpers\Date::relative($query);
 
         }
         return $items;
@@ -664,6 +691,8 @@ ORDER BY $order  LIMIT $maximum ;
 		}
 
 		$Itemid = $Itemid ? "&Itemid=$Itemid" : '' ;
+		
+		
 
 		foreach ($list as &$tag)
 		{
@@ -1027,23 +1056,28 @@ ORDER BY $order  LIMIT $maximum ;
 }
 
 abstract class JModHelp extends JModuleHelper{
-    static function &ModeuleDelete($module){
+    static function &ModeuleDelete($module) : int {
         $modules = &static::load();
 		
 		$count = 0;
+//toPrint(null,'',0, 'pre',true);
+//toPrint(count($modules),'$module 1', 0, 'message',true);
 
         foreach ($modules as $i => &$mod){
             if($mod->id == $module->id){
                 unset ($modules[$i]); // Вызывает ошибку свойства Position объекта модуля, 
                 unset ($mod);
+		
             }elseif($module->position == $mod->position ){
 				$count++;
 			}
 //			else{
 //				$modules[$i]->position = $mod->position == null ? '' : $mod->position;
 //			}
-			
         }
+		
+		array_multisort($modules);
+//toPrint(count($modules),'$module 2', 0, 'message',true);
 
         $modules = &static::getModules($module->position);
 

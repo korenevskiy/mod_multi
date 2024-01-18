@@ -11,6 +11,11 @@
 # Technical Support:  Forum - //vk.com/multimodule
 -------------------------------------------------------------------------*/
 
+
+if($_GET['deb'] == 'deb' || $_GET['debug'])
+	return;
+
+
 defined('_JEXEC') or die;
 
 $param = new \Reg($params);//*** ->toObject()

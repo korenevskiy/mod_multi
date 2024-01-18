@@ -101,7 +101,7 @@ $resize = function ($url, $src = '', $width = 0, $height=0) use ($plg){
 //    $tmp = JFactory::getApplication()->triggerEvent('get_folderandfile', [&$src,$width,$height,'big','cache']);
 //    @copy($src,$tmp);
     $img = JFactory::getApplication()->triggerEvent('onSizeImage', [$url,$width,$height,'big',true,'cache',664]); //,$width,$height,'big',true,'cache',664
-    toPrint(['url'=>$url,'src'=>$src,'cache'=>$img[0]],'  '.$w.'*'.$h.' '.' -- '.$width.'*'.$height,0);
+//    toPrint(['url'=>$url,'src'=>$src,'cache'=>$img[0]],'  '.$w.'*'.$h.' '.' -- '.$width.'*'.$height,0);
     
     
     
@@ -339,10 +339,12 @@ $img_path = trim($module->image,'/'); // JURI::root()  JUri::base().
 
 $attr = " width='' height='200'";
 
+$imageName = explode(DIRECTORY_SEPARATOR, str_replace(['/','\\'], DIRECTORY_SEPARATOR, $module->image));
+$imageName = end($imageName);
 
 //toPrint($module,'Image');
 
-  $module->cache = $resize($module->image,$module->src, 0, 250);
+  $module->cache = $resize($module->image, 'small_' . $imageName, 0, 250);
 
 //toPrint($module,'Image');
 
@@ -366,6 +368,7 @@ if($module_tag2)
 
 
 // <editor-fold defaultstate="collapsed" desc="Scrypt Carousel for count 5">
+JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
 
 JHtml::script("modules/mod_multi/media/fancybox_3/jquery.fancybox.min.js"); 
 JHtml::stylesheet("modules/mod_multi/media/fancybox_3/jquery.fancybox.min.css"); 

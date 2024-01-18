@@ -17,10 +17,14 @@ use \Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 defined('MULTIMOD_PATH') || define('MULTIMOD_PATH', __DIR__);
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
-if(file_exists(__DIR__ . '/../mod_multi_form/functions.php'))
+if(!function_exists('toPrint') && file_exists(__DIR__ . '/../mod_multi_form/functions.php'))
 	require_once  __DIR__ . '/../mod_multi_form/functions.php';
 
+if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php'))
+	require_once  JPATH_ROOT . '/functions.php';
+
 require_once MULTIMOD_PATH . '/helper.php';
+
 
 $params = new Reg($params);
 
@@ -35,11 +39,13 @@ if($module->position && $module->id):
 
 if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
 //toPrint($module,'$module',0, 'message',true);
+	
     $pos	= $module->position;
     $id		= $module->id;
     $name	= $module->module;
 	$mod_count_pos = 0;
     $mod_count_pos = &JModHelp::ModeuleDelete($module);
+//echo "<h1>Приет дорогой друг</h1>" . $module->position . '<br>'; return;
 
     static $jj;
     if(is_null($jj)){
@@ -80,8 +86,8 @@ if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
     unset($module);
     return FALSE;
 //    $script = "/*m$id*/document.body.classList.add('has-$module->position');";
-
 }
+
 endif;
 
 $modules = array();
@@ -320,9 +326,9 @@ $$par=$params;
 
 /* Article */
 if($param->article_show && $param->article_id){
-
     $article_order = $param->article_order;
-    $modules[sprintf("%02d", $article_order).'article'] = modMultiHelper::getArticles([$param->article_id],[],$param->article_show, $module->id);
+	
+    $modules[sprintf("%02d", $article_order).'article'] = modMultiHelper::getArticles([$param->article_id],[],$param->article_show, $module->id, $param->content_tag3!='none');
     if($modules[sprintf("%02d", $article_order).'article'])
         $module->empty_list = FALSE;
 }
@@ -380,9 +386,10 @@ if($param->menu_show && $param->menu){
     $modules[sprintf("%02d", $param->menu_order).'menu']->module = 'menu';
 
 }
+
+//toPrint($param->position_show,'$param->position_show',0,'pre',true);
 /* Modules positions */
 if($param->position_show){
-
     if($param->position_show == 'position_module')
         $positions = modMultiHelper::split($param->position_module, [' ',',',';','\n','\r','\t']);
 

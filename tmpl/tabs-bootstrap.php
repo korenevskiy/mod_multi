@@ -130,7 +130,7 @@ $i = 0;
 
 echo "<div class='tab-content'>";
 foreach ($elements as $id => $module){
-    $module->text = $module->content = & $prepare($module->content ?? '');
+    $module->text = $module->content = $prepare($module->content ?? '');
 
     $i++;
     $current = empty($current)?"in show active ":"noactive";

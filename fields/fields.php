@@ -12,34 +12,35 @@
  */
 defined('_JEXEC') or die;
 
-class JFormFieldFields extends JFormField {
+class JFormFieldFields extends Joomla\CMS\Form\Field\ListField {
 
-    /**
-     *
-     * @var string
-     */
+  /**
+   *
+   * @var string
+   */
   public $type = 'Fields';
-
-  protected function getInput(){
-        require_once (JPATH_SITE.'/modules/mod_jshopping_product_calendar/helper.php');
-
-        $db = JFactory::getDbo();
-        $db->setQuery(" SHOW COLUMNS FROM `#__jshopping_products` WHERE Type='datetime'; ");
-
-        $fields = $db->loadObjectList('Field');
-
+  
+  
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   4.4.0
+     */
+    protected function getOptions(){
+		
+		$db = JFactory::getDbo();
+//        $db->setQuery(" SHOW COLUMNS FROM `#__jshopping_products` WHERE Type='datetime'; ");
+        $db->setQuery("
+SELECT id `value`, id, CONCAT(`title`,' \t /',`id`,'(',`type`,')',IF(`state`, '??', '??') ) `text`, 0  `disable`, '' `class`, 0 `selected`, 0 `checked`, '' `onclick`, '' `onchange`
+FROM  `#__fields`
+WHERE `context`='com_content.article' AND `only_use_in_subform` = 0 AND `type` = 'text'; ");
+		
+        $fields = $db->loadObjectList('id');
+		
         ksort($fields);
-
-        $i = 0;
-        foreach ($fields as $k=> $f){
-            $fields[$k]->Title =ucfirst($f->Field);
-            if($i==1)
-                $value=$f->Field;
-            $i++;
-        }
-
-        $value        = empty($this->value) ? $value : $this->value;
-
-        return JHTML::_('select.genericlist', $fields, $this->name,'class="inputbox" id = "category_ordering"  ','Field','Title', $value );
-  }
+		
+		return array_merge(parent::getOptions(), $fields);
+	}
 }

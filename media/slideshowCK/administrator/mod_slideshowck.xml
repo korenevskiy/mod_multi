@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="3.0"
+	client="site"
+	method="upgrade">
+	<name>Slideshow CK</name>
+	<author>Cédric KEIFLIN</author>
+	<creationDate>Avril 2012</creationDate>
+	<copyright>Cédric KEIFLIN</copyright>
+	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
+	<authorEmail>ced1870@gmail.com</authorEmail>
+	<authorUrl>https://www.joomlack.fr</authorUrl>
+	<version>2.3.13</version>
+	<description>SLIDESHOWCK_XML_DESCRIPTION</description>
+	<files>
+		<folder>language</folder>
+		<folder>themes</folder>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>legacy.php</filename>
+		<filename>logo_slideshowck.png</filename>
+		<filename module="mod_slideshowck">mod_slideshowck.php</filename>
+		<filename>mod_slideshowck.xml</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_slideshowck.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_slideshowck.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.mod_slideshowck.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.mod_slideshowck.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="/administrator/components/com_slideshowck/elements">
+				<field 
+					name="slideshowckinterface"
+					type="slideshowckinterface"
+					/>
+				<field 
+					name="infos" 
+					type="ckinfo"
+					/>
+				<field
+					name="infospro"
+					type="cklight"
+					/>
+				<field
+					name="joomlackproducts"
+					type="ckproducts"
+					/>
+				<field
+					name="v1tov2migration"
+					type="ckmigrate"
+					/>
+			</fieldset>
+			<fieldset name="editionfieldset" label="SLIDESHOWCK_SOURCE_FIELDSET_LABEL">
+				<field
+					name="source"
+					type="cksource"
+					default="slidesmanager"
+					label="SLIDESHOWCK_SLIDESSOURCE_LABEL"
+					description="SLIDESHOWCK_SLIDESSOURCE_DESC"
+					icon="image_link.png"
+				>
+					<option value="slidesmanager">SLIDESHOWCK_SOURCE_SLIDESMANAGER</option>
+				</field>
+				<field
+					name="sourceproonly"
+					type="ckproonly"
+					label="SLIDESHOWCK_SLIDESSOURCE_PRO_ONLY"
+				/>
+				<field
+					name="slides"
+					type="ckslidesmanager"
+					label="SLIDESHOWCK_SLIDES_LABEL"
+					default="[{|qq|imgname|qq|:|qq|media/com_slideshowck/images/slides/bridge.jpg|qq|,|qq|imgcaption|qq|:|qq|This bridge is very long|qq|,|qq|imgtitle|qq|:|qq|This is a bridge|qq|,|qq|imgthumb|qq|:|qq|../media/com_slideshowck/images/slides/bridge.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|media/com_slideshowck/images/slides/road.jpg|qq|,|qq|imgcaption|qq|:|qq|This slideshow uses a JQuery script adapted from Pixedelic|qq|,|qq|imgtitle|qq|:|qq|On the road again|qq|,|qq|imgthumb|qq|:|qq|../media/com_slideshowck/images/slides/road.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|media/com_slideshowck/images/slides2/sea.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|../media/com_slideshowck/images/slides2/sea.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]"
+					filter="raw"
+					showon="source:slidesmanager"
+				/>
+				<field
+					name="spacerfolderimport"
+					type="slideshowckspacer"
+					style="title"
+					label="SLIDESHOWCK_SPACERFOLDERIMPORT_LABEL"
+					showon="source:slidesmanager"
+				/>
+				<field
+					type="ckproonly"
+				/>
+			</fieldset>
+			<fieldset name="optionsfieldset" label="SLIDESHOWCK_OPTIONS_FIELDSET_LABEL" >
+				<field
+					name="spacerdisplay"
+					type="slideshowckspacer"
+					label="SLIDESHOWCK_DISPLAY_OPTIONS_LABEL"
+					style="title"
+					/>
+				<field
+					name="theme"
+					type="ckfolderlist"
+					directory="modules/mod_slideshowck/themes"
+					hide_none="true"
+					hide_default="true"
+					label="SLIDESHOWCK_THEME_LABEL"
+					description="SLIDESHOWCK_THEME_DESC"
+					icon="photo.png" />
+				<field
+					name="styles"
+					type="ckstyle"
+					label="SLIDESHOWCK_SELECT_STYLE_LABEL"
+					description="SLIDESHOWCK_SELECT_STYLE_DESC"
+					icon="palette.png"
+					default=""
+					/>
+
+				<field
+					name="alignment"
+					type="slideshowcklist"
+					default="center"
+					label="SLIDESHOWCK_ALIGNEMENT_LABEL"
+					description="SLIDESHOWCK_ALIGNEMENT_DESC"
+					icon="image_alignment.png"
+				>
+					<option value="topLeft">SLIDESHOWCK_TOPLEFT</option>
+					<option value="topCenter">SLIDESHOWCK_TOPCENTER</option>
+					<option value="topRight">SLIDESHOWCK_TOPRIGHT</option>
+					<option value="centerLeft">SLIDESHOWCK_MIDDLELEFT</option>
+					<option value="center">SLIDESHOWCK_CENTER</option>
+					<option value="centerRight">SLIDESHOWCK_MIDDLERIGHT</option>
+					<option value="bottomLeft">SLIDESHOWCK_BOTTOMLEFT</option>
+					<option value="bottomCenter">SLIDESHOWCK_BOTTOMCENTER</option>
+					<option value="bottomRight">SLIDESHOWCK_BOTTOMRIGHT</option>
+				</field>
+				<field
+					name="slideshowstylesillustration"
+					type="ckbackground"
+					background="slideshowck_styles.png"
+					styles="height:264px;width:356px;"
+				/>
+				<field
+					name="loader"
+					type="slideshowcklist"
+					default="pie"
+					label="SLIDESHOWCK_LOADER_LABEL"
+					description="SLIDESHOWCK_LOADER_DESC"
+					icon="arrow_rotate_clockwise.png"
+				>
+					<option value="pie">SLIDESHOWCK_LOADER_PIE</option>
+					<option value="bar">SLIDESHOWCK_LOADER_BAR</option>
+					<option value="none">SLIDESHOWCK_LOADER_NONE</option>
+				</field>
+
+				<field
+					name="width"
+					type="slideshowcktext"
+					default="auto"
+					label="SLIDESHOWCK_WIDTH_LABEL"
+					description="SLIDESHOWCK_WIDTH_DESC"
+					icon="width.png"
+					suffix=""
+				/>
+				<field
+					name="height"
+					type="ckheight"
+					default="62%"
+					label="SLIDESHOWCK_HEIGHT_LABEL"
+					description="SLIDESHOWCK_HEIGHT_DESC"
+					icon="height.png"
+					suffix=""
+				/>
+				<field
+					name="minheight"
+					type="slideshowcktext"
+					default="150"
+					label="SLIDESHOWCK_MINHEIGHT_LABEL"
+					description="SLIDESHOWCK_MINHEIGHT_DESC"
+					suffix="px"
+				/>
+				<field
+					name="navigation"
+					type="slideshowckradio"
+					default="2"
+					label="SLIDESHOWCK_NAVIGATION_LABEL"
+					description="SLIDESHOWCK_NAVIGATION_DESC"
+					class="btn-group"
+					icon="resultset_next.png"
+				>
+					<option value="2">SLIDESHOWCK_NAVIGATION_HOVER</option>
+					<option value="1">SLIDESHOWCK_NAVIGATION_ALWAYS</option>
+					<option value="0">SLIDESHOWCK_NAVIGATION_NONE</option>
+				</field>
+				<field
+					name="skin"
+					type="slideshowcklist"
+					default="camera_amber_skin"
+					label="SLIDESHOWCK_SKIN_LABEL"
+					description="SLIDESHOWCK_SKIN_DESC"
+					icon="palette.png" >
+					<option value="camera_amber_skin">amber</option>
+					<option value="camera_ash_skin">ash</option>
+					<option value="camera_azure_skin">azure</option>
+					<option value="camera_beige_skin">beige</option>
+					<option value="camera_black_skin">black</option>
+					<option value="camera_blue_skin">blue</option>
+					<option value="camera_brown_skin">brown</option>
+					<option value="camera_burgundy_skin">burgundy</option>
+					<option value="camera_charcoal_skin">charcoal</option>
+					<option value="camera_chocolate_skin">chocolate</option>
+					<option value="camera_coffee_skin">coffee</option>
+					<option value="camera_cyan_skin">cyan</option>
+					<option value="camera_fuchsia_skin">fuchsia</option>
+					<option value="camera_gold_skin">gold</option>
+					<option value="camera_green_skin">green</option>
+					<option value="camera_grey_skin">grey</option>
+					<option value="camera_indigo_skin">indigo</option>
+					<option value="camera_khaki_skin">khaki</option>
+					<option value="camera_lime_skin">lime</option>
+					<option value="camera_magenta_skin">magenta</option>
+					<option value="camera_maroon_skin">maroon</option>
+					<option value="camera_orange_skin">orange</option>
+					<option value="camera_olive_skin">olive</option>
+					<option value="camera_pink_skin">pink</option>
+					<option value="camera_pistachio_skin">pistachio</option>
+					<option value="camera_pink_skin">pink</option>
+					<option value="camera_red_skin">red</option>
+					<option value="camera_tangerine_skin">tangerine</option>
+					<option value="camera_turquoise_skin">turquoise</option>
+					<option value="camera_violet_skin">violet</option>
+					<option value="camera_white_skin">white</option>
+					<option value="camera_yellow_skin">yellow</option>
+				</field>
+				<field
+					name="thumbnails"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_THUMBNAILS_LABEL"
+					description="SLIDESHOWCK_THUMBNAILS_DESC"
+					class="btn-group"
+					icon="pictures.png"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="titleInThumbs"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_TITLE_IN_THUMBNAILS_LABEL"
+					class="btn-group"
+					showon="thumbnails:1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="thumbnailwidth"
+					type="slideshowcktext"
+					default="100"
+					label="SLIDESHOWCK_THUMBNAILWIDTH_LABEL"
+					description="SLIDESHOWCK_THUMBNAILWIDTH_DESC"
+					suffix="px"
+				/>
+
+				<field
+					name="thumbnailheight"
+					type="slideshowcktext"
+					default="75"
+					label="SLIDESHOWCK_THUMBNAILHEIGHT_LABEL"
+					description="SLIDESHOWCK_THUMBNAILHEIGHT_DESC"
+					suffix="px"
+				/>
+
+				<field
+					name="pagination"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_PAGINATION_LABEL"
+					description="SLIDESHOWCK_PAGINATION_DESC"
+					class="btn-group"
+					icon="edit-list-order.png"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="displayorder"
+					type="slideshowcklist"
+					default="normal"
+					label="SLIDESHOWCK_DISPLAYORDER_LABEL"
+					description="SLIDESHOWCK_DISPLAYORDER_DESC"
+					icon="control_repeat.png"
+				>
+					<option value="normal">SLIDESHOWCK_DISPLAYORDER_NORMAL</option>
+					<option value="shuffle">SLIDESHOWCK_DISPLAYORDER_SHUFFLE</option>
+				</field>
+				<field
+					name="limitslides"
+					type="slideshowcktext"
+					default=""
+					label="SLIDESHOWCK_NUMBER_SLIDES_LABEL"
+					description="SLIDESHOWCK_NUMBER_SLIDES_DESC"
+					icon="application_cascade.png"
+					
+					/>
+				<field
+					name="spacertext"
+					type="slideshowckspacer"
+					label="SLIDESHOWCK_TEXT_OPTIONS_LABEL"
+					style="title"
+					/>
+				<field
+					name="usecaption"
+					type="slideshowckradio"
+					label="SLIDESHOWCK_USECAPTION_LABEL"
+					description="SLIDESHOWCK_USECAPTION_DESC"
+					icon="switch.png"
+					class="btn-group"
+					default="1"
+					>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+				<field
+					name="usetitle"
+					type="slideshowckradio"
+					label="SLIDESHOWCK_USETITLE_LABEL"
+					description="SLIDESHOWCK_USETITLE_DESC"
+					icon="switch.png"
+					class="btn-group"
+					default="1"
+					showon="usecaption:1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="usecaptiondesc"
+					type="slideshowckradio"
+					label="SLIDESHOWCK_USECAPTIONDESC_LABEL"
+					description="SLIDESHOWCK_USECAPTIONDESC_DESC"
+					icon="switch.png"
+					class="btn-group"
+					default="1"
+					showon="usecaption:1"
+					>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+				<field
+					name="textlength"
+					type="slideshowcktext"
+					default=""
+					label="SLIDESHOWCK_ARTICLELENGTH_LABEL"
+					description="SLIDESHOWCK_ARTICLELENGTH_DESC"
+					icon="text_signature.png"
+					showon="usecaption:1"
+				/>
+				<field
+					name="striptags"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_STRIPTAGS_LABEL"
+					description="SLIDESHOWCK_STRIPTAGS_DESC"
+					icon="html.png"
+					class="btn-group"
+					showon="usecaption:1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="spacerlink"
+					type="slideshowckspacer"
+					label="SLIDESHOWCK_LINK_OPTIONS_LABEL"
+					style="title"
+					/>
+				<field
+					name="linkposition"
+					type="slideshowcklist"
+					label="SLIDESHOWCK_LINK_POSITION_LABEL"
+					description="SLIDESHOWCK_LINK_POSITION_DESC"
+					icon="link.png"
+					default="fullslide"
+					>
+					<option value="fullslide">SLIDESHOWCK_LINK_FULLSLIDE</option>
+					<option value="title">SLIDESHOWCK_LINK_TITLE</option>
+					<option value="button">SLIDESHOWCK_LINK_BUTTON</option>
+					<option value="none">SLIDESHOWCK_NONE</option>
+				</field>
+				<field
+					name="linkbuttontext"
+					type="slideshowcktext"
+					label="SLIDESHOWCK_LINK_BUTTON_TEXT_LABEL"
+					description="SLIDESHOWCK_LINK_BUTTON_TEXT_DESC"
+					icon="text_signature.png"
+					default="SLIDESHOWCK_LINK_BUTTON_TEXT"
+					showon="linkposition:button"
+					/>
+				<field
+					name="linkbuttonclass"
+					type="slideshowcktext"
+					label="SLIDESHOWCK_LINK_BUTTON_CLASS_LABEL"
+					description="SLIDESHOWCK_LINK_BUTTON_CLASS_DESC"
+					icon="css.png"
+					default="btn"
+					showon="linkposition:button"
+					/>
+				<field
+					name="linkautoimage"
+					type="slideshowckradio"
+					label="SLIDESHOWCK_LINK_AUTOIMAGE_LABEL"
+					description="SLIDESHOWCK_LINK_AUTOIMAGE_DESC"
+					icon="link_add.png"
+					default="0"
+					class="btn-group"
+					showon="linkposition!:none"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="linktarget"
+					type="slideshowcklist"
+					label="SLIDESHOWCK_LINK_TARGET_LABEL"
+					description="SLIDESHOWCK_LINK_TARGET_DESC"
+					icon="link_go.png"
+					default="_parent"
+					showon="linkposition!:none"
+					>
+					<option value="_parent">SLIDESHOWCK_LINK_SAME_WINDOW</option>
+					<option value="_blank">SLIDESHOWCK_LINK_NEW_WINDOW</option>
+				</field>
+				<field
+					name="spacerlightbox"
+					type="slideshowckspacer"
+					label="SLIDESHOWCK_LIGHTBOX_SPACER_LABEL"
+					style="title"
+					/>
+				<field
+					type="ckproonly"
+				/>
+			</fieldset>
+
+			<fieldset name="effects" label="SLIDESHOWCK_EFFECTS_OPTIONS">
+
+				<field
+					name="effect"
+					type="slideshowcklist"
+					default="random"
+					multiple="true"
+					label="SLIDESHOWCK_EFFECT_LABEL"
+					description="SLIDESHOWCK_EFFECT_DESC"
+					icon="application_view_gallery.png"
+					styles="width:200px;"
+				>
+					<option value="random">random</option>
+					<option value="kenburns">kenburns</option>
+					<option value="simpleFade">simpleFade</option>
+					<option value="curtainTopLeft">curtainTopLeft</option>
+					<option value="curtainTopRight">curtainTopRight</option>
+					<option value="curtainBottomLeft">curtainBottomLeft</option>
+					<option value="curtainBottomRight">curtainBottomRight</option>
+					<option value="curtainSliceLeft">curtainSliceLeft</option>
+					<option value="curtainSliceRight">curtainSliceRight</option>
+					<option value="blindCurtainTopLeft">blindCurtainTopLeft</option>
+					<option value="blindCurtainTopRight">blindCurtainTopRight</option>
+					<option value="blindCurtainBottomLeft">blindCurtainBottomLeft</option>
+					<option value="blindCurtainBottomRight">blindCurtainBottomRight</option>
+					<option value="blindCurtainSliceBottom">blindCurtainSliceBottom</option>
+					<option value="blindCurtainSliceTop">blindCurtainSliceTop</option>
+					<option value="stampede">stampede</option>
+					<option value="mosaic">mosaic</option>
+					<option value="mosaicReverse">mosaicReverse</option>
+					<option value="mosaicRandom">mosaicRandom</option>
+					<option value="mosaicSpiral">mosaicSpiral</option>
+					<option value="mosaicSpiralReverse">mosaicSpiralReverse</option>
+					<option value="topLeftBottomRight">topLeftBottomRight</option>
+					<option value="bottomRightTopLeft">bottomRightTopLeft</option>
+					<option value="bottomLeftTopRight">bottomLeftTopRight</option>
+					<option value="bottomLeftTopRight">bottomLeftTopRight</option>
+					<option value="scrollLeft">scrollLeft</option>
+					<option value="scrollRight">scrollRight</option>
+					<option value="scrollHorz">scrollHorz</option>
+					<option value="scrollBottom">scrollBottom</option>
+					<option value="scrollTop">scrollTop</option>
+				</field>
+
+				<field
+					name="time"
+					type="slideshowcktext"
+					default="7000"
+					label="SLIDESHOWCK_TIME_LABEL"
+					description="SLIDESHOWCK_TIME_DESC"
+					icon="hourglass.png"
+					suffix="ms" />
+
+				<field
+					name="transperiod"
+					type="slideshowcktext"
+					default="1500"
+					label="SLIDESHOWCK_TRANSPERIOD_LABEL"
+					description="SLIDESHOWCK_TRANSPERIOD_DESC"
+					icon="hourglass.png"
+					suffix="ms" />
+				<field
+					name="captioneffect"
+					type="slideshowcklist"
+					default="random"
+					label="SLIDESHOWCK_CAPTIONEFFECT_LABEL"
+					description="SLIDESHOWCK_CAPTIONEFFECT_DESC"
+					icon="application_view_gallery.png"
+					styles=""
+				>
+					<option value="moveFromLeft">moveFromLeft</option>
+					<option value="moveFromRight">moveFromRight</option>
+					<option value="moveFromTop">moveFromTop</option>
+					<option value="moveFromBottom">moveFromBottom</option>
+					<option value="fadeIn">fadeIn</option>
+					<option value="fadeFromLeft">fadeFromLeft</option>
+					<option value="fadeFromRight">fadeFromRight</option>
+					<option value="fadeFromTop">fadeFromTop</option>
+					<option value="fadeFromBottom">fadeFromBottom</option>
+					<option value="none">none</option>
+				</field>
+				<field
+					name="portrait"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_PORTRAIT_LABEL"
+					description="SLIDESHOWCK_PORTRAIT_DESC"
+					icon="shape_handles.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="autoAdvance"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_AUTOADVANCE_LABEL"
+					description="SLIDESHOWCK_AUTOADVANCE_DESC"
+					icon="control_play.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="hover"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_HOVER_LABEL"
+					description="SLIDESHOWCK_HOVER_DESC"
+					icon="control_pause.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="keyboardnavigation"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_KEYBOARD_CONTROL_LABEL"
+					description="SLIDESHOWCK_KEYBOARD_CONTROL_DESC"
+					class="btn-group"
+					icon="keyboard.png"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="fullpage"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_FULLPAGE_LABEL"
+					description="SLIDESHOWCK_FULLPAGE_DESC"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field
+					name="container"
+					type="slideshowcktext"
+					default=""
+					label="SLIDESHOWCK_CONTAINER_LABEL"
+					description="SLIDESHOWCK_CONTAINER_DESC"
+					class="btn-group"
+				/>
+				
+				
+			</fieldset>
+			<fieldset name="responsiveoptions" label="SLIDESHOWCK_RESPONSIVE">
+				<field 
+					name="mobileimagespacer"
+					label="SLIDESHOWCK_MOBILEIMAGE_SPACER_LABEL"
+					type="slideshowckspacer"
+					style="title"
+				/>
+				<field
+					name="usemobileimage"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_USEMOBILEIMAGE_LABEL"
+					description="SLIDESHOWCK_USEMOBILEIMAGE_DESC"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="mobileimageresolution"
+					type="slideshowcktext"
+					default="640"
+					label="SLIDESHOWCK_MOBILEIMAGERESOLUTION_LABEL"
+					description="SLIDESHOWCK_MOBILEIMAGERESOLUTION_DESC"
+					icon="width.png"
+					suffix="px" 
+				/>
+				<field
+					name="captionresponsiveckspacer"
+					type="slideshowckspacer"
+					label="SLIDESHOWCK_SPACER_RESPONSIVE"
+					style="title"
+				/>
+				<field
+					name="usecaptionresponsive"
+					type="slideshowcklist"
+					label="SLIDESHOWCK_USERESPONSIVECAPTION_LABEL"
+					description="SLIDESHOWCK_USERESPONSIVECAPTION_DESC"
+					icon="ipod.png"
+					class="btn-group"
+					default="1"
+					>
+						<option value="2">SLIDESHOWCK_RESOLUTION_ADAPTATIVE</option>
+						<option value="1">SLIDESHOWCK_RESOLUTION_STEP</option>
+						<option value="0">JNO</option>
+				</field>
+				<field
+					name="captionresponsiveresolution"
+					type="slideshowcktext"
+					label="SLIDESHOWCK_RESPONSIVERESOLUTION_LABEL"
+					description="SLIDESHOWCK_RESPONSIVERESOLUTION_DESC"
+					icon="width.png"
+					default="480"
+					showon="usecaptionresponsive!:0"
+				/>
+				<field
+					name="captionresponsivefontsize"
+					type="slideshowcktext"
+					label="SLIDESHOWCK_RESPONSIVEFONTSIZE_LABEL"
+					description="SLIDESHOWCK_RESPONSIVEFONTSIZE_DESC"
+					icon="style.png"
+					default="0.6em"
+					showon="usecaptionresponsive:1"
+				/>
+				<field
+					name="captionresponsivehidecaption"
+					type="slideshowckradio"
+					label="SLIDESHOWCK_RESPONSIVEHIDECAPTION_LABEL"
+					description="SLIDESHOWCK_RESPONSIVEHIDECAPTION_DESC"
+					icon="style_delete.png"
+					class="btn-group"
+					default="0"
+					showon="usecaptionresponsive!:0"
+					>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="loadjqueryeasing"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_LOADJQUERYEASING_LABEL"
+					description="SLIDESHOWCK_LOADJQUERYEASING_DESC"
+					icon="page_white_wrench.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field
+					name="autocreatethumbs"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_AUTOCREATETHUMBS_LABEL"
+					description="SLIDESHOWCK_AUTOCREATETHUMBS_DESC"
+					icon="application_cascade.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="usethumbstype"
+					type="slideshowckradio"
+					default="mini"
+					label="SLIDESHOWCK_THUMBSTYPE_LABEL"
+					description="SLIDESHOWCK_THUMBSTYPE_DESC"
+					class="btn-group"
+				>
+					<option value="mini">SLIDESHOWCK_THUMBSTYPE_MINI</option>
+					<option value="normal">SLIDESHOWCK_THUMBSTYPE_NORMAL</option>
+				</field>
+				<field
+					name="fixhtml"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_FIXHTML_LABEL"
+					description="SLIDESHOWCK_FIXHTML_DESC"
+					icon="bug_delete.png"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="content_prepare"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_CONTENT_PREPARE_LABEL"
+					description="SLIDESHOWCK_CONTENT_PREPARE_DESC"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="debug"
+					type="slideshowckradio"
+					default="1"
+					label="SLIDESHOWCK_DEBUG_LABEL"
+					description="SLIDESHOWCK_DEBUG_DESC"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="loadinline"
+					type="slideshowckradio"
+					default="0"
+					label="SLIDESHOWCK_LOAD_INLINE_LABEL"
+					description="SLIDESHOWCK_LOAD_INLINE_DESC"
+					class="btn-group"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					icon="layout.png" />
+
+				<field
+					name="moduleclass_sfx"
+					type="slideshowcktext"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					icon="text_signature.png" />
+
+				<field
+					name="cache"
+					type="slideshowcklist"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC" >
+					<option	value="1">JGLOBAL_USE_GLOBAL</option>
+					<option	value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="slideshowcktext"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					icon="hourglass.png"
+					suffix="min" />
+
+				<field
+					name="cachemode"
+					type="hidden"
+					default="itemid" >
+					<option	value="itemid"></option>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

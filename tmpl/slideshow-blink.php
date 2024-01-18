@@ -99,7 +99,7 @@ $count = count($elements);
 echo "<div class=\"slider items blink blink-view count$count $moduleclass_sfx \"  itemscope itemtype=\"http://schema.org/ImageGallery\">";
 
 foreach ($elements as $i => & $module){
-    $module->text =  $module->content = & $prepare($module->content ?? '');
+    $module->text =  $module->content = $prepare($module->content ?? '');
 
         echo "<div class=\"item viewSlide i$i $type sfx$module->moduleclass_sfx id$module->id $module->module  \">";
 
