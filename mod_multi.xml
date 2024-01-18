@@ -3,16 +3,16 @@
 	<name>_Multi</name>
 	<author>Korenevskiy Sergei</author>
 	<creationDate>2016-03-01</creationDate>
-	<modificationsDate>2023-01-27,2023-07-23,2023-09-20,2023-09-22,2023-10-23</modificationsDate>
-	<modificationDate>2023-10-23</modificationDate>
+	<modificationsDate>2023-01-27,2023-07-23,2023-09-20,2023-09-22,2023-10-23,2024-01-18</modificationsDate>
+	<modificationDate>2024-01-18</modificationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>korenevskiys@ya.ru</authorEmail>
 	<authorUrl>//www.explorer-office.ru</authorUrl>
-	<version>4.35</version>
+	<version>4.4</version>
     <description>[[%1:]] &lt;br&gt; &lt;b&gt; Multi Module &lt;/b&gt; &lt;span  class="badge alert-primary " &gt; [[%2:]]:[[%3:]] / [[%4:]]:[[%5:]]&lt;/span&gt; [[%6:]]
             ,MOD_MULTI_DESCRIPTION,JVersion,
-            4.35,JDate,2023-10-23,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
+            4.4,JDate,2024-01-18,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
     
      <!--  <b> Multi Module </b> <span class="badge badge-info" >...   <customContent /> -->
     
