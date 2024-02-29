@@ -27,8 +27,6 @@ use Joomla\CMS\Form\Form as JForm;
 use Joomla\CMS\Language\Language as JLanguage;
 
 class JFormFieldTranslate extends JFormField  {
-	
-	public $fieldname = '';
 
 	public function __construct($form = null) {
 		parent::__construct($form);
@@ -98,6 +96,8 @@ class JFormFieldTranslate extends JFormField  {
 	public $path = '';
 
 	public $file = '';
+	
+	public $fieldname = '';
 
 	public function getInput() {
 		return '';
