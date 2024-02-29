@@ -14,7 +14,7 @@
 use Joomla\CMS\Plugin\PluginHelper as JPluginHelper;
 use Joomla\Registry\Registry as JRegistry;
 use Joomla\CMS\Form\Field\ListField as JFormFieldList;
-use \Joomla\CMS\Form\FormField as JFormField;
+use Joomla\CMS\Form\FormField as JFormField;
 use Joomla\CMS\Language\Text as JText;
 use Joomla\CMS\HTML\HTMLHelper as JHtml;
 use Joomla\CMS\Factory as JFactory;
@@ -22,7 +22,7 @@ use Joomla\CMS\Factory as JFactory;
 use Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper as JLayoutHelper;
 use Joomla\CMS\Layout\FileLayout as JLayoutFile;
-use \Joomla\CMS\Version as JVersion;
+use Joomla\CMS\Version as JVersion;
 use Joomla\CMS\Form\Form as JForm;
 use Joomla\CMS\Language\Language as JLanguage;
 
