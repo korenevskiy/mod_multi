@@ -23,13 +23,18 @@ if(empty($item->items))
 ?>
 <ul>
 	<?php foreach ($item->items as $item):
-		$title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
+		$title = htmlspecialchars( $item->link_title ?? $item->title, ENT_COMPAT, 'UTF-8');
 		if(!isset($item->cat_id))
 			$item->cat_id = 0;
 		$cat_id = $item->cat_id ? "id=$item->cat_id" : '';
+		
+		$link_title = $title ? "title='$title'" : '';
+		
+		$link_class = $item->link_class ?? '';
+		$link_class = $link_class  ? "class='$link_class'" : '';
 	?>
 	<li>
-		<a title="<?= $title?>" href="<?= $item->link;?>">
+		<a <?= $link_title?> <?= $link_class?> href="<?= $item->link;?>">
 
 		<?php if ($param->items_image && isset($item->image)) :
 			$item->params = new \Reg($item->params);
