@@ -14,7 +14,7 @@
 use Joomla\CMS\Plugin\PluginHelper as JPluginHelper;
 use Joomla\Registry\Registry as JRegistry;
 use Joomla\CMS\Form\Field\ListField as JFormFieldList;
-use Joomla\CMS\Form\FormField as JFormField;
+use \Joomla\CMS\Form\FormField as JFormField;
 use Joomla\CMS\Language\Text as JText;
 use Joomla\CMS\HTML\HTMLHelper as JHtml;
 use Joomla\CMS\Factory as JFactory;
@@ -22,11 +22,19 @@ use Joomla\CMS\Factory as JFactory;
 use Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper as JLayoutHelper;
 use Joomla\CMS\Layout\FileLayout as JLayoutFile;
-use Joomla\CMS\Version as JVersion;
+use \Joomla\CMS\Version as JVersion;
 use Joomla\CMS\Form\Form as JForm;
 use Joomla\CMS\Language\Language as JLanguage;
 
+if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php')){
+	require_once  JPATH_ROOT . '/functions.php';
+	
+ toPrint(null,'' ,0,'');
+}
+
 class JFormFieldTranslate extends JFormField  {
+	
+	public $fieldname = '';
 
 	public function __construct($form = null) {
 		parent::__construct($form);
@@ -96,17 +104,20 @@ class JFormFieldTranslate extends JFormField  {
 	public $path = '';
 
 	public $file = '';
-	
-	public $fieldname = '';
 
 	public function getInput() {
 		return '';
 	}
 	public function getLabel() {
-		return '';
+		
+		$id = JFactory::getApplication()->getInput()->getInt('id');
+		if($id)
+			return "<a href='/index.php?option=com_ajax&module=multi&method=get&format=raw&id=$id'>Link Test Ajax</a><hr>";
+		else
+			return '';
 	}
 	public function getTitle() {
-		return '';
+		return "";
 	}
 	public function getId($fieldId, $fieldName) {
 		return '';

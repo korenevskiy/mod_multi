@@ -151,7 +151,7 @@ $link = $params->get('link');
 
 
 $prepare = function ( $item, $param = null, $context = 'com_content.article'){
-    return modMultiHelper::preparePlugin($item, $param, $context);
+    return ModMultiHelper::preparePlugin($item, $param, $context);
 };  
  
 $isImage = function($url){

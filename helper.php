@@ -20,7 +20,8 @@ use Joomla\CMS\Factory as JFactory;
 
 jimport('joomla.application.module.helper');
 
-abstract class modMultiHelper
+//ModMultiHelper::getAjax
+abstract class ModMultiHelper
 {
     public static $params;
 
@@ -43,6 +44,8 @@ abstract class modMultiHelper
         $module->ajax = true;
 
         JFactory::getLanguage()->load($module->module);
+		
+
 
         $params = new \Reg($module->params);
 
@@ -127,7 +130,7 @@ abstract class modMultiHelper
      * @param string $typeMenu Type Menu
      * @return array list items from menu
      */
-    public static function getMenuItems($typeMenu )
+    public static function &getMenuItems($typeMenu )
     {
         $query= "SELECT * FROM #__menu WHERE menutype = '$typeMenu' AND published=1 AND level=1 ORDER BY lft,rgt,id; ";
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');

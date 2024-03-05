@@ -3,16 +3,16 @@
 	<name>_Multi</name>
 	<author>Korenevskiy Sergei</author>
 	<creationDate>2016-03-01</creationDate>
-	<modificationsDate>2023-01-27,2023-07-23,2023-09-20,2023-09-22,2023-10-23,2024-01-18</modificationsDate>
-	<modificationDate>2024-01-18</modificationDate>
+	<modificationsDate>2023-01-27,2023-07-23,2023-09-20,2023-09-22,2023-10-23,2024-01-18,2024-01-18</modificationsDate>
+	<modificationDate>2024-03-05</modificationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>korenevskiys@ya.ru</authorEmail>
 	<authorUrl>//www.explorer-office.ru</authorUrl>
-	<version>4.4</version>
+	<version>4.5</version>
     <description>[[%1:]] &lt;br&gt; &lt;b&gt; Multi Module &lt;/b&gt; &lt;span  class="badge alert-primary " &gt; [[%2:]]:[[%3:]] / [[%4:]]:[[%5:]]&lt;/span&gt; [[%6:]]
             ,MOD_MULTI_DESCRIPTION,JVersion,
-            4.4,JDate,2024-01-18,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
+            4.5,JDate,2024-03-05,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
     
      <!--  <b> Multi Module </b> <span class="badge badge-info" >...   <customContent /> -->
     
@@ -32,11 +32,11 @@
 		<language tag="ru-RU">language/ru-RU/mod_multi.ini</language>
 		<language tag="ru-RU">language/ru-RU/mod_multi.sys.ini</language>
 	</languages>
-        <updateservers>
-            <server type="extension" name="mod_multi" priority="1">https://korenevskiy.github.io/mod_multi/mod_multi_update.xml</server>
-            <server type="extension" name="mod_multi" priority="2">https://explorer-office.ru/modules/mod_multi_update.xml</server>
-            <server type="extension" name="mod_multi" priority="3">https://raw.githubusercontent.com/korenevskiy/mod_multi/master/mod_multi_update.xml</server>
-         </updateservers>
+	<updateservers>
+		<server type="extension" name="mod_multi" priority="1">https://korenevskiy.github.io/mod_multi/mod_multi_update.xml</server>
+		<server type="extension" name="mod_multi" priority="2">https://explorer-office.ru/modules/mod_multi_update.xml</server>
+		<server type="extension" name="mod_multi" priority="3">https://raw.githubusercontent.com/korenevskiy/mod_multi/master/mod_multi_update.xml</server>
+	</updateservers>
 <!--
         <scriptfile>script.php</scriptfile>
         <install>
@@ -59,19 +59,16 @@
         </update>
 --> 
 
-        <config>
-            <fields name="params">
-                <fieldset name="basic">   
+    <config>
+        <fields name="params">
+            <fieldset name="basic">   
 
 
-				<field
-					type="translate"
-					/>
                     
         
                     
                     
-                    <field
+                <field
                         type="spacer"
                         default=""
                         label="
@@ -81,10 +78,16 @@
                         description=""
                         showon="myfile!:use.php"
                     />
+					
+					
+				<field
+					type="translate"
+                        label="&lt;hr>"
+					/>
+					
                     <field
                         type="spacer"
                         default=""
-                        label="&lt;hr>"
                         description=""
                     />
 
@@ -421,7 +424,7 @@
                         class="btn-group  " 
                         label="MOD_MULTIMODULE_FIELD_ITEMS_LINK_TITLE_LABEL" 
                         description=""   showon="style_tag3!:0" 
-                        default="0">
+                        default="a">
                             <option value="ha">[[%1:]] , &lt; h*> &lt; a/&gt; </option>  
                             <option value="ah">[[%1:]] , &lt; a&gt; &lt; h*/> </option>  
                             <option value="a">[[%1:]] , &lt; a&gt; </option>  
@@ -434,7 +437,7 @@
                         label="MOD_MULTIMODULE_FIELD_ITEMS_IMAGE_LABEL" 
                         description="&lt; a href=&quot;path/image&quot;> &lt; img...&gt;&lt; /a&gt;&lt;br&gt; &lt; a href=&quot;link/article&quot;> &lt; img...&gt;&lt; /a&gt;&lt;br&gt;  &lt; div> &lt; img...&gt;&lt; /div&gt; &lt;br&gt; &lt; img...&gt; "   
                         showon="style_tag3!:0" 
-                        default="di">
+                        default="i">
                             <option value="ai">[[%1:]] , &lt; a link> &lt; img&gt; </option>
                             <option value="ii">[[%1:]] , &lt; a img> &lt; img&gt; </option>
                             <option value="di">[[%1:]] ,  &lt; div> &lt; img&gt; </option>
@@ -1447,8 +1450,8 @@ ORDER BY lft)t) ;
                         showon="url_is:only[OR]url_is:without"
 					/>
                 </fieldset>      
-                <fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL"> 
-                </fieldset>      
+                <fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">
+                </fieldset>
                 <fieldset name="description" label="JGLOBAL_DESCRIPTION">
                      
                     <field
@@ -1506,7 +1509,7 @@ ORDER BY lft)t) ;
             <!--       <fieldset name="option"  label="COM_MODULES_BASIC_FIELDSET_LABEL">   
                     </fieldset>--> 
                 
-                <fieldset name="html"  label="HTML">   
+                <fieldset name="html"  label="HTML" addfieldpath="/modules/mod_multi/fields">   
                         
                     <field
                         name="html_show"
@@ -1580,17 +1583,20 @@ ORDER BY lft)t) ;
                            
                         <field name="favicon_files_0" type="filelist" accept="image/svg" directory="images" stripext="0" fileFilter="svg" hide_none='0' hide_default='1'
                             label="&lt;b>Image SVG Any Size&lt;/b>" description=""  showon="html_show:1[AND]favicon_show:1"/> 
-                            <field  
-                                    name="favicon_files_ico" 
-                                    type="files"  
-                                    extensions="ico"  
-                                    class="advancedSelect"
-                                    multiple="true"            
-                                    label="ICO file for very old browser" 
-                                    description="Finding file .ICO in Paths: \n/templates/{template}/ico/, /templates/{template}/media/, /templates/ico/, /templates/media/, /templates/, /modules/mod_multi/ico/, /modules/mod_multi/media/" 
-                                    addfieldpath="modules/mod_multi/fields"
-                            showon="html_show:1[AND]favicon_show:1"
-                                />  
+						<field  
+							name="favicon_files_ico" 
+							type="files"
+							fileFilter="intarray"
+							layout="joomla.form.field.list-fancy-select" 
+							extensions="ico"  
+                            class="advancedSelect"
+							multiple="true" 
+							label="ICO file for very old browser" 
+							description="Finding file .ICO in Paths: \n/templates/{template}/ico/, /templates/{template}/media/, /templates/ico/, /templates/media/, /templates/, /modules/mod_multi/ico/, /modules/mod_multi/media/" 
+							addfieldpath="/modules/mod_multi/fields"
+							showon="html_show:1[AND]favicon_show:1"
+							
+							/>  
                         <field name="favicon_files_16" type="media"
                            label="Image PNG 16x16" description=""  showon="html_show:1[AND]favicon_show:1"/> 
                         <field name="favicon_files_32" type="media"
@@ -1663,9 +1669,9 @@ ORDER BY lft)t) ;
                                 <field  
                                     name="fontsFiles" 
                                     type="files"  
-                                    extensions="eot/woff/ttf/otf/svg/fonts"  
-                                     class="advancedSelect"
-                                   multiple="true"            
+                                    extensions="eot/woff/woff2/ttf/otf/svg/fonts"  
+                                    class="advancedSelect"
+                                    multiple="true"            
                                     label="Fonts Files" 
                                     description="Recomended &lt;b>WOFF&lt;/b> file font.\n Finding file Font in Paths: \n/templates/{template}/fonts/, /templates/{template}/media/, /templates/fonts/, /templates/, /modules/mod_multi/fonts/, /modules/mod_multi/media/" 
                                     addfieldpath="modules/mod_multi/fields"
@@ -1695,9 +1701,10 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
                                     name="stylesheetFiles" 
                                     type="files"  
                                     extensions="css"  
-                                     class="advancedSelect"
-                                   multiple="true"            
-                                    label="File CSS" 
+                                    class="advancedSelect"
+									multiple="true"
+                                    label="File CSS"
+									directory="templates/fonts"
                                     description="Finding file CSS in Paths: \n/templates/{template}/css/, /templates/{template}/media/, /templates/css/, /templates/media/, /templates/, /modules/mod_multi/css/, /modules/mod_multi/media/" 
                                     addfieldpath="modules/mod_multi/fields"
                            showon="html_show:1"

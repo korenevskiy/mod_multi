@@ -35,9 +35,8 @@
 
 $param = new \Reg($params);//*** ->toObject()
 $param->id = $module->id;
-
-
-
+$param->ajax = $module->ajax;
+$ajax = $param->ajax ? 'ajax' : '';
 
 
 $base = JUri::base();
@@ -59,7 +58,7 @@ $header_tag = $param->header_tag ?? 'h3';
 $header_class = htmlspecialchars($param->header_class ?? 'module-header');
 
 $prepare = function ( $item, $param = null, $context = 'com_content.article'){
-    return modMultiHelper::preparePlugin($item, $param, $context);
+    return ModMultiHelper::preparePlugin($item, $param, $context);
 };
 
 $param->items_link;
@@ -91,9 +90,9 @@ $count_items = array_sum($ElementTypes);
 
 
 if($module_tag2 = $param->module_tag2)
-    echo "<$module_tag2 class='multimodule$param->moduleclass_sfx2 count$count_items id$id $param->style'  >";
+    echo "<$module_tag2 class='multimodule$param->moduleclass_sfx2 count$count_items id$id $param->style $ajax'>";
 else
-    $param->moduleclass_sfx = $param->moduleclass_sfx." count$count_items ";
+    $param->moduleclass_sfx = $param->moduleclass_sfx." count$count_items $ajax";
 
 
 //if($param->id == 112)
@@ -133,6 +132,7 @@ if($showtitle):
         $$mod->title = $titlea;
 endif;
 
+
 foreach ($modules as $type => $items):
     if(is_string($items)){
         echo $items;
@@ -170,6 +170,7 @@ if(empty($param->style_tag3) || $param->style_tag3 == '0'):
 else:
 
 
+//echo "<pre>".print_r($module,true)."</pre>";
 	
     $content_tag3 = $param->content_tag3;
 

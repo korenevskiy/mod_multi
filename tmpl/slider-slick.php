@@ -35,7 +35,7 @@ $header_tag = $params->get('header_tag', 'h3');
 $header_class = htmlspecialchars($params->get('header_class', 'module-header'));
 
 $prepare = function ( $item, $param = null, $context = 'com_content.article'){
-    return modMultiHelper::preparePlugin($item, $param, $context);
+    return ModMultiHelper::preparePlugin($item, $param, $context);
 };
 
 $link_show = $params->get('link_show');

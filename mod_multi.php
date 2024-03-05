@@ -37,7 +37,7 @@ $param->id = $module->id;
 
 if($module->position && $module->id):
 
-if(empty($module->ajax) && !modMultiHelper::requireWork($param)){
+if(empty($module->ajax) && !ModMultiHelper::requireWork($param)){
 //toPrint($module,'$module',0, 'message',true);
 	
     $pos	= $module->position;
@@ -119,9 +119,9 @@ if ($params->get('html_show')) {
         $param->favicon_title;
         $param->favicon_tooltip;
 
-        $favicon_files_ico = $param->favicon_files_ico ?:[];
+        $favicon_files_ico = $param->favicon_files_ico ?? [];
 
-        foreach ($favicon_files_ico as $key => $value) {
+        foreach ((array)$favicon_files_ico as $key => $value) {
             //JDocument::getInstance()->_links[] = trim($value, "");//JUri::base().
             JFactory::getDocument()->addFavicon(''.$value);  // ??????
             //JFactory::getDocument()->addCustomTag("<link rel='icon'  type='image/vnd.microsoft.icon' href='$value'>");
@@ -179,9 +179,9 @@ if ($params->get('html_show')) {
     $html = $param->html_code ?? '';
 
     if ($fontsFiles)
-        modMultiHelper::fontsFiles($fontsFiles, $module->id);
+        ModMultiHelper::fontsFiles($fontsFiles, $module->id);
     if ($fontsGoogle)
-        modMultiHelper::fontsGoogle($fontsGoogle, $module->id);
+        ModMultiHelper::fontsGoogle($fontsGoogle, $module->id);
 
     if ($param->stylesheetFiles ?? [])
         foreach ($param->stylesheetFiles as $key => $value) {
@@ -328,21 +328,21 @@ $$par=$params;
 if($param->article_show && $param->article_id){
     $article_order = $param->article_order;
 	
-    $modules[sprintf("%02d", $article_order).'article'] = modMultiHelper::getArticles([$param->article_id],[],$param->article_show, $module->id, $param->content_tag3!='none');
+    $modules[sprintf("%02d", $article_order).'article'] = ModMultiHelper::getArticles([$param->article_id],[],$param->article_show, $module->id, $param->content_tag3!='none');
     if($modules[sprintf("%02d", $article_order).'article'])
         $module->empty_list = FALSE;
 }
 /* Articles */
 if($param->articles_show && $param->articles_id){
 
-    $modules[sprintf("%02d", $param->articles_order).'articles'] = modMultiHelper::getArticles([],$param->articles_id,$param->articles_show, $module->id);
+    $modules[sprintf("%02d", $param->articles_order).'articles'] = ModMultiHelper::getArticles([],$param->articles_id,$param->articles_show, $module->id);
     if($modules[sprintf("%02d", $param->articles_order).'articles'])
         $module->empty_list = FALSE;
 }
 /* В разработке!!!!!!! categories */
 if($param->categories_show && $param->categories_id){
 
-    $modules[sprintf("%02d", $param->categories_order).'categories'] = modMultiHelper::getArticles([],$param->categories_id,$param->categories_show);
+    $modules[sprintf("%02d", $param->categories_order).'categories'] = ModMultiHelper::getArticles([],$param->categories_id,$param->categories_show);
     if($modules[sprintf("%02d", $param->categories_order).'categories'])
         $module->empty_list = FALSE;
 }
@@ -350,7 +350,13 @@ if($param->categories_show && $param->categories_id){
 if($param->menu_show && $param->menu){
     $link_css = 'menu-anchor_css';
     $link_title = 'menu-anchor_title';
-    $modules[sprintf("%02d", $param->menu_order).'menu'] = $menus = &modMultiHelper::getMenuItems($param->menu);
+	
+    $modules[sprintf("%02d", $param->menu_order).'menu'] = $menus = &ModMultiHelper::getMenuItems($param->menu);
+	
+//	$modules[sprintf("%02d", $param->menu_order).'menu'] = &$menus;
+	
+//echo "<pre>".print_r($param->menu_img_show,true)."</pre>";
+//return;
 
     foreach ($menus as $id=> &$item){
         $menus[$id]->params = json_decode ($item->params);
@@ -380,18 +386,27 @@ if($param->menu_show && $param->menu){
             $menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem id$item->id $css '><span>$item->title</span></a>";
         else
             $menus[$id]->content = '';
+//			$menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem id$item->id $css '>$item->title</a>";
+		
+		$menus[$id]->module = 'menu';
+		$menus[$id]->module_tag = '';
+		$menus[$id]->header_class = '';
+		
+//		$menus[$id]->link = 
+		
+//		$menus[$id]->module = 'menu';
+//		$menus[$id]->moduleclass_sfx = '';
+//		$menus[$id]->header_tag = '';
     }
     if($modules[sprintf("%02d", $param->menu_order).'menu'])
         $module->empty_list = FALSE;
-    $modules[sprintf("%02d", $param->menu_order).'menu']->module = 'menu';
-
 }
 
 //toPrint($param->position_show,'$param->position_show',0,'pre',true);
 /* Modules positions */
 if($param->position_show){
     if($param->position_show == 'position_module')
-        $positions = modMultiHelper::split($param->position_module, [' ',',',';','\n','\r','\t']);
+        $positions = ModMultiHelper::split($param->position_module, [' ',',',';','\n','\r','\t']);
 
     else
         $positions = (array)$param->position_modules;
@@ -403,7 +418,7 @@ if($param->position_show){
         $param->position_ordering =  " FIND_IN_SET(position, '$ord'), ";
     }
 
-    $modules[sprintf("%02d", $param->position_order).'position'] = modMultiHelper::getModulesFromPosition($positions,$param->position_ordering, $$mod->id,$$mod->position,$param->style_tag3);
+    $modules[sprintf("%02d", $param->position_order).'position'] = ModMultiHelper::getModulesFromPosition($positions,$param->position_ordering, $$mod->id,$$mod->position,$param->style_tag3);
 
     if($modules[sprintf("%02d", $param->position_order).'position'])
         $module->empty_list = FALSE;
@@ -413,7 +428,7 @@ if($param->position_show){
 if($param->modules_show){
 
     if($param->modules_show == 'id')
-        $modulesID = modMultiHelper::split($param->modules_ids, [' ',',',';','\n','\r','\t']);
+        $modulesID = ModMultiHelper::split($param->modules_ids, [' ',',',';','\n','\r','\t']);
 
     else
         $modulesID = (array)$param->modules_sel;
@@ -423,7 +438,7 @@ if($param->modules_show){
         $param->modules_ordering =  " FIND_IN_SET(id, '$ord'), ";
     }
 
-    $modules[sprintf("%02d", $param->modules_order).'modules'] = modMultiHelper::getModulesFromSelected($modulesID,$param->modules_ordering, $$mod->id,$$mod->position,$param->style_tag3);
+    $modules[sprintf("%02d", $param->modules_order).'modules'] = ModMultiHelper::getModulesFromSelected($modulesID,$param->modules_ordering, $$mod->id,$$mod->position,$param->style_tag3);
 
     if($modules[sprintf("%02d", $param->modules_order).'modules'])
         $module->empty_list = FALSE;
@@ -460,7 +475,7 @@ if($rnd = $param->images_show){
 //      $param->images_folder[] = $img;
     }
     
-    $modules[sprintf("%02d", $param->images_order).'images'] = $items = modMultiHelper::getImages($param->images_folder,$rnd,$param->images_count, $param->images_links,$param->images_titles,$param->images_texts);
+    $modules[sprintf("%02d", $param->images_order).'images'] = $items = ModMultiHelper::getImages($param->images_folder,$rnd,$param->images_count, $param->images_links,$param->images_titles,$param->images_texts);
 
     if($modules[sprintf("%02d", $param->images_order).'images'])
         $module->empty_list = FALSE;
@@ -469,12 +484,12 @@ if($rnd = $param->images_show){
 if($param->tags_show ?? false){
 
     $modules[sprintf("%02d", $param->tags_order).'tags'] = $items
-		= modMultiHelper::getTags($param->tags_show, $param->tags_catids??[], $param->tags_parents??[], $param->tags_maximum, $param->tags_sort, $param->tags_count, $param->tags_category_title, $param->Itemid ?? 0);
+		= ModMultiHelper::getTags($param->tags_show, $param->tags_catids??[], $param->tags_parents??[], $param->tags_maximum, $param->tags_sort, $param->tags_count, $param->tags_category_title, $param->Itemid ?? 0);
 
 }
 /*  */
 if($param->query_show && trim($param->query_select)){
-	$modules[sprintf("%02d", $param->query_order).'query'] = $items = modMultiHelper::getSelects(trim($param->query_select));
+	$modules[sprintf("%02d", $param->query_order).'query'] = $items = ModMultiHelper::getSelects(trim($param->query_select));
 
     if($modules[sprintf("%02d", $param->query_order).'query'])
         $module->empty_list = FALSE;
@@ -523,7 +538,7 @@ endif;
 $module=$$mod;
 $params=$$par;
 
-modMultiHelper::$params = $params;
+ModMultiHelper::$params = $params;
 
 
 //JHtml::script($img);// register($img, $function);

@@ -33,10 +33,10 @@ if($param->work_type_require == 'and'):
             #2 Require for ip user address
             if($param->ip_user_is):
                 $ip_param = $param->ip_user;
-                $ip_param = modMultiHelper::replace('.000.','.0.',$ip_param);
-                $ip_param = modMultiHelper::replace('.00.','.0.',$ip_param);
-				$ip_param = modMultiHelper::replace(' ',',',$ip_param);
-				$ip_param = modMultiHelper::replace(';',',',$ip_param);
+                $ip_param = ModMultiHelper::replace('.000.','.0.',$ip_param);
+                $ip_param = ModMultiHelper::replace('.00.','.0.',$ip_param);
+				$ip_param = ModMultiHelper::replace(' ',',',$ip_param);
+				$ip_param = ModMultiHelper::replace(';',',',$ip_param);
 				$ip_user = ip2long($_SERVER['REMOTE_ADDR']);
 				$ip_exist = false;
 				foreach (explode(',', $ip_param) as $ip){
@@ -51,7 +51,7 @@ if($param->work_type_require == 'and'):
 //echo $ips_user;
 //echo ' <br>';
 //echo $_SERVER['REMOTE_ADDR'];
-//echo ' :'. modMultiHelper::inArray($_SERVER['REMOTE_ADDR'], $ips_user);
+//echo ' :'. ModMultiHelper::inArray($_SERVER['REMOTE_ADDR'], $ips_user);
 				
                 if($param->ip_user_is == 'only' && !$ip_exist){
                     return FALSE;
@@ -108,10 +108,10 @@ echo $_SERVER['REMOTE_ADDR'];
                 $view_site = JFactory::getApplication()->input->getWord('view');
                 if(empty($views)){
                 }
-                elseif($param->view_is == 'only' &&  !modMultiHelper::inArray($view_site, $views)){
+                elseif($param->view_is == 'only' &&  !ModMultiHelper::inArray($view_site, $views)){
                     return FALSE;
                 }
-                else if($param->view_is == 'without' &&  modMultiHelper::inArray($view_site, $views)){
+                else if($param->view_is == 'without' &&  ModMultiHelper::inArray($view_site, $views)){
                     return FALSE;
                 }
             endif;
@@ -228,10 +228,10 @@ else://$param->work_type_require == 'or'
             #2 Require for ip user address
             if($param->ip_user_is):
                 $ip_param = $param->ip_user;
-                $ip_param = modMultiHelper::replace('.000.','.0.',$ip_param);
-                $ip_param = modMultiHelper::replace('.00.','.0.',$ip_param);
-				$ip_param = modMultiHelper::replace(' ',',',$ip_param);
-				$ip_param = modMultiHelper::replace(';',',',$ip_param);
+                $ip_param = ModMultiHelper::replace('.000.','.0.',$ip_param);
+                $ip_param = ModMultiHelper::replace('.00.','.0.',$ip_param);
+				$ip_param = ModMultiHelper::replace(' ',',',$ip_param);
+				$ip_param = ModMultiHelper::replace(';',',',$ip_param);
 				$ip_user = ip2long($_SERVER['REMOTE_ADDR']);
 				$ip_exist = false;
 				foreach (explode(',', $ip_param) as $ip){
@@ -296,10 +296,10 @@ else://$param->work_type_require == 'or'
                 $view_site = JFactory::getApplication()->input->getWord('view');
                 if(empty($views)){
                 }
-                elseif($param->view_is == 'only' &&  modMultiHelper::inArray($view_site, $views)){
+                elseif($param->view_is == 'only' &&  ModMultiHelper::inArray($view_site, $views)){
                     return TRUE;
                 }
-                else if($param->view_is == 'without' &&  !modMultiHelper::inArray($view_site, $views)){
+                else if($param->view_is == 'without' &&  !ModMultiHelper::inArray($view_site, $views)){
                     return TRUE;
                 }
             endif;

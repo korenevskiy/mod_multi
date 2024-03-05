@@ -41,7 +41,7 @@ $modules;
 $modules_tag = $params->get('modules_tag');
 
 $prepare = function ( $item, $param = null, $context = 'com_content.article'){
-    return modMultiHelper::preparePlugin($item, $param, $context);
+    return ModMultiHelper::preparePlugin($item, $param, $context);
 };
 
 if($module_tag2 = $params->get('module_tag2'))
