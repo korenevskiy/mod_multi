@@ -353,8 +353,6 @@ if($param->menu_show && $param->menu){
 	
     $modules[sprintf("%02d", $param->menu_order).'menu'] = $menus = &ModMultiHelper::getMenuItems($param->menu);
 	
-//	$modules[sprintf("%02d", $param->menu_order).'menu'] = &$menus;
-	
 //echo "<pre>".print_r($param->menu_img_show,true)."</pre>";
 //return;
 
@@ -366,8 +364,16 @@ if($param->menu_show && $param->menu){
             unset($item);
             continue;
         }
-        $css = $item->params->$link_css;
-        $title = $item->params->$link_title ? $item->params->$link_title : $item->title;
+		
+		$link_class = '';
+		$link_title = '';
+		if($item->params->$link_css ?? false)
+			$item->link_class = $link_class = $item->params->$link_css;
+		
+		if($item->params->$link_title ?? false)
+			$item->link_title = $link_title = $item->params->$link_title;
+		
+        $menus[$id]->moduleclass_sfx = $item->params->$link_css;
         $menus[$id]->menu_image = $item->params->menu_image;
 
         $menus[$id]->link = JRoute::_($item->link);
@@ -375,7 +381,6 @@ if($param->menu_show && $param->menu){
         $module->header_tag = 'none';
 
         $menus[$id]->showtitle = TRUE;
-        $menus[$id]->moduleclass_sfx = $link_css;
         $img = '';
         $item->image = $item->menu_image;
 		
@@ -383,21 +388,23 @@ if($param->menu_show && $param->menu){
 		$menus[$id]->module_tag = '';
 		$menus[$id]->header_class = '';
 		
+//echo "<pre>$id : ".print_r($item->params->$link_css,true)."</pre>";
+//echo "<pre>$id : ".print_r($menus[$id]->link_class,true)."</pre><br>";
 //		$menus[$id]->link = 
 //		$menus[$id]->module = 'menu';
 //		$menus[$id]->moduleclass_sfx = '';
 //		$menus[$id]->header_tag = '';
 		
         if($param->menu_img_show)
-            $img = "<img alt='$title' class='menuimg id$item->id ' src='$item->menu_image'/>";
+            $img = "<img alt='$item->link_title' class='menuimg id$item->id ' src='$item->menu_image'/>";
 		
         if($param->menu_img_show =='in')
-            $menus[$id]->content ="<a href='$item->link' title='$title' class='menuitem a id$item->id $css level_$item->menu_image '>$img <span>$item->title</span></a>";
+            $menus[$id]->content ="<a href='$item->link' title='$link_title' class='menuitem a id$item->id $link_class level_$item->menu_image '>$img <span>$item->title</span></a>";
         elseif($param->menu_img_show =='out')
-            $menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem b id$item->id $css level_$item->menu_image'><span>$item->title</span></a>";
+            $menus[$id]->content ="$img<a href='$item->link' title='$link_title' class='menuitem b id$item->id $link_class level_$item->menu_image'><span>$item->title</span></a>";
         else
             $menus[$id]->content = '';
-//			$menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem id$item->id $css '>$item->title</a>";
+//			$menus[$id]->content ="$img<a href='$item->link' title='$item->link_title' class='menuitem id$item->id $link_class '>$item->title</a>";
 		
 		if(!isset($items[$id]->items))
 			$menus[$id]->items = [];
@@ -412,7 +419,6 @@ if($param->menu_show && $param->menu){
 //			if(isset($menus[$menus[$id]->parent_id]) && in_array($param->menu_img_show, ['in','out']))
 //				$menus[$menus[$id]->parent_id]->content .= $menus[$id]->content;
 			
-//echo "<pre>$id : ".print_r('0000',true)."</pre>";
 			unset($menus[$id]);
 			unset($modules[sprintf("%02d", $param->menu_order).'menu'][$id] );
 			
