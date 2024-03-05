@@ -17,7 +17,7 @@ use \Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 defined('MULTIMOD_PATH') || define('MULTIMOD_PATH', __DIR__);
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
-if(!function_exists('toPrint') && file_exists(__DIR__ . '/../mod_multi_form/functions.php'))
+if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/modules/mod_multi_form/functions.php'))
 	require_once  __DIR__ . '/../mod_multi_form/functions.php';
 
 if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php'))
@@ -367,7 +367,7 @@ if($param->menu_show && $param->menu){
             continue;
         }
         $css = $item->params->$link_css;
-        $title = ($item->params->$link_title)?$item->params->$link_title:$item->title;
+        $title = $item->params->$link_title ? $item->params->$link_title : $item->title;
         $menus[$id]->menu_image = $item->params->menu_image;
 
         $menus[$id]->link = JRoute::_($item->link);
@@ -378,25 +378,48 @@ if($param->menu_show && $param->menu){
         $menus[$id]->moduleclass_sfx = $link_css;
         $img = '';
         $item->image = $item->menu_image;
-        if($param->menu_img_show)
-            $img = "<img alt='$title' class='menuimg id$item->id ' src='$item->menu_image'/>";
-        elseif($param->menu_img_show =='in')
-            $menus[$id]->content ="<a href='$item->link' title='$title' class='menuitem id$item->id $css '>$img <span>$item->title</span></a>";
-        elseif($param->menu_img_show =='out')
-            $menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem id$item->id $css '><span>$item->title</span></a>";
-        else
-            $menus[$id]->content = '';
-//			$menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem id$item->id $css '>$item->title</a>";
 		
 		$menus[$id]->module = 'menu';
 		$menus[$id]->module_tag = '';
 		$menus[$id]->header_class = '';
 		
 //		$menus[$id]->link = 
-		
 //		$menus[$id]->module = 'menu';
 //		$menus[$id]->moduleclass_sfx = '';
 //		$menus[$id]->header_tag = '';
+		
+        if($param->menu_img_show)
+            $img = "<img alt='$title' class='menuimg id$item->id ' src='$item->menu_image'/>";
+		
+        if($param->menu_img_show =='in')
+            $menus[$id]->content ="<a href='$item->link' title='$title' class='menuitem a id$item->id $css level_$item->menu_image '>$img <span>$item->title</span></a>";
+        elseif($param->menu_img_show =='out')
+            $menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem b id$item->id $css level_$item->menu_image'><span>$item->title</span></a>";
+        else
+            $menus[$id]->content = '';
+//			$menus[$id]->content ="$img<a href='$item->link' title='$title' class='menuitem id$item->id $css '>$item->title</a>";
+		
+		if(!isset($items[$id]->items))
+			$menus[$id]->items = [];
+		
+		
+//		if(($menus[$id]->parent_id > 1 || $menus[$id]->level > 1) && !isset($menus[$menus[$id]->parent_id])){
+//			echo "<pre>$id --- parent: ".$menus[$id]->parent_id."</pre>";
+//		}
+		if(($menus[$id]->parent_id > 1 || $menus[$id]->level > 1)){
+			if(isset($menus[$menus[$id]->parent_id]))
+				$menus[$menus[$id]->parent_id]->items[$id] = &$menus[$id];
+//			if(isset($menus[$menus[$id]->parent_id]) && in_array($param->menu_img_show, ['in','out']))
+//				$menus[$menus[$id]->parent_id]->content .= $menus[$id]->content;
+			
+//echo "<pre>$id : ".print_r('0000',true)."</pre>";
+			unset($menus[$id]);
+			unset($modules[sprintf("%02d", $param->menu_order).'menu'][$id] );
+			
+			continue;
+		}
+		
+		
     }
     if($modules[sprintf("%02d", $param->menu_order).'menu'])
         $module->empty_list = FALSE;

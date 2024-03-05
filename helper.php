@@ -96,7 +96,8 @@ abstract class ModMultiHelper
             return '';
         $query= "SELECT * FROM #__menu WHERE id = $idItemMenu; ";
         $item = JFactory::getDBO()->setQuery($query)->loadObject();
-        if(!isset($item) || !isset($item->link)) return '';
+        if(!isset($item) || !isset($item->link)) 
+			return '';
         return $item->link;
     }
     /**
@@ -132,13 +133,12 @@ abstract class ModMultiHelper
      */
     public static function &getMenuItems($typeMenu )
     {
-        $query= "SELECT * FROM #__menu WHERE menutype = '$typeMenu' AND published=1 AND level=1 ORDER BY lft,rgt,id; ";
+        $query= "SELECT * FROM #__menu WHERE menutype = '$typeMenu' AND published=1 ORDER BY lft,rgt,id; "; //AND level=1 
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
-
+//toPrint($query,'$query',0,'message',true);
         foreach ($items as $i => $item){
             $items[$i]->content = "$item->title";
             $items[$i]->type = "menu";
-
         }
         return $items;
     }
