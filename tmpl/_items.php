@@ -52,7 +52,7 @@ if(empty($item->items))
 			}
 		endif; ?>
 
-		<?php if ($header_tag3) : ?>
+		<?php if ($headers_tag ?? TRUE && $item->title) : ?>
 			<span class="item-title"><?= $item->title; ?></span>
 		<?php endif; ?>
 

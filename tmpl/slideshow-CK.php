@@ -10,7 +10,7 @@
 # Technical Support:  Forum - //fb.com/groups/multimodule
 # Technical Support:  Forum - //vk.com/multimodule
 -------------------------------------------------------------------------*/
-
+echo PHP_EOL . "<!-- Slideshow moduleID: $param->id -->";
 defined('_JEXEC') or die;
 use \Joomla\CMS\Version as JVersion;
 use \Joomla\CMS\HTML\HTMLHelper as JHtml;
@@ -54,43 +54,46 @@ $param = new \Reg($params);//*** ->toObject()
 
 $base= JUri::base();
 
-$positon = $params->get('position');
+$positon = $params->position;
 
 $mod_show = count($modules);
 
-$module_tag = $params->get('module_tag', 'div');
-$moduleclass_sfx = in_array($param->style, ['',0,NULL,'none','System-none','Cassiopeia-no'])? '': $params->get('moduleclass_sfx');//***
+$module_tag = $params->module_tag ?: 'div';
+$moduleclass_sfx = in_array($param->style, ['',0,NULL,'none','System-none','Cassiopeia-no'])? '': $param->moduleclass_sfx;//***
 
-$showtitle = $params->get('showtitle');
+$showtitle = $param->showtitle;
 
-$title = ($params->get('title'));
+$title = $param->title;
 
-$header_tag = $params->get('header_tag', 'h3');
-$header_class = htmlspecialchars($params->get('header_class', 'module-header'));
+$header_tag = $param->header_tag ?: 'h3';
+$header_class = htmlspecialchars($params->header_class ?: 'module-header');
 
 $isImage = function($url){
-    $ext = strtolower(substr($url, strrpos($url, '.') + 1)) ;
-
+    $ext = pathinfo($url, PATHINFO_EXTENSION);//strtolower(substr($url, strrpos($url, '.') + 1)) ;
+	
     return in_array($ext, ['png','apng','svg','bmp','jpg','jpeg','gif','webp','ico'])? (' imagelink '.$ext):' url ';
 };
-
-$link_show = $params->get('link_show');
-$link = $params->get('link');
+//toPrint($param->articles_show,'$param->articles_show',0,'');
+$link_show = $param->link_show;
+$link = $param->link;
 
 $modules;
-$modules_tag = $params->get('modules_tag');
+$modules_tag = $params->modules_tag;
 
-if($module_tag2 = $params->get('module_tag2'))
-    echo "<$module_tag2 class=\"multimodule".$params->get('moduleclass_sfx2')." count$mod_show id$param->id $param->style\"  >";
+if($module_tag2 = $param->module_tag2)
+    echo "<$module_tag2 class='multimodule$param->moduleclass_sfx2 count$mod_show id$param->id $param->style'  >";
+
+//if($param->id == 114) 
+//toPrint($modules,'$modules',0,'message');
 
 if($showtitle):
     $titlea = "";
     if($link_show == 'ha')
-        $titlea = "<$header_tag class=\"$header_class\"><a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$param->id multiheadera\">$title</a></$header_tag>";
+        $titlea = "<$header_tag class='$header_class'><a href='$link' title='".strip_tags($title)."' class='id$param->id multiheadera'>$title</a></$header_tag>";
     elseif($link_show || $link_show == 'ah')
-        $titlea = "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$param->id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
+        $titlea = "<a href='$link' title='".strip_tags($title)."' class='id$param->id multiheadera'><$header_tag class='$header_class'>$title</$header_tag></a>";
     elseif(empty($link_show))
-        $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
+        $titlea =  "<$header_tag class='$header_class'>$title</$header_tag>";
 
     if(in_array($param->style, ['System-none','none','no','0',0,'']))
         echo $titlea;
@@ -98,7 +101,7 @@ if($showtitle):
         $$mod->title = $titlea;
 endif;
 
-if($tag = $params->get('modules_tag3')){
+if($tag = $param->modules_tag3){
     $tgs = explode('/', $tag);
     $tag_title = $tgs[0] ?? FALSE;
     $tag_block = $tgs[1] ?? FALSE;
@@ -129,7 +132,7 @@ foreach ($modules as $type => $items){
 
 $count = count($elements);
 
-echo "<div id='multislideshowid$param->id' class='$moduleclass_sfx slideshowCK camera_wrap $param->skin  cameraCont  cameraContents    slider items   count$count  id$param->id '>";
+echo "<div id='multislideshowid$param->id' class='$moduleclass_sfx slideshowCK camera_wrap $param->skin cameraCont  cameraContents    slider items   count$count  id$param->id '>";
 
 foreach ($elements as $i => $module):
 
@@ -142,37 +145,63 @@ foreach ($elements as $i => $module):
 $class = $isImage($module->link);
 $img_path = trim($module->image,'/');
 
-echo "<div data-thumb='$base$module->image'  data-src='$base$module->image' data-alt='$module->title' class='image $module->moduleclass_sfx cameraContent cameraSlide'   >";
+echo "<div data-thumb='$base$module->image'  data-src='$base$module->image' data-alt='$module->title' class='image $module->moduleclass_sfx cameraSlide'>";
 
 switch ($param->header_tag3){
     case 'item':// тэг модуля
         $module->header_tag = $module->header_tag ? $module->header_tag : 'div';
+		break;
     case 'default':
-        $module->header_tag = ($module->showtitle ?? false) ? ($module->header_tag??'div') : 0;
+        $module->header_tag = ($module->showtitle ?? false) ? ($module->header_tag??'div') : '';
+		break;
     case 'none':
         $module->header_tag = 0;
+		break;
     default :
         $module->header_tag = $param->header_tag3;
 }
-switch ($param->content_tag3){
+switch ($param->item_tag){
     case 'item':
         $module->module_tag = $module->module_tag ? $module->module_tag : 'div';
+		break;
     case 'default':
         $module->module_tag = in_array($module->style, ['none','no','0',0,'','System-none','Cassiopeia-no','Protostar-no']) ? 'div': ($module->module_tag??'div');
+		break;
     case 'none':
         $module->module_tag = 0; $module->content = '';
+		break;
     default :
-        $module->module_tag = $param->content_tag3;
+        $module->module_tag = $param->item_tag;
 }
 
 //toPrint($module->link, '', 0, 'message', true);
 //	$img_parts = explode("images/", $module->link);
 //	$img = end($img_parts);
 //toPrint($img, '', 0, 'message', true);
+	
+if($param->items_link && ($module->title || $module->content)){
+echo "<div class='camera_caption'>";
+switch ($param->items_link){
+	case('ha'):
+		echo $module->title ? "<$param->title_tag class='$param->item_class_sfx$param->id camera_caption_title'><a class='$class image camera_link _camera-button' target='_blank' href='$module->link' rel='noopener noreferrer' title='$module->title' >$module->title</a></$param->title_tag>" : '';
+		echo $module->content ? "<div class='$param->item_class_sfx$param->id camera_caption_desc'>$module->content</div>" : '';
+		break;
+	case('ah'):
+		echo $module->title ? "<a class='$param->item_class_sfx$param->id $class camera_caption_title image camera_link _camera-button' target='_blank' href='$module->link' rel='noopener noreferrer' title='$module->title' ><$param->title_tag>$module->title</$param->title_tag></a>" : '';
+		echo $module->content ? "<div class='$param->item_class_sfx$param->id camera_caption_desc'>$module->content</div>" : '';
+		break;
+	case('h'):
+		echo $module->title ? "<$param->title_tag  class='$param->item_class_sfx$param->id $class camera_caption_title image camera_link _camera-button' >$module->title</$param->title_tag>" : '';
+		echo $module->content ? "<div class='$param->item_class_sfx$param->id camera_caption_desc'>$module->content</div>" : '';
+		break;
+	case('a'):
+		echo $module->title ? "<a class='$param->item_class_sfx$param->id $class camera_caption_title image camera_link _camera-button' target='_blank' href='$module->link' rel='noopener noreferrer' title='$module->title' >$module->title</a>" : '';
+		echo $module->content ? "<div class='$param->item_class_sfx$param->id camera_caption_desc'>$module->content</div>" : '';
+		break;
+}
+echo "</div>";
+}
 
-$mod_title = ($param->items_image && $param->items_image != 'i') ?
-        "<a class=\"$class image camera_link\"  target=\"_blank\" href=\"$module->link\"  title=\"$module->title\" ></a>" : $module->title;
-echo $mod_title;
 //if($module->header_tag && $module->title || $module->module_tag && $module->content){
 //    echo "<div class='_camera_caption fadeIn  '>";
 //    if($module->header_tag && $module->title) echo "<$module->header_tag class='camera_caption_title '>$mod_title</$module->header_tag>";
@@ -199,9 +228,9 @@ JFactory::getDocument()->addStyleDeclaration($css);
 
 
 $wa->registerAndUseScript('slideshowck','modules/mod_multi/media/slideshowCK/camera.min.js',
-		['version'=>'auto'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate','jquery-ui']); // 
+		['version'=>'auto'],['defer' => true, 'nomodule' => false],['jquery','jquery-migrate','jquery-ui']); // 
 $wa->registerAndUseStyle('slideshowck','modules/mod_multi/media/slideshowCK/themes/default/css/camera.css',
-		['version'=>'auto'],['defer' => false, 'nomodule' => false]);
+		['version'=>'auto'],['nomodule' => false]);
 
 $param->json_layout = $param->json_layout ?? $param->json_slideshowCK ?? '';
 
@@ -215,8 +244,6 @@ jQuery(document).ready( function() {
             \n$param->json_layout
         });
 });
-
-//             imagePath: '$base/images/slideshow/',
 script;
 
   
@@ -224,6 +251,8 @@ $wa->addInlineScript($script,
 		['version'=>'auto'],['defer' => false, 'nomodule' => false],['jquery','jquery-ui','jquery-migrate']);
 //JFactory::getDocument()->addScriptDeclaration($script);
 
-return;
+//echo PHP_EOL . "<!-- -->";
+
 ?>
 
+<!-- -->

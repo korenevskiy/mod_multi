@@ -3,16 +3,16 @@
 	<name>_Multi</name>
 	<author>Korenevskiy Sergei</author>
 	<creationDate>2016-03-01</creationDate>
-	<modificationsDate>2023-01-27,2023-07-23,2023-09-20,2023-09-22,2023-10-23,2024-01-18,2024-01-18</modificationsDate>
-	<modificationDate>2024-03-05</modificationDate>
+	<modificationsDate>2023-01-27,2023-07-23,2023-09-20,2023-09-22,2023-10-23,2024-01-18,2024-01-18,2024-03-05</modificationsDate>
+	<modificationDate>2024-03-15</modificationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>korenevskiys@ya.ru</authorEmail>
 	<authorUrl>//www.explorer-office.ru</authorUrl>
-	<version>4.5</version>
+	<version>5</version>
     <description>[[%1:]] &lt;br&gt; &lt;b&gt; Multi Module &lt;/b&gt; &lt;span  class="badge alert-primary " &gt; [[%2:]]:[[%3:]] / [[%4:]]:[[%5:]]&lt;/span&gt; [[%6:]]
             ,MOD_MULTI_DESCRIPTION,JVersion,
-            4.5,JDate,2024-03-05,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
+            5,JDate,2024-03-15,&lt;a target=&quot;__blank&quot; href=&quot;//github.com/korenevskiy/mod_multi&quot;>&quot;GitHub&quot;&lt;/a> &lt;a target=&quot;__blank&quot; href=&quot;//explorer-office.ru/download/joomla&quot;>&quot;Site module&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//fb.com/groups/multimodule/&quot;>&quot;FaceBook Support&quot;&lt;/a>  &lt;a target=&quot;__blank&quot; href=&quot;//vk.com/multimodule/&quot;>&quot;VK.com Support&quot;&lt;/a></description>
     
      <!--  <b> Multi Module </b> <span class="badge badge-info" >...   <customContent /> -->
     
@@ -116,8 +116,10 @@
                         <option value="details">&lt;details></option>
                         <option value="summary">&lt;summary></option>
                         <option value="figure">&lt;figure></option>
-                        <option value="fieldset">&lt;fieldset></option>
                         <option value="article">&lt;article></option> 
+                        <option value="fieldset">&lt;fieldset></option>
+						<option value="fieldset-legend">&lt;fieldset>&lt;legend/></option>
+						<option value="table">&lt;table/></option>
                     </field>  
 
 <!-- 
@@ -277,7 +279,28 @@
                     
                     <field name="note033x" type="note" label="MOD_MULTIMODULE_FIELD_ELEMENTS_LABEL" description="" /> 
                      
-                  <!--   <field
+                  
+                    <!--
+    //details summary x
+    //figure  figcaption x
+    //fieldset legend x
+    //dl dt dd
+    //list($tag_title, $tag_block, $tag_container, $tag_item) = explode('_', $tag); -->
+    
+    
+                    <field
+                        name="disable_module_empty_count" 
+                        type="radio"    required="false" 
+                        class="btn-group btn-group-yesno " 
+                        label="MOD_MULTIMODULE_FIELD_HIDEIFNOT_LABEL" 
+                        description="MOD_MULTIMODULE_FIELD_HIDEIFNOT_DESC"
+                        default="0">
+                            <option value="1">JYES</option>
+                            <option value="0">JNO</option>
+                    </field>
+    
+	
+	<!--   <field
 			name="modules_tag3x"
 			type="list" 
 			default="div"
@@ -312,66 +335,99 @@
                             <option value="address">&lt;address></option>
                             <option value="nav">&lt;nav></option>
                     </field> -->
-                    <!--
-    //details summary x
-    //figure  figcaption x
-    //fieldset legend x
-    //dl dt dd
-    //list($tag_title, $tag_block, $tag_container, $tag_item) = explode('_', $tag); -->
-    
-    
-                    <field
-                        name="disable_module_empty_count" 
-                        type="radio"    required="false" 
-                        class="btn-group btn-group-yesno " 
-                        label="MOD_MULTIMODULE_FIELD_HIDEIFNOT_LABEL" 
-                        description="MOD_MULTIMODULE_FIELD_HIDEIFNOT_DESC"
-                        default="0">
-                            <option value="1">JYES</option>
-                            <option value="0">JNO</option>
-                    </field>
-    
-                    <field name="modules_tag3" type="list" default="//div"
+                    <field name="items_tag" type="list" 
                            label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_MODULES_TAG_LABEL"
                            description="COM_MODULES_FIELD_MODULE_TAG_DESC"
                            >
-                        <option value=" ">JOPTION_DO_NOT_USE</option>
+                        <option value="">JOPTION_DO_NOT_USE</option>
                    <!--     <option value="/div">&lt;$module/ ></option> -->
-                        <option value="//div">&lt;div/></option>
-                        <option value="/div/div">&lt;div>&lt;div/></option>
-                        <option value="/ul/li">&lt;ul>&lt;li/></option>
-                        <option value="/address">&lt;address/></option>
-                        <option value="/nav">&lt;nav/></option>
-                        <option value="/aside">&lt;aside/></option>
-                        <option value="/header">&lt;header/></option>
-                        <option value="/main">&lt;main/></option>
-                        <option value="/footer">&lt;footer/></option>
-                        <option value="/section">&lt;section/></option>
-                        <option value="summary//details">&lt;details>&lt;summary/>&lt;$module/ ></option>
-                        <option value="legend//fieldset">&lt;fieldset>&lt;legend/>&lt;$module/ ></option>
-                        <option value="figcaption//figure">&lt;figure>&lt;figcaption/>&lt;$module/ ></option>
-                        <option value="dt/dd//dl">&lt;dl >&lt;dt/>&lt;dd/></option>
-                        <option value="th/table/tr/td">&lt;table>&lt;tr>&lt;th/>&lt;td/></option>
+                        <option value="div">&lt;div/></option>
+                        <option value="ul">&lt;ul/></option>
+                        <option value="address">&lt;address/></option>
+                        <option value="nav">&lt;nav/></option>
+                        <option value="address">&lt;address/></option>
+                        <option value="aside">&lt;aside/></option>
+                        <option value="header">&lt;header/></option>
+                        <option value="main">&lt;main/></option>
+                        <option value="footer">&lt;footer/></option>
+                        <option value="section">&lt;section/></option>
+                        <option value="dl">&lt;dl ></option>
+                        <option value="table">&lt;table/></option>
                     </field> 
+					<!--<field name="modules_tag" type="moduletag"
+						label="HTML-Tag"
+						description=""
+						default="div" />-->
+						
+					<field
+						name="style_tag3"
+						type="chromestyle"
+						default="System-none"
+						label="[[%1:]] ↓,COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+						description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
+					>
+						<option value="inset">X_JYES</option>
+					</field>
                     
-				<field
-					name="style_tag3"
-					type="chromestyle"
-                                        default="System-none" 
-					label="[[%1:]] ↓,COM_MODULES_FIELD_MODULE_STYLE_LABEL"
-					description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
-				>
-                                    <option value="inset">X_JYES</option>
-                                </field>  
+                    <field name="item_tag" type="list" default="0"
+                           label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_CONTENT_TAG3_LABEL"
+                           description="COM_MODULES_FIELD_MODULE_TAG_DESC"   showon="style_tag3!:0" 
+                           >
+                        <option value="0">JOPTION_DO_NOT_USE</option>
+                        <option value="item">MOD_MULTIMODULE_OPTION_FROM_MODULE</option>
+                        <option value="default">JOPTION_USE_DEFAULT</option>
+				<!--	<option value="default">JOPTION_USE_DEFAULT</option>   -->
+                        <option value="none">JDISABLED</option>
+				<!--	<option value="/div">&lt;$module/ ></option> -->
+                        <option value="p">&lt;p/></option>
+                        <option value="span">&lt;span/></option>
+                        <option value="label">&lt;label/></option>
+                        <option value="div">&lt;div/></option>
+                        <option value="address">&lt;address/></option>
+                        <option value="nav">&lt;nav/></option>
+                        <option value="aside">&lt;aside/></option>
+                        <option value="section">&lt;section/></option>
+                        <option value="header">&lt;header/></option>
+                        <option value="main">&lt;main/></option>
+                        <option value="footer">&lt;footer/></option>
+                        <option value="figure">&lt;figure></option>
+                        <option value="fieldset">&lt;fieldset></option>
+                        <option value="article">&lt;article></option> 
+						
+                        <option value="figure">&lt;figure></option>
+                        <option value="details">&lt;details/ ></option>
+						<option value="fieldset">&lt;fieldset></option>
+                        <option value="dd">&lt;dd/></option>
+						<option value="td">&lt;td/></option>
+                    </field>
                                 
-                    <field name="header_tag3" 
+                    
+                    
+                    
+                    
+                    <field
+                        name="items_link" 
+                        type="radio"    required="false" 
+                        class="btn-group  " 
+                        label="MOD_MULTIMODULE_FIELD_ITEMS_LINK_TITLE_LABEL" 
+                        description=""   showon="style_tag3!:0" 
+                        default="a">
+                            <option value="ha">[[%1:]] , &lt; h*> &lt; a/&gt; </option>  
+                            <option value="ah">[[%1:]] , &lt; a&gt; &lt; h*/> </option>
+                            <option value="h">[[%1:]] , &lt; h*&gt; </option>
+                            <option value="a">[[%1:]] , &lt; a&gt; </option>
+                            <option value="0">JHIDE</option>
+                    </field>
+					
+                    <field name="title_tag"
                            type="list" 
-                           default="default"  showon="style_tag3!:0" 
+                           default="h6"  
+						   showon="style_tag3!:0[AND]items_link!:0[AND]items_link!:a" 
                            label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_TITLE_TAG3_LABEL"
-                           description="Tags heads/titles items: &lt;br/> 
+                           description="Tags heads/titles items: &lt;br/>
                                         &lt; DIV/ &gt; - Tag headers/titles &lt;br/>
-                                       '[[%1:]]' - Not show heads/titles &lt;br/>  
-                                       '[[%2:]]' - Headtag from modules &lt;br/>  
+                                       '[[%1:]]' - Not show heads/titles &lt;br/>
+                                       '[[%2:]]' - Headtag from modules &lt;br/>
                                        '[[%3:]]' - Show only if in module enabled show title,JDISABLED,MOD_MULTIMODULE_OPTION_TAG_MODULE,JOPTION_USE_DEFAULT" >
                         <option value="default">JOPTION_USE_DEFAULT</option> 
                         <option value="item">MOD_MULTIMODULE_OPTION_TAG_MODULE</option>
@@ -388,48 +444,15 @@
                         <option value="label"> &lt; label/ &gt;</option>
                         <option value="title"> &lt; title/ &gt;</option>
                         <option value="div">&lt; div/ &gt;</option>
+                        <option value="li">&lt; li/ &gt;</option>
+						
+                        <option value="figcaption">&lt;figcaption/ ></option>
+                        <option value="summary">&lt; summary/ &gt;</option>
+						<option value="legend">&lt;legend/></option>
+                        <option value="dt">&lt;dt/></option>
+						<option value="th">&lt;th/></option>
                     </field>
-                    
-                    <field name="content_tag3" type="list" default="0"
-                           label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_CONTENT_TAG3_LABEL"
-                           description="COM_MODULES_FIELD_MODULE_TAG_DESC"   showon="style_tag3!:0" 
-                           >
-                        <option value="0">JOPTION_DO_NOT_USE</option>
-                        <option value="item">MOD_MULTIMODULE_OPTION_FROM_MODULE</option>
-                        <option value="default">JOPTION_USE_DEFAULT</option> 
-                <!--            <option value="default">JOPTION_USE_DEFAULT</option>   -->
-                        <option value="none">JDISABLED</option>
-                   <!--     <option value="/div">&lt;$module/ ></option> -->
-                        <option value="p">&lt;p/></option>
-                        <option value="span">&lt;span/></option>
-                        <option value="label">&lt;label/></option>
-                        <option value="div">&lt;div/></option>
-                        <option value="address">&lt;address/></option>
-                        <option value="nav">&lt;nav/></option>
-                        <option value="aside">&lt;aside/></option>
-                        <option value="section">&lt;section/></option>
-                        <option value="header">&lt;header/></option>
-                        <option value="main">&lt;main/></option>
-                        <option value="footer">&lt;footer/></option>  
-                        <option value="figure">&lt;figure></option>
-                        <option value="fieldset">&lt;fieldset></option>
-                        <option value="article">&lt;article></option> 
-                    </field> 
-                    
-                    
-                    
-                    <field
-                        name="items_link" 
-                        type="radio"    required="false" 
-                        class="btn-group  " 
-                        label="MOD_MULTIMODULE_FIELD_ITEMS_LINK_TITLE_LABEL" 
-                        description=""   showon="style_tag3!:0" 
-                        default="a">
-                            <option value="ha">[[%1:]] , &lt; h*> &lt; a/&gt; </option>  
-                            <option value="ah">[[%1:]] , &lt; a&gt; &lt; h*/> </option>  
-                            <option value="a">[[%1:]] , &lt; a&gt; </option>  
-                            <option value="0">JHIDE</option>
-                    </field>
+					
                     <field
                         name="items_image" 
                         type="radio"    required="false" 
@@ -444,8 +467,13 @@
                             <option value="i">[[%1:]] , &lt; img&gt; </option>
                             <option value="0">JHIDE</option>
                     </field>
-                     
-                     
+                    <field
+                        name="items_more"
+                        type="text" 
+                        label="&lt;s&gt;[[%1:]]&lt;/s&gt;  --//IN DEVELOP ,MOD_MULTIMODULE_FIELD_ITEMS_MORE_LABEL" 
+						disabled="true"
+						readonly="true"
+					/> 
                     
                        
                         
@@ -594,10 +622,7 @@
                     </field>    
                     <field name="modules_order" type="number" default="3" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1" 
                         showon="modules_show!:0"/> 
-                    <!--<ield name="modules_tag" type="moduletag"
-                        label="HTML-Tag"
-                        description=""
-                        default="div" />-->
+
                     <field
                         name="modules_sel"
                         type="sql"
@@ -750,10 +775,11 @@
                         <option value="full">Full</option>
                         <option value="intro">Intro</option>
                         <option value="content">Content</option>
+                        <option value="title">Only Title</option>
                         <option value="0">JDISABLED</option>
                     </field>    
-                    <field name="articles_order" type="number" default="6" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"  
-                           showon="articles_show:full[OR]articles_show:intro[OR]articles_show:content"/>  
+                    <field name="articles_order" type="number" default="6" label="JFIELD_ORDERING_LABEL" description="" min="0" max="20" step="1"   
+						showon="articles_show!:0"/>  
                     <field  
                         name="articles_id" 
                         type="category"
@@ -762,10 +788,51 @@
 			extension="com_content"
 			multiple="true"
 			size="5" 
-                        showon="articles_show:full[OR]articles_show:intro[OR]articles_show:content"
+						showon="articles_show!:0"
+                        _showon="articles_show:full[OR]articles_show:intro[OR]articles_show:content"
 			>
                             <option value="">JOPTION_ALL_CATEGORIES</option>
                     </field>
+					
+					<field
+						name="articles_tags"
+						type="tag"
+						label="MOD_MULTI_TAGS_PARENT_TAG_LABEL"
+							showon="articles_show!:0"
+						multiple="true"
+						filter="intarray"
+						mode="nested">
+						<option value="" >JALL</option>
+					</field>
+
+					<field
+						name="articles_sort"
+						type="list"
+						label="MOD_MULTI_TAGS_FIELD_ORDER_VALUE_LABEL"
+						description="JFIELD_ORDERING_LABEL"
+						showon="articles_show!:0"
+						default="ordering ASC"
+						validate="options"
+					>
+						<option  value="title ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_TITLE</option>
+						<option  value="title DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_TITLE</option>
+						<option  value="ordering ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_ORDERING</option>
+						<option  value="ordering DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_ORDERING</option>
+						<!--<option  value="featured ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_FEATURED</option>-->
+						<!--<option  value="featured DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_FEATURED</option>-->
+						<option  value="alias ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_ALIAS</option>
+						<option  value="alias DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_ALIAS</option>
+						
+						<option  value="id ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_ID</option>
+						<option  value="id DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_ID</option>
+						<option  value="hits ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_HITS</option>
+						<option  value="hits DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_HITS</option>
+						<option  value="created ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_CREATED</option>
+						<option  value="created DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_CREATED</option>
+						<option  value="modified ASC" >↓ [[%1:]] ↓,MOD_MULTI_FIELD_ORDER_VALUE_MODIFIED</option>
+						<option  value="modified DESC">↑ [[%1:]] ↑,MOD_MULTI_FIELD_ORDER_VALUE_MODIFIED</option>
+						<option  value="rand()">-- [[%1:]] --,MOD_MULTI_FIELD_ORDER_VALUE_RANDOM</option>
+					</field>
 					
                     <field
                         name="articles_fields"
@@ -773,7 +840,7 @@
                         label="Fields"
                         class="btn-group  btn-group-yesno "
                         default="0"
-                        showon="articles_show:full[OR]articles_show:intro[OR]articles_show:content"
+						showon="articles_show!:0"
                     >
                         <option value="1">JENABLED</option>
                         <option value="0">JDISABLED</option>
@@ -784,7 +851,7 @@
 						type="text" 
 						label="Text: More.."
 						default=""
-                        showon="articles_show:full[OR]articles_show:intro[OR]articles_show:content" />
+						showon="articles_show!:0" />
  
                     
                     
@@ -823,8 +890,11 @@
                         description="COM_CONTENT_CHANGE_ARTICLE" 
                         addfieldpath="/modules/mod_multi/fields"
                            showon="article_show:full[OR]article_show:intro[OR]article_show:content"
-                    />          
-
+                    />
+					<field	name="article_ids" 
+							type="text"
+							label="[[%1:]]: id1 id2 id3,MOD_MULTIMODULE_FIELD_ARTICLESELECT_LABEL"
+					/>     
                     
                     
                     
@@ -855,7 +925,10 @@
                            showon="images_show:sort[OR]images_show:rnd"/> 
                     
                     <field name="images_folder2" type="textarea" default="" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Example: &lt;br> /images/ &lt;br> /images/gallery/"  showon="images_show:sort[OR]images_show:rnd"/>
-                    <field name="images_folder" type="folderlist" default="-1" label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  description="Folders in /images/" fileFilter="" exclude="" stripext="" directory="images" multiple="true"
+                    <field name="images_folder" type="folderlist" _default="-1" 
+						   label="MOD_MULTIMODULE_FIELD_FOLDER_LABEL"  
+						   description="Folders in /images/"
+						   fileFilter="" exclude="" stripext="" hide_default="true" directory="images" multiple="true"
                             showon="images_show:sort[OR]images_show:rnd"/> 
                     <field name="images_count" type="number" default="12" label="MOD_MULTIMODULE_FIELD_IMAGESCHOOSE_LABEL" description="" min="0" max="128" step="1"
                             showon="images_show:sort[OR]images_show:rnd"/>
@@ -2015,6 +2088,11 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 				</field>
  
   -->
+         
+                    <field
+                        name="item_class_sfx"
+                        type="text"
+                        label="Class item"/>
  
  <!-- 			 https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html	 --> 	
 				<field
@@ -2038,25 +2116,7 @@ Links &lt;u>&lt;a href='//fonts.google.com' target='_blank'>Fonts Google &lt;/a>
 
 					description="" showon="layout:_:offline"
 				/>   
-				<field
-					type="spacer"
-					default=""
-					label="&lt;b>Bootstrap Tabs Properties, &lt;/b> - This modules and elements will show in tabs. Style tab "
-					description="" showon="layout:_:tabs-bootstrap"
-				/>    
-                    <field
-                        name="json_tabbootstrap"
-                        type="list"  showon="layout:_:tabs-bootstrap"
-                        class=""
-                        label="&lt;b>Bootstrap - Style class tabs &lt;/b>"
-                        description="Select one from .. and Uncomment"
-                        default="nav-justified">
-                            <option value="nav-fill">nav-fill</option>
-                            <option value="nav-pills">nav-pills</option>
-                            <option value="nav-justified">nav-justified</option>
-                    </field> 
-             
-                     
+
                                      
                                                   
                                       

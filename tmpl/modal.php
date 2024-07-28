@@ -167,21 +167,21 @@ echo <<<VIEW
        <input class="modalInput" type="checkbox" '.$moduleBackShow.' id="modal$module->id">
 VIEW;
 
-    $content_tag3 = $params->get('content_tag3','div')?:'div';
+    $item_tag = $params->get('item_tag','div')?:'div';
 
-    if($params->get('content_tag3')== 'default' && $module->module_tag && $module->style){
+    if($params->get('item_tag')== 'default' && $module->module_tag && $module->style){
         echo "<div class='$module->moduleclass_sfx modalWindow".$module->id." modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx'   tabindex='-1'>"
            . "< $module->module_tagclass='modal-dialog'><div class='modal-content'>";
-        $content_tag3 = '';
+        $item_tag = '';
     }
-    elseif($params->get('content_tag3')== 'item' && $module->module_tag){
+    elseif($params->get('item_tag')== 'item' && $module->module_tag){
         echo "<div  class='$module->moduleclass_sfx modalWindow".$module->id." modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx'   tabindex='-1'>"
            . "<$module->module_tag class='modal-dialog'><div class='modal-content'>";
-        $content_tag3 = '';
+        $item_tag = '';
     }
-    elseif($params->get('content_tag3','div') != 'none' && $content_tag3)
+    elseif($params->get('item_tag','div') != 'none' && $item_tag)
         echo "<div class=\" item_content  $module->moduleclass_sfx modalWindow".$module->id." modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx\"  tabindex='-1'>"
-           . "<$content_tag3 class='modal-dialog'><div class='modal-content'>";
+           . "<$item_tag class='modal-dialog'><div class='modal-content'>";
 
                         echo "<div class=\"modal-header\">";
                         echo "<label class=\"modalX icon-delete\" for=\"modal$module->id\"></label>";
@@ -239,13 +239,13 @@ echo "</div>";
 
 echo implode('', $html_after);
 
-    if($params->get('content_tag3','div') != 'none' && $content_tag3)
-        echo "</$content_tag3>";
+    if($params->get('item_tag','div') != 'none' && $item_tag)
+        echo "</$item_tag>";
 
-    if($params->get('content_tag3')== 'default' && $module->module_tag && $module->style){
+    if($params->get('item_tag')== 'default' && $module->module_tag && $module->style){
         echo "</$module->module_tag>";
     }
-    if($params->get('content_tag3')== 'item' && $module->module_tag){
+    if($params->get('item_tag')== 'item' && $module->module_tag){
         echo "</$module->module_tag>";
     }
 

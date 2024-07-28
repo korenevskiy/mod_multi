@@ -1,8 +1,9 @@
 // Camera slideshow - a jQuery slideshow with many effects, transitions, easy to customize, using canvas and mobile ready, based on jQuery 1.4+
 // Copyright (c) 2012 by Manuel Masia - www.pixedelic.com
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-// Updated by Cédric KEIFLIN - https://www.joomlack.fr - https://www.ceikay.com
+// Updated by CГ©dric KEIFLIN - https://www.joomlack.fr - https://www.ceikay.com
 
+// v1.4.23	- 16/10/23 : fix issue with responsive caption and multiple slideshows
 // v1.4.22	- 15/10/22 : fix issue with alt tags on images
 // v1.4.21	- 22/04/22 : add option for title in thumbs
 // v1.4.20	- 09/01/22 : fix issue with joomla 4 when user is logged on
@@ -577,7 +578,7 @@ var Slideshowck = function (container, opts, callback) {
 
 	function resizeFont() {
 		var fontRatio = wrap.width() / 700;
-		$('.camera_caption > div').css('font-size', fontRatio + 'em');
+		$('.camera_caption > div', wrap).css('font-size', fontRatio + 'em');
 	}
 
 	function addLightbox() {
@@ -1356,10 +1357,10 @@ var Slideshowck = function (container, opts, callback) {
 							$('li.pag_nav_'+i+' > .thumb_arrow',pagination).animate({opacity:0},0);
 						}
 					});
-					wrap.css({marginBottom:$(pagination).outerHeight()});
+//					wrap.css({marginBottom:$(pagination).outerHeight()});
 				}
 			} else if(!$(thumbs).length && $(pagination).length) {
-				wrap.css({marginBottom:$(pagination).outerHeight()});
+//				wrap.css({marginBottom:$(pagination).outerHeight()});
 			}
 		}
 

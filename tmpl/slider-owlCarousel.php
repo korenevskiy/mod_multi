@@ -184,13 +184,13 @@ if($items_link && $module->title):
         echo "$module->title";
 endif;
 
-$content_tag3 = $params->get('content_tag3');
-if($content_tag3 == 'default')
-    $content_tag3 = $module->module_tag;
-if(($module->content ?? '') && $content_tag3 != 'none' && $content_tag3) {
-    echo ("<$content_tag3 class='info'>$module->content</$content_tag3>");
+$item_tag = $params->get('item_tag');
+if($item_tag == 'default')
+    $item_tag = $module->module_tag;
+if(($module->content ?? '') && $item_tag != 'none' && $item_tag) {
+    echo ("<$item_tag class='info'>$module->content</$item_tag>");
 }
-if($module->content && empty($content_tag3))
+if($module->content && empty($item_tag))
 	echo ($module->content ?? '');
 
     if(isset($module->urls)	&& $module->urls->urla){

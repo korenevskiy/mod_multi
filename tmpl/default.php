@@ -63,20 +63,23 @@ $prepare = function ( $item, $param = null, $context = 'com_content.article'){
 
 $param->items_link;
 $param->items_image;
-$param->content_tag3;
+$param->items_tag;
 
-if($tag = $param->modules_tag3){
+$tag_item = '';
+$tag_block = $param->items_tag ?? '';
+
+if($tag = $param->item_tag3){
     $tgs = explode('/', $tag);
     $tag_title = $tgs[0] ?? FALSE;
     $tag_block = $tgs[1] ?? FALSE;
-    $tag_container = $tgs[2] ?? FALSE;
+    $tag_container = $tgs[2] ?? FALSE; 
     $tag_item  = $tgs[3] ?? FALSE;
 }
 
 $link_show = $param->link_show;
 $link = $param->link;
 $modules;
-$modules_tag = $param->modules_tag;
+$item_tag = $param->item_tag;
 
 /* Подготовка для объединения несколько массивов подрят в один список.*/
 $ii = 0;
@@ -133,6 +136,8 @@ if($showtitle):
 endif;
 
 
+//toPrint(null,'',0, 'pre',true);
+
 foreach ($modules as $type => $items):
     if(is_string($items)){
         echo $items;
@@ -140,30 +145,36 @@ foreach ($modules as $type => $items):
 		$ii ++;
         continue;
     }
-    $order =  substr($type, 0, 2);
+    $order = substr($type, 0, 2);
     $type = substr($type, 2);
 
     $count = count($items);
     $i = -1;
-
+	
+	
 	
 /* Проверка наличие тега для списка и проверка предыдущего списка что он несписок, чтобы подряд идущие списки групировались внутри тега */
-if(isset($tag_block) && $tag_block
-	 && ($ii == 0 || $ElementTypes[$ii-1] == 0))
-    echo "<$tag_block class='items count$count order$order $type  '>";
+if($param->items_tag && ($ii == 0 || $ElementTypes[$ii-1] == 0))
+    echo "<$param->items_tag class='items count$count order$order $type  '>";
+
+
+//    if($param->items_tag)
+//        echo "<$param->items_tag class='items_tag i$i $type moduletable$module->moduleclass_sfx $module->type'>";
 
 $ii ++;
 
+
+
 foreach ($items as $id => & $module){
-    $module->text = $module->content =  $prepare($module->content ?? '');
+    $module->text = $module->content = $prepare($module->content ?? '');
 
     $i++;
 
-    if(isset($tag_container) && $tag_container)
-        echo "<$tag_container class='item i$i $type moduletable$module->moduleclass_sfx  id$module->id $module->type  '>";
-
-    if($tag_item)
-        echo "<$tag_item class=' item_tag3 $module->moduleclass_sfx'>";
+	
+	
+	if($param->item_tag)
+		echo "<$param->item_tag class='item $type moduletable$module->moduleclass_sfx  id$module->id $module->type '>";
+	
 
 if(empty($param->style_tag3) || $param->style_tag3 == '0'):
     echo $module->content;
@@ -172,19 +183,19 @@ else:
 
 //echo "<pre>".print_r($module,true)."</pre>";
 	
-    $content_tag3 = $param->content_tag3;
+    $items_tag = $param->items_tag;
 
     if($module->module_tag == 'default'){
         $module->module_tag = 'div';
     }
 
-    if($param->content_tag3 == 'default' && $module->module_tag && $module->style){
+    if($param->items_tag == 'default' && $module->module_tag && $module->style){
         echo "<$module->module_tag class='$module->moduleclass_sfx ' >";
-        $content_tag3 = '';
+        $items_tag = '';
     }
-    elseif($param->content_tag3 == 'item' && $module->module_tag){
+    elseif($param->items_tag == 'item' && $module->module_tag){
         echo "<$module->module_tag class='$module->moduleclass_sfx ' >";
-        $content_tag3 = '';
+        $items_tag = '';
     }
 
     $link = $link_ = "";
@@ -197,37 +208,53 @@ else:
         return in_array($ext, ['png','apng','svg','bmp','jpg','jpeg','gif','webp','ico'])?' imagelink '.$ext : ' url ';
     };
     $class = $isImage($module->link);
+	
+	$link_class = $module->link_class ?? '';
 
-	$header_tag3 = $param->header_tag3 ?? '';
+	$title_tag = $param->title_tag ?? 'h6';
 	$items_link = $param->items_link;
+//if($type == 'articles')
+//toPrint($title_tag,'$title_tag', 0, 'pre',true);
 
-	if($param->header_tag3 == 'default'){
-    	$header_tag3 = '';
+	if($param->title_tag == 'default'){
+    	$title_tag = '';
 	}
-	if($param->header_tag3 == 'default' && ($module->showtitle ?? FALSE)){
-    	$header_tag3 = $module->header_tag ?? 'div';
+	if($param->title_tag == 'default' && ($module->showtitle ?? FALSE)){
+    	$title_tag = $module->header_tag ?? 'div';
 	}
-	if($param->header_tag3 == 'item'){
-    	$header_tag3 = $module->header_tag ?? '';
+	if($param->title_tag == 'item'){
+    	$title_tag = $module->header_tag ?? '';
 	}
-	if($param->header_tag3 == '0'){
-    	$module_title = $header_tag3 = '';
+	if($param->title_tag == '0'){
+    	$module_title = $title_tag = '';
 	}
 
-	if($header_tag3 && $module->title){
+	
+//if($type == 'articles')
+//	toPrint($type,'$type', 0, 'pre',true);
+//if($type == 'articles')
+//	toPrint($title_tag,'$title_tag', 0, 'pre',true);
+//if($type == 'articles')
+//	toPrint( $module->title,'$module->title', 0, 'pre',true);
+//toPrint($title_tag,'$title_tag', 0, 'pre',true);
+	
+	if($title_tag && $module->title){
 		$module_title = $module->title;//'';// $module->title;
 
 		if($items_link=='ha'){
-			$module_title = "<$header_tag3 class=' item_title $module->header_class'><a href='$module->link' class='$class' _title='$module->title' >$module->title</a></$header_tag3>";
+			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $module->header_class'><a href='$module->link' class='$class $link_class' _title='$module->title' >$module->title</a></$title_tag>";
 		}
 		if($items_link=='ah'){
-			$module_title = "<a href='$module->link' class='$class item_title' _title='$module->title' ><$header_tag3 class='  $module->header_class'>$module->title</$header_tag3></a>";
+			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title' _title='$module->title' ><$title_tag class='  $module->header_class'>$module->title</$title_tag></a>";
+		}
+		if($items_link=='h'){
+			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $class $module->header_class'>$module->title</$title_tag>";
 		}
 		if($items_link=='a'){
-			$module_title = "<a href='$module->link' class='$class item_title $module->header_class' _title='$module->title' >$module->title</a>";
+			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</a>";
 		}
 		if($items_link=='0'){
-			$module_title = "<$header_tag3 class='$class item_title $module->header_class' _title='$module->title' >$module->title</$header_tag3>";
+			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</$title_tag>";
 		}
 		echo $prepare($module_title);
 	}
@@ -237,7 +264,7 @@ else:
     }
 
     $isImage = function($url){
-        $ext = strtolower(substr($url, strrpos($url, '.') + 1)) ;
+        $ext = pathinfo($url, PATHINFO_EXTENSION);//strtolower(substr($url, strrpos($url, '.') + 1)) ;
 
         return in_array($ext, ['png','apng','svg','bmp','jpg','jpeg','gif','webp','ico'])?' imagelink '.$ext:' url ';
     };
@@ -259,10 +286,12 @@ else:
         echo $prepare("<img class='$class image item_image $module->moduleclass_sfx'    src='$base$module->image'>");
     endif;
 
-    if($param->content_tag3 != 'none'){
-    if($content_tag3)
-        echo "<$content_tag3 class=' item_content  $module->moduleclass_sfx'>";
-	echo  $module->content ?? '';
+//    if($param->items_tag != 'none'){
+//    if($items_tag)
+//        echo "<$items_tag class=' item_content  $module->moduleclass_sfx'>";
+	
+	
+	echo $module->content ?? '';
 	
 
 	if(isset($module->items) && is_array($module->items) && $module->items){
@@ -270,9 +299,9 @@ else:
 		require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_multi', '_items');
 	}
 
-    if($content_tag3)
-        echo "</$content_tag3>";
-    }
+//    if($items_tag)
+//        echo "</$items_tag>";
+//    }
 	
 	if($param->articles_more && $type == 'articles'){
 		echo "<a href='$module->link' class='link_more item_more' aria-label='$module->title'>$param->articles_more</a>";
@@ -281,26 +310,30 @@ else:
 		echo "<a href='$module->link' class='link_more item_more' aria-label='$module->title'>$param->article_more</a>";
 	}
 
-    if($param->content_tag3 == 'default' && $module->module_tag && $module->style){
+    if($param->items_tag == 'default' && $module->module_tag && $module->style){
         echo "</$module->module_tag>";
     }
-    if($param->content_tag3 == 'item' && $module->module_tag){
+    if($param->items_tag == 'item' && $module->module_tag){
         echo "</$module->module_tag>";
     }
 
     endif;
 
-    if($tag_item)
-        echo "</$tag_item>";
+	
+	if($param->item_tag)
+		echo "</$param->item_tag>";
 
-    if($tag_container)
-        echo "</$tag_container>";
 }
 
-/* Проверка наличие тега для списка и проверка будущего списка что он несписок, чтобы подряд идущие списки групировались внутри тега */
-if(isset($tag_block) && $tag_block && empty($ElementTypes[$ii]))
-	echo "</$tag_block>";
 	
+//    if($param->items_tag)
+//        echo "</$param->items_tag>";
+
+/* Проверка наличие тега для списка и проверка будущего списка что он несписок, чтобы подряд идущие списки групировались внутри тега */
+if(isset($param->items_tag) && $param->items_tag && empty($ElementTypes[$ii]))
+	echo "</$param->items_tag>";
+
+
 endforeach; // foreach $modules as $type => $items
 
 if($module_tag2)

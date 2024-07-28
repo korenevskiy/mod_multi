@@ -32,6 +32,8 @@ $param = &$params; // $params->toObject();
 $module->params = &$params;
 $param->id = $module->id;
 
+$module->ajax = $module->ajax ?? false;
+
 /* Проверка условий показов */
 // <editor-fold defaultstate="collapsed" desc="Проверка условий показов">
 
@@ -39,7 +41,7 @@ if($module->position && $module->id):
 
 if(empty($module->ajax) && !ModMultiHelper::requireWork($param)){
 //toPrint($module,'$module',0, 'message',true);
-	
+	$module->ajax = false;
     $pos	= $module->position;
     $id		= $module->id;
     $name	= $module->module;
@@ -146,7 +148,6 @@ if ($params->get('html_show')) {
 
         }
         if (($favicon = $param->favicon_files_0) != -1){
-
             JFactory::getDocument()->addHeadLink($favicon, 'mask-icon', 'rel', ['color'=>$favicon_color]);
             JFactory::getDocument()->addHeadLink($favicon, 'icon', 'rel', ['sizes'=>'any','type'=>'image/svg+xml']);
         }
@@ -325,25 +326,45 @@ $$mod=$module;
 $$par=$params;
 
 /* Article */
-if($param->article_show && $param->article_id){
-    $article_order = $param->article_order;
+if($param->article_show && ($param->article_id || $param->article_ids)){
 	
-    $modules[sprintf("%02d", $article_order).'article'] = ModMultiHelper::getArticles([$param->article_id],[],$param->article_show, $module->id, $param->content_tag3!='none');
-    if($modules[sprintf("%02d", $article_order).'article'])
+	$param->article_ids = array_filter(explode(' ', str_replace(',', ' ', $param->article_ids)),
+			fn($num)=> is_numeric($num) && $num >= 0);
+	
+    $articles = ModMultiHelper::getArticles([$param->article_id, ...$param->article_ids], [], ($param->item_tag!='none'?$param->article_show:'') , $module->id);
+    $modules[sprintf("%02d", $param->article_order).'article'] = [];
+	
+	foreach ($param->article_ids as $id){
+		if(isset($articles[$id]))
+			$modules[sprintf("%02d", $param->article_order).'article'][] = &$articles[$id];
+	}
+	
+	if($modules[sprintf("%02d", $param->article_order).'article'] ?? false)
         $module->empty_list = FALSE;
 }
-/* Articles */
-if($param->articles_show && $param->articles_id){
 
-    $modules[sprintf("%02d", $param->articles_order).'articles'] = ModMultiHelper::getArticles([],$param->articles_id,$param->articles_show, $module->id);
-    if($modules[sprintf("%02d", $param->articles_order).'articles'])
-        $module->empty_list = FALSE;
+/* Articles */
+if($param->articles_show){
+	
+	$param->articles_id = $param->articles_id || !in_array('', (array)$param->articles_id, true) ? array_filter((array)$param->articles_id) : [];
+	$param->articles_tags = $param->articles_id || !in_array('', (array)$param->articles_tags, true) ? array_filter((array)$param->articles_tags) : [];
+	
+	if($param->articles_id || $param->articles_tags){
+		$modules[sprintf("%02d", $param->articles_order).'articles'] = ModMultiHelper::getArticles([], $param->articles_id, ($param->item_tag!='none'?$param->articles_show:'') , $module->id, $param->articles_tags, $param->articles_sort??'ordering ASC');
+	}
+	
+	if($modules[sprintf("%02d", $param->articles_order).'articles'] ?? false)
+		$module->empty_list = FALSE;
 }
 /* В разработке!!!!!!! categories */
 if($param->categories_show && $param->categories_id){
-
-    $modules[sprintf("%02d", $param->categories_order).'categories'] = ModMultiHelper::getArticles([],$param->categories_id,$param->categories_show);
-    if($modules[sprintf("%02d", $param->categories_order).'categories'])
+	
+	$param->categories_id = in_array('', $param->categories_id,true) ? [] : array_filter($param->categories_id);
+	
+    if($param->categories_id)
+		$modules[sprintf("%02d", $param->categories_order).'categories'] = ModMultiHelper::getArticles([], $param->categories_id, $param->categories_show);
+    
+	if($modules[sprintf("%02d", $param->categories_order).'categories'] ?? false)
         $module->empty_list = FALSE;
 }
 /* Пункты меню */
@@ -373,8 +394,10 @@ if($param->menu_show && $param->menu){
 		if($item->params->$link_title ?? false)
 			$item->link_title = $link_title = $item->params->$link_title;
 		
-        $menus[$id]->moduleclass_sfx = $item->params->$link_css;
+//        $menus[$id]->header_class = $link_class;
         $menus[$id]->menu_image = $item->params->menu_image;
+		
+		$menus[$id]->moduleclass_sfx = $link_class;
 
         $menus[$id]->link = JRoute::_($item->link);
 

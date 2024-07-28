@@ -28,8 +28,7 @@ use Joomla\CMS\Language\Language as JLanguage;
 
 if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php')){
 	require_once  JPATH_ROOT . '/functions.php';
-	
- toPrint(null,'' ,0,'');
+// toPrint(null,'' ,0,'');
 }
 
 class JFormFieldTranslate extends JFormField  {
@@ -58,6 +57,9 @@ class JFormFieldTranslate extends JFormField  {
 
 	public function setup(\SimpleXMLElement $element, $value, $group = null) {
 
+		if(JFactory::getApplication()->getConfig()->get('debug'))
+			static::languageMinificationRaw();
+		
 		$this->element = $element;
 
 		if($element['path']){
@@ -121,5 +123,34 @@ class JFormFieldTranslate extends JFormField  {
 	}
 	public function getId($fieldId, $fieldName) {
 		return '';
+	}	
+	public static function languageMinificationRaw(){
+		
+		
+		$lang = JFactory::getApplication()->getLanguage();
+		
+		$dir = getcwd();
+		
+		$dir = __DIR__;
+		
+		while(!file_exists($dir . '/language')){
+			$dir = dirname($dir);
+		}
+
+		$dir .= '/language';
+		
+		$files = Joomla\Filesystem\Folder::files($dir, "raw.ini", true, true);
+		
+		foreach ($files as $file){
+			$text = file_get_contents($file);
+			$text = str_replace("\n[", "[{<!>}][", $text);
+			$text = str_replace("]\n", "][{<!>}]", $text);
+			$text = str_replace("\";\n", "\";[{<!>}]", $text);
+			$text = str_replace("\"\n", "\"[{<!>}]", $text);
+			$text = str_replace("\n", '', $text);
+			$text = str_replace('[{<!>}]', PHP_EOL, $text);
+			$file = str_replace(".raw.ini", '.ini', $file);
+			$f = file_put_contents($file, $text);
+		}
 	}
 }

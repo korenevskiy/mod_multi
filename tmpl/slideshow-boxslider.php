@@ -114,7 +114,7 @@ foreach ($items as $id => $module){
     if($params->get('items_image') && $module->image)
         echo "<img src='$module->image' class=\" item_image $module->moduleclass_sfx\" title='$module->title' alt='$module->title'/>";
 
-    if($params->get('content_tag3') != 'none'){
+    if($params->get('item_tag') != 'none'){
     if(isset($tag_item) && $tag_item)
         echo "<$tag_item class=\" item_content $module->moduleclass_sfx\">";
     echo  $module->content ?? '';

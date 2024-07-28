@@ -385,33 +385,31 @@ abstract class ModMultiHelper
         if($folders==$links)
             $links = NULL;
         if(is_string($links))
-            $links = (array)static::split ($links);
+            $links = (array)static::split ($links, PHP_EOL);
         if(is_string($titles))
-            $titles = (array)static::split ($titles);
+            $titles = (array)static::split ($titles, PHP_EOL);
         if(is_string($texts))
-            $texts = (array)static::split ($texts);
+            $texts = (array)static::split ($texts, PHP_EOL);
 
         $items = [];
         foreach ($folders as $folder){
             $files = JFolder::files(JPATH_SITE.$folder, '\.jpg|\.jpeg|\.JPG|\.JPEG|\.png|\.PNG|\.apng|\.APNG|\.gif|\.GIF|\.WEBP|\.webp|\.HEIF|\.heif|\.HEIC|\.heic|\.AVIF|\.avif$');
             foreach ($files as $i => $file){
-                $items[$file] = (object)[
+                $items[$file] = new \Reg([
                     'image'		=>	$folder . '/' . $file,
                     'link'		=>	$links[$i]	??	'',
-                    'title'		=>	$titles[$i]	??	$file,
-                    'text'		=>	isset($texts[$i]) ? "<p>$texts[$i]</p>" : '',
-                    'content'	=>	$texts[$i]	??	'',
+                    'title'		=>	$titles[$i]	??	pathinfo($file, PATHINFO_FILENAME),
+                    'text'		=>	$texts[$i] ?? '',
+                    'content'	=>	$texts[$i] ?? '',
                     'moduleclass_sfx' => 'img_file',
                     'header_class' => 'img_title',
-                    'text'		=>	$texts[$i]??'',
-                    'text'		=>	$texts[$i]??'',
                     'id'		=>	$i,
                     'type'		=>	'images',
                     'module_tag'=>	'div',
 					'module'	=>	'',
 					'style'		=>	'',
 //					'src'		=>	JPATH_SITE.$folder.'/'.$file
-                ];
+                ]);
             }
         }
 
@@ -431,24 +429,25 @@ abstract class ModMultiHelper
     /**
      * Get Articles from array IDs or one ID.
      * @param array|int $articles_id
+     * @param array|int $categorys_id
      * @param string $article_mode
+     * @param int $mod_id
+     * @param array $tags
      * @return array list
      */
-    public static function getArticles($articles_id = [], $categorys_id = [], $article_mode = 'full', $mod_id = 0, $withContent=true){//full,intro,content
+    public static function getArticles($articles_id = [], $categorys_id = [], $article_mode = 'full', $mod_id = 0, $tags = [], $sorting = ''){//full,intro,content
         $where = '';
 		
 //		$type = is_array($articles_id) ? 'articles' : 'article';
 
-        if(!is_array($articles_id))
-            $articles_id = array($articles_id);
-        $articles_id = array_diff($articles_id, ['']);
-        if($articles_id && $articles_id[0])
+        $articles_id = array_filter((array)$articles_id);
+		
+        if($articles_id)
             $where .= "AND av.id IN (".join(",",$articles_id).")";
-
-        if(!is_array($categorys_id))
-            $categorys_id = array($categorys_id);
-        $categorys_id = array_diff($categorys_id, ['']);
-        if($categorys_id && $categorys_id[0])
+		
+        $categorys_id = array_filter((array)$categorys_id);
+		
+        if($categorys_id)
             $where .= "AND av.catid IN (".join(",",$categorys_id).")";
 
         $query = "SELECT id, asset_id, title, alias, introtext,	`fulltext`, access, language,images, ordering, state, attribs, catid, urls "
@@ -456,7 +455,27 @@ abstract class ModMultiHelper
                 . "WHERE   av.state = 1 "
                 . "$where ; ";
 		
-		$ContentText = $withContent ? 'a.introtext,a.fulltext,' : '';
+		$ContentText = "''";
+		
+		switch ($article_mode){
+			case 'full': $ContentText = " CONCAT(a.introtext, ' ', a.fulltext) "; break;
+			case 'intro': $ContentText = " a.introtext "; break;
+			case 'fulltext': $ContentText = " a.fulltext "; break;
+		}
+		
+		$tags = implode(',', array_filter((array)$tags));
+		$tags_join_tags = '';
+		
+		if($tags ){
+			$tags_join_tags = " INNER JOIN joom_contentitem_tag_map m ON m.content_item_id = a.id AND m.tag_id IN ($tags) ";
+		}
+		
+		if($sorting && $sorting != 'rand()'){
+			$sorting = " av.$sorting";
+		}
+		if(empty($sorting)){
+			$sorting = " true";
+		}
 		
         $query = "
 SELECT av.*, GROUP_CONCAT(av.f_content SEPARATOR ' ') as f_content
@@ -486,7 +505,7 @@ SELECT
 
     IF(LOCATE('\"render_class\":\"', f.params, 1), SUBSTRING_INDEX(SUBSTRING(f.params, LOCATE('\"render_class\":\"', f.params, 1)+16),'\"',1),'')  f_render_class,
 
-    a.id , a.catid, a.featured,a.state,a.ordering, a.version,a.title, a.checked_out, a.checked_out_time,  a.images,a.attribs,a.urls, $ContentText a.alias,a.access, a.language,
+    a.id , a.catid, a.featured,a.state,a.ordering, a.version,a.title, a.checked_out, a.checked_out_time,  a.images,a.attribs,a.urls, $ContentText content, a.alias,a.access, a.language,a.hits,a.created, a.modified,
     f.id f_id, f.group_id f_group_id,  f.state f_state, f.required f_required,
     f.name f_name,  f.title f_title, f.label f_label,
     IF(LOCATE('\"showlabel\":', f.params, 1), TRIM('}' FROM TRIM(',' FROM TRIM('\"' FROM SUBSTRING(f.params, LOCATE('\"showlabel\":', f.params, 1)+12,2)))),'')  f_showlabel,
@@ -496,6 +515,7 @@ SELECT
 /*--    f.default_value f_default_value,     v.value f_value,*/
     IF(v.value!='',v.value,f.default_value) f_val, IF(v.value,0,1) f_def
 FROM #__content a
+$tags_join_tags
 LEFT JOIN #__fields_categories fc ON fc.category_id  IN (a.catid, 0)
 LEFT JOIN #__fields f ON fc.field_id = f.id AND f.state AND f.context = \"com_content.article\"
 LEFT JOIN #__fields_values v ON v.item_id = a.id  AND f.id = v.field_id
@@ -507,35 +527,30 @@ ORDER BY a.ordering, f.ordering
 WHERE   state = 1
 $where
 GROUP BY av.id
-ORDER BY av.ordering
+ORDER BY $sorting
 ; ";
 
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
+		
         foreach ($items as $id => &$art){
-            if($article_mode == 'full')
-                $items[$id]->content = $art->introtext.' '.$art->fulltext;
-            if($article_mode == 'intro')
-                $items[$id]->content = $art->introtext;
-            if($article_mode == 'content')
-                $items[$id]->content = $art->fulltext;
+
+			
+			
             if($art->f_content)
                 $items[$id]->fields = "<ul class='fields'>$art->f_content</ul>";
 
             $params = new \Reg($items[$id]->f_params);
-            $items[$id]->params = $params->toObject();
+            $items[$id]->params = $params;
 
             $items[$id]->module = 'article';
             $items[$id]->module_tag = 'div';
             $items[$id]->moduleclass_sfx = "article $art->id";
             $items[$id]->header_class = "title ";
             jimport( 'joomla.registry.registry' );
-            $images = new \Reg($items[$id]->images);
-            $items[$id]->images = $images->toObject();
-            $items[$id]->image = $items[$id]->images->image_intro ?? $items[$id]->images->image_fulltext;
-            $attribs = new \Reg($items[$id]->attribs);
-            $items[$id]->attribs = $attribs->toObject();
-            $urls = new \Reg($items[$id]->urls);
-            $items[$id]->urls = $urls->toObject();
+            $items[$id]->images = new \Reg($items[$id]->images);
+            $items[$id]->image = $items[$id]->images->image_intro ?: $items[$id]->images->image_fulltext;
+            $items[$id]->attribs = new \Reg($items[$id]->attribs);
+            $items[$id]->urls = new \Reg($items[$id]->urls);
             $items[$id]->type = 'article';//$type;
             JHtml::addIncludePath(JPATH_ROOT . '/components/com_content/src/Helper');
 /* require_once JPATH_BASE . '/components/com_content/helpers/route.php'; */
@@ -544,11 +559,11 @@ ORDER BY av.ordering
 				/* We know that user has the privilege to view the article */
 			$items[$id]->link = JRoute::_(ContentHelperRoute::getArticleRoute($id, $art->catid)); 
 //            $items[$id]->link = ContentHelperRoute::getArticleRoute($id, $art->catid);
-			
 //toPrint($items);
 //			$items[$id]->dt = HTML\Helpers\Date::relative($query);
 
         }
+		
         return $items;
     }
     /**
@@ -690,7 +705,7 @@ ORDER BY $order  LIMIT $maximum ;
 		catch (\RuntimeException $e)
 		{
 			$list = array();
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		$Itemid = $Itemid ? "&Itemid=$Itemid" : '' ;
@@ -784,7 +799,7 @@ ORDER BY $order  LIMIT $maximum ;
 		return $parents;
 	}
 
-    public static function getModulesFromPosition($positions,$modules_ordering,$current_id = 0,$current_position = '',$chromestyle='',$content_tag3=''){
+    public static function getModulesFromPosition($positions,$modules_ordering,$current_id = 0,$current_position = '',$chromestyle='',$item_tag=''){
 
         foreach ($positions as $key => $pos)
             $positions[$key] = trim($pos);
@@ -805,7 +820,7 @@ ORDER BY $order  LIMIT $maximum ;
 
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
 
-        if(in_array($content_tag3, ['','0',0,NULL])){
+        if(in_array($item_tag, ['','0',0,NULL])){
             $chromestyle = 'System-none';
             return self::getModules($items,$chromestyle,$current_id);
         }
@@ -818,7 +833,7 @@ ORDER BY $order  LIMIT $maximum ;
             return self::getModules($items, $chromestyle,$current_id);
         }
     }
-    public static function getModulesFromSelected($modulesID,$modules_ordering,$current_id = 0,$current_position = '',$chromestyle='',$content_tag3=''){
+    public static function getModulesFromSelected($modulesID,$modules_ordering,$current_id = 0,$current_position = '',$chromestyle='',$item_tag=''){
 
         $modulesID = trim(join(",",$modulesID),',');
         $lang = JFactory::getLanguage()->getTag();
@@ -843,7 +858,7 @@ ORDER BY $order  LIMIT $maximum ;
 
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
 
-        if(in_array($content_tag3, ['','0',0,NULL]) && $chromestyle){
+        if(in_array($item_tag, ['','0',0,NULL]) && $chromestyle){
             $chromestyle = 'System-none';
 
             return self::getModules($items,$chromestyle,$current_id);
@@ -950,26 +965,23 @@ ORDER BY $order  LIMIT $maximum ;
      * @param array $separators Char(chars) separator
      * @return array Array items
      */
-    public static function split($string = '', array $separators = ['|']){
+    public static function split($string = '', array|string $separators = ['|']){
         if(empty($string))
             return [];
+		
         if(empty($separators))
-            $separators = ['|'];
+            $separators = ['|',PHP_EOL];
+		
+		if(is_string($separators))
+			$separators	= (array)$separators;
+		
         $sep = reset($separators);
 
         $string = str_replace(['\n','\r','\t'], '', $string);
 
         $string = str_replace($separators, $sep, $string);
-
-        $items = explode($sep, $string);
-
-        foreach ($items as $k => &$item){
-            $item = trim($item);
-            if(empty($item))
-                unset($items[$k]);
-        }
-
-        return $items;
+		
+		return array_filter(array_map(fn($item)=>trim($item), explode($sep, $string)));
     }
 
     /**
@@ -1103,6 +1115,11 @@ class Reg extends \Joomla\Registry\Registry{
 	
 	function __isset($nameProperty) {
 		return $this->exists($nameProperty);
+	}
+	
+	public function __unset($nameProperty)
+	{
+		$this->remove($nameProperty);
 	}
 	
 	function ArrayItem($nameProperty, $index = null, $value = null){

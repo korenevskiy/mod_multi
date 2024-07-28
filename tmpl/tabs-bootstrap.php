@@ -11,9 +11,13 @@
 # Technical Support:  Forum - //vk.com/multimodule
 -------------------------------------------------------------------------*/
 
+use \Joomla\CMS\Factory as JFactory;
+
 defined('_JEXEC') or die;
 
-$param = new \Reg($params);//*** ->toObject()
+$param = new \Reg($params);
+
+\Joomla\CMS\HTML\HtmlHelper::_('bootstrap.tab', '#modTab'.$param->id, []);
 
 $id      = $params->get('id');
 $positon = $params->get('position');
@@ -118,27 +122,74 @@ if(isset($tag_block) && $tag_block)
 
 $current = '';
 $json_tabbootstrap = $params->get('json_tabbootstrap');
-echo "<ul class='nav nav-tabs $json_tabbootstrap       panel-tabs' role='tablist'>";
-foreach ($elements as $id => $module){
-    $current = empty($current)?"active":"noactive";
-    echo " <li class='nav-item'><a  class='$current nav-link' href='#tabmod$id$module->id' data-toggle='tab' role='tab'><strong>$module->title</strong></a></li>";
-}
-echo "</ul>";
 
-$current = '';
+//$param->json_layout;
+
+$json = new stdClass;
+
+$json_layout = explode(PHP_EOL, $param->json_layout);
+
+foreach ($json_layout as &$js_lay){
+	$pos = strpos($js_lay, '#');
+	if($pos !== false)
+		$js_lay = substr($js_lay, 0, $pos);
+	$pos = strpos($js_lay, '//');
+	if($pos !== false)
+		$js_lay = substr($js_lay, 0, $pos);
+	
+	foreach (explode(',', $js_lay) as $jslay){
+		$jsl = explode(':', $jslay);
+		if(count($jsl) == 2){
+			$prop = trim($jsl[0]);
+			$prop = trim($prop,'\'"');
+			$val = trim($jsl[1]);
+			$val = trim($val,'\'"');
+			
+			$json->{$prop} = $val;
+		}
+	}
+}
+
+$json_layout = $json;
+
+$tabTag = $json_layout->tabTag ?? 'a';
+$tabClass = $json_layout->tabClass ?? 'nav-link';
+$listTabTag = $json_layout->listTabTag ?? 'nav';
+$listTabClass = $json_layout->listTabClass ?? 'nav nav-justified ';
+
+reset($elements);
+$first_key = key($elements);
+
+ 
+echo "<$listTabTag  class='$listTabClass panel-tabs' id='modTab$param->id' role='tablist' >";
+
+foreach ($elements as $id => $module){
+	$image_html = '';
+    $current = $first_key == $id ? "active" : "noactive";
+    $selected = $first_key == $id ? "true" : "false";
+	echo $listTabTag == 'ul' ? "<li class='nav-item'>" : '';
+	echo "<$tabTag class='$tabClass $current' href='#nav-$param->id-$id'	 data-bs-target='#nav-$param->id-$id'	aria-current='page'
+			id='nav-$param->id-$id-tab' data-bs-toggle='tab' data-toggle='tab' type='button' role='tab' 
+			aria-controls='nav-$param->id-$id' aria-selected='$selected'>$module->title  $image_html</$tabTag>";
+	echo $listTabTag == 'ul' ? '</li>' : '';
+}
+echo "</$listTabTag>";
+
 $i = 0;
 
-echo "<div class='tab-content'>";
+echo "<div class='tab-content' id='nav-tabContent-$param->id'>";
 foreach ($elements as $id => $module){
     $module->text = $module->content = $prepare($module->content ?? '');
 
     $i++;
-    $current = empty($current)?"in show active ":"noactive";
-    echo "<div id='tabmod$id$module->id' role='tabpanel' class=\"item  tab-pane fade $current  i$i type_$module->type sfx$module->moduleclass_sfx id$module->id $module->module  \">";
+    $current = $first_key == $id ? "in show active " : "noactive";
+	echo "<div id='nav-$param->id-$id' class='tab-pane fade $current' aria-labelledby='nav-$param->id-$id-tab item i$i type_$module->type sfx$module->moduleclass_sfx id$id $module->module  ' role='tabpanel'>";
+	
+    
 
     $header_tag3 = $params->get('header_tag3','');
     if($header_tag3 == 'default' ){
-        $header_tag3 = $module->showtitle? ($module->header_tag?:'span') : '';
+        $header_tag3 = isset($module->showtitle) && $module->showtitle? ($module->header_tag?:'span') : '';
     }
     if($header_tag3 == 'item'){
         $header_tag3 = $module->header_tag ?? 'div';
@@ -149,19 +200,19 @@ foreach ($elements as $id => $module){
         echo "</$header_tag3>";
     }
 
-    $content_tag3 = $params->get('content_tag3','');
-    if($content_tag3 == 'default' ){
-        $content_tag3 = $module->style? ($module->module_tag?:'div') : '';
+    $item_tag = $params->get('item_tag','');
+    if($item_tag == 'default' ){
+        $item_tag = $module->style? ($module->module_tag?:'div') : '';
     }
-    if($content_tag3 == 'item'){
-        $content_tag3 = $module->module_tag ?? '';
+    if($item_tag == 'item'){
+        $item_tag = $module->module_tag ?? '';
     }
 
-    if($content_tag3)
-        echo "<$content_tag3 class=\" $module->moduleclass_sfx\">";
+    if($item_tag)
+        echo "<$item_tag class=\" $module->moduleclass_sfx\">";
     echo $prepare($module->content ?? '') ;
-    if($content_tag3)
-        echo "</$content_tag3>";
+    if($item_tag)
+        echo "</$item_tag>";
 
     echo "</div>";
 }
