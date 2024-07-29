@@ -35,7 +35,7 @@
 
 $param = new \Reg($params);//*** ->toObject()
 $param->id = $module->id;
-$param->ajax = $module->ajax;
+$param->ajax = $module->ajax ?? false;
 $ajax = $param->ajax ? 'ajax' : '';
 
 

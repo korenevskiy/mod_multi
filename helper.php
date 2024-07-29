@@ -372,9 +372,9 @@ abstract class ModMultiHelper
      * @param array||string $folder
      * @param bool $rnd
      * @param int $count
-     * @param array||string||null $links Если NULL то тогда $links будет взят самими картинками
-     * @param array||string $titles
-     * @param array||string $texts
+     * @param array|string|null $links Если NULL то тогда $links будет взят самими картинками
+     * @param array|string $titles
+     * @param array|string $texts
      * @return array list
      */
     public static function getImages($folders='', $rnd = FALSE,$count=12,$links=[],$titles=[],$texts=[]){
@@ -962,10 +962,10 @@ ORDER BY $order  LIMIT $maximum ;
     /**
      * Split string
      * @param type $string String spliting
-     * @param array $separators Char(chars) separator
+     * @param array|string $separators Char(chars) separator
      * @return array Array items
      */
-    public static function split($string = '', array|string $separators = ['|']){
+    public static function split($string = '', $separators = ['|']){ // array|string $separators
         if(empty($string))
             return [];
 		
