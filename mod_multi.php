@@ -25,7 +25,6 @@ if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php'))
 
 require_once MULTIMOD_PATH . '/helper.php';
 
-
 $params = new Reg($params);
 
 $param = &$params; // $params->toObject();
@@ -257,6 +256,7 @@ if($params->get('title_alt_show')){
     $param->title = $module->title;
 
 }
+
 /* Определение ссылки для Заголовка */
 if($param->link_show && $param->link_menu!='_'){
     jimport( 'joomla.methods' );
@@ -547,10 +547,9 @@ if($param->query_show && trim($param->query_select)){
         $module->empty_list = FALSE;
 }
 
-if($current_id == 308){
-//    toPrint('<style type="text/css"> #page_wrap,.wcm_chat, #wcm_chat, #page_wrap{display:none!important;} </style>');
-
-}
+//if($current_id == 308){
+////    toPrint('<style type="text/css"> #page_wrap,.wcm_chat, #wcm_chat, #page_wrap{display:none!important;} </style>');
+//}
 
 $modules = array_filter($modules);
 

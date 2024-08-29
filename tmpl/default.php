@@ -99,12 +99,12 @@ else
 
 
 //if($param->id == 112)
-//toPrint($param->style, '$param->style', 0, 'message', true);
+//	toPrint($param->style, '$param->style', 0, 'message', true);
 //toPrint(null, '', 0, '', false);
 //if($param->id == 112)
 //toPrint($showtitle, '$showtitle', 0, 'message', true);
 //if($param->id == 116)
-//toPrint($modules, '$modules', 0, 'message', true);
+//	toPrint($modules, '$modules', 0, 'message', true);
 
 
 if($showtitle):
@@ -212,7 +212,7 @@ else:
 	$link_class = $module->link_class ?? '';
 
 	$title_tag = $param->title_tag ?? 'h6';
-	$items_link = $param->items_link;
+	
 //if($type == 'articles')
 //toPrint($title_tag,'$title_tag', 0, 'pre',true);
 
@@ -241,20 +241,21 @@ else:
 	if($title_tag && $module->title){
 		$module_title = $module->title;//'';// $module->title;
 
-		if($items_link=='ha'){
+		if($param->items_link == 'ha'){
 			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $module->header_class'><a href='$module->link' class='$class $link_class' _title='$module->title' >$module->title</a></$title_tag>";
 		}
-		if($items_link=='ah'){
+		if($param->items_link == 'ah'){
 			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title' _title='$module->title' ><$title_tag class='  $module->header_class'>$module->title</$title_tag></a>";
 		}
-		if($items_link=='h'){
+		if($param->items_link == 'h'){
 			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $class $module->header_class'>$module->title</$title_tag>";
 		}
-		if($items_link=='a'){
+		if($param->items_link == 'a'){
 			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</a>";
 		}
-		if($items_link=='0'){
-			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</$title_tag>";
+		if($param->items_link == '0'){
+			$module_title = '';
+//			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</$title_tag>";
 		}
 		echo $prepare($module_title);
 	}
@@ -278,9 +279,9 @@ else:
     if($param->items_image == 'ii')
         echo $prepare("<a class='$class image'  target='_blank' href='$base$module->image'  _title='$module->title'
             data-toggle='lightbox'   data-gallery='gallery_$id' data-type='image' onclick='return true;'>
-            <img class=' item_image $module->moduleclass_sfx '   src='$base$module->image'></a>");
+            <img class=' item_image $module->moduleclass_sfx '  src='$base$module->image'></a>");
     if($param->items_image == 'di') {
-        echo $prepare("<div class='$class image'><img  class='   item_image  $module->moduleclass_sfx '  data-action='zoom' src='$base$module->image'></div>");
+        echo $prepare("<div class='$class image'><img  class='  item_image  $module->moduleclass_sfx '  data-action='zoom' src='$base$module->image'></div>");
     }
     if($param->items_image == 'i')
         echo $prepare("<img class='$class image item_image $module->moduleclass_sfx'    src='$base$module->image'>");

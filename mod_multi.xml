@@ -422,7 +422,7 @@
                     <field name="title_tag"
                            type="list" 
                            default="h6"  
-						   showon="style_tag3!:0[AND]items_link!:0[AND]items_link!:a" 
+						   showon="style_tag3!:0[AND]items_link!:a[AND]items_link!:0" 
                            label="[[%1:]] ↓,MOD_MULTIMODULE_FIELD_TITLE_TAG3_LABEL"
                            description="Tags heads/titles items: &lt;br/>
                                         &lt; DIV/ &gt; - Tag headers/titles &lt;br/>
