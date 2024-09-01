@@ -286,7 +286,7 @@ $mod_path =  JUri::base();
         
     //https://www.jqueryscript.net/slider/Creating-3D-Perspective-Carousel-with-jQuery-CSS3-CSSSlider.html 
     
-$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'])? '': '- '.basename (__FILE__,'.php');
+$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'],true)? '': '- '.basename (__FILE__,'.php');
 
 $json_layout = $param->json_layout ?? '';
 

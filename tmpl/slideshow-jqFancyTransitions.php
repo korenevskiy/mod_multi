@@ -24,7 +24,7 @@ $style=$params->get('style');//***
 $mod_show = count($modules);
 
 $module_tag = $params->get('module_tag', 'div');
-$moduleclass_sfx = in_array($style, ['',0,NULL,'none','System-none','Cassiopeia-no'])? '': $params->get('moduleclass_sfx');//***
+$moduleclass_sfx = in_array($style, ['',0,NULL,'none','System-none','Cassiopeia-no'],true)? '': $params->get('moduleclass_sfx');//***
 
 $showtitle = $params->get('showtitle');
 
@@ -51,7 +51,7 @@ if($showtitle):
     elseif(empty($link_show))
         $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
 
-    if(in_array($style, ['System-none','none','no','0',0,'']))
+    if(in_array($style, ['System-none','none','no','0',0,''],true))
         echo $titlea;
     else
         $$mod->title = $titlea;
@@ -123,7 +123,7 @@ JHtml::script('modules/mod_multi/media/jqfancytransitions/slideshow.js');
 
 $json_jqFancyTransitions = $params->get('json_layout','') ?: $params->get('json_jqFancyTransitions','');
 
-$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'])? '':basename (__FILE__,'.php');
+$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'],true)? '':basename (__FILE__,'.php');
 //https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html  #multislideshowid$param->id .slider.items.id$param->id
  $script = <<< script
 

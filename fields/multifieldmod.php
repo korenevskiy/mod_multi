@@ -71,7 +71,7 @@ class JFormFieldMultiFieldMod extends JFormFieldList  {//JFormField
         $this->class_new->setup($element, $value, $group);
 
         $fields_list = ['contenttype','radio','list','chromestyle','type_module','sql','moduletag','menu','category','category','filelist',
-            'assignment','files','modulelayout','','','','','','','','','','',''];// типы полей для которых 
+            'assignment','files','modulelayout',''];// типы полей для которых 
         $fields_group = [ 'menuitem'];// типы полей для которых 
 
 // toPrint($options,'$options '.$classname_new.' '. (class_exists($classname_new)?'Yes':'No'),0,TRUE,TRUE);

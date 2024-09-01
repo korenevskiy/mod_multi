@@ -58,7 +58,7 @@ if($param->work_type_require == 'and'):
                 }
                 else if($param->ip_user_is == 'without' && $ip_exist){
 
-echo $_SERVER['REMOTE_ADDR'];
+//echo $_SERVER['REMOTE_ADDR'];
                     return FALSE;
                 }
             endif;

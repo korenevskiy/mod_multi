@@ -63,7 +63,7 @@ if($showtitle):
         $titlea =  "<$header_tag class='$header_class'>$title</$header_tag>";
 
 
-    if(in_array($param->style, ['System-none','none','no','0',0,''])) //System-html5
+    if(in_array($param->style, ['System-none','none','no','0',0,''],true)) //System-html5
         echo $titlea;
     elseif(in_array($link_show, ['ha','ah','a'])){
         $$mod->title = "<a href='$link' title='".strip_tags($title)."' class='id$id multiheadera'>$title</a>";

@@ -94,7 +94,7 @@ endif;
 $modules = array();
 // <editor-fold defaultstate="collapsed" desc="field HTML">
 
-if ($params->get('html_show')) {
+if ($param->get('html_show')) {
 
     $copyright_text = '';
     $copyright_show = $param->copyright_show;
@@ -215,10 +215,10 @@ if ($params->get('html_show')) {
 
 $current_id          = $module->id;
 $current_position    = $module->position;
-$param->title_alt    = $params->set('title_alt',trim($param->title_alt));
+$param->title_alt    = $param->set('title_alt',trim($param->title_alt));
 
 /* Определение Альтернативного Заголовка */
-if($params->get('title_alt_show')){
+if($param->get('title_alt_show')){
     $module->title = $param->title_alt ?: $module->title;
     $menuitem = NULL;
 
@@ -279,7 +279,7 @@ if($param->link_show && $param->link_menu!='_'){
     }
 
     $link = JRoute::_( $link);
-    $param->link = $params->set('link',$link);
+    $param->link = $param->set('link',$link);
 
 }
 
@@ -297,7 +297,7 @@ $param->menuid    = $module->menuid??false;
 $param->name      = $module->name??'multi';
 
 /* Отключение внешнего Заголовка при пустом макете для того чтобы включился внутренний*/
-if (in_array($param->style, ['System-none','none','no','0',0,'']))
+if (in_array($param->style, ['System-none','none','no','0',0,''], true))
     $module->showtitle = FALSE;
 
 if($param->disable_module_empty_count &&
@@ -322,8 +322,8 @@ $module->empty_list = TRUE;
 
 $mod="module".$module->id;
 $par="params".$module->id;
-$$mod=$module;
-$$par=$params;
+${$mod} = & $module;
+${$par} = & $param;
 
 /* Article */
 if($param->article_show && ($param->article_id || $param->article_ids)){
@@ -470,7 +470,7 @@ if($param->position_show){
         $param->position_ordering =  " FIND_IN_SET(position, '$ord'), ";
     }
 
-    $modules[sprintf("%02d", $param->position_order).'position'] = ModMultiHelper::getModulesFromPosition($positions,$param->position_ordering, $$mod->id,$$mod->position,$param->style_tag3);
+    $modules[sprintf("%02d", $param->position_order).'position'] = ModMultiHelper::getModulesFromPosition($positions,$param->position_ordering, ${$mod}->id,${$mod}->position,$param->style_tag3);
 
     if($modules[sprintf("%02d", $param->position_order).'position'])
         $module->empty_list = FALSE;
@@ -490,7 +490,7 @@ if($param->modules_show){
         $param->modules_ordering =  " FIND_IN_SET(id, '$ord'), ";
     }
 
-    $modules[sprintf("%02d", $param->modules_order).'modules'] = ModMultiHelper::getModulesFromSelected($modulesID,$param->modules_ordering, $$mod->id,$$mod->position,$param->style_tag3);
+    $modules[sprintf("%02d", $param->modules_order).'modules'] = ModMultiHelper::getModulesFromSelected($modulesID,$param->modules_ordering, ${$mod}->id,${$mod}->position,$param->style_tag3);
 
     if($modules[sprintf("%02d", $param->modules_order).'modules'])
         $module->empty_list = FALSE;
@@ -558,7 +558,7 @@ reset($modules);
 
 /* Завершение пустого модуля */
 // <editor-fold defaultstate="collapsed" desc="Завершение пустого модуля">
-if($params->get('disable_module_empty_count')):// && empty($modules)
+if($param->get('disable_module_empty_count')):// && empty($modules)
     $mod_keys = array_keys($modules);
     $exit = $module->empty_list;
 
@@ -586,10 +586,9 @@ if($params->get('disable_module_empty_count')):// && empty($modules)
 endif;
 // </editor-fold>
 
-$module=$$mod;
-$params=$$par;
-
-ModMultiHelper::$params = $params;
+$module	= & ${$mod};
+$params	= & ${$par};
+$param	= & ${$par};
 
 
 //JHtml::script($img);// register($img, $function);
@@ -604,8 +603,9 @@ $wa->registerStyle('jquery.ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2
 //$wa->useStyle('jquery.ui')->useScript('jquery.ui');
 
 
-require JModuleHelper::getLayoutPath('mod_multi',$params->get('layout', 'default'));
+require JModuleHelper::getLayoutPath('mod_multi',$param->get('layout', 'default'));
 
-$module=$$mod;
-$params=$$par;
+$module	= & ${$mod};
+$params	= & ${$par};
+$param	= & ${$par};
 

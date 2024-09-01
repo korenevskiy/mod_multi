@@ -51,7 +51,7 @@ if($showtitle):
     elseif(empty($link_show))
         $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
 
-    if(in_array($style, ['System-none','none','no','0',0,'']))
+    if(in_array($style, ['System-none','none','no','0',0,''],true))
         echo $titlea;
     else
         $$mod->title = $titlea;

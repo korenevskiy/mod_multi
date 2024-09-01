@@ -820,7 +820,7 @@ ORDER BY $order  LIMIT $maximum ;
 
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
 
-        if(in_array($item_tag, ['','0',0,NULL])){
+        if(in_array($item_tag, ['','0',0,NULL],true)){
             $chromestyle = 'System-none';
             return self::getModules($items,$chromestyle,$current_id);
         }
@@ -858,7 +858,7 @@ ORDER BY $order  LIMIT $maximum ;
 
         $items = JFactory::getDBO()->setQuery($query)->loadObjectList('id');
 
-        if(in_array($item_tag, ['','0',0,NULL]) && $chromestyle){
+        if(in_array($item_tag, ['','0',0,NULL],true) && $chromestyle){
             $chromestyle = 'System-none';
 
             return self::getModules($items,$chromestyle,$current_id);

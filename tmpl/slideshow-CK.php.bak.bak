@@ -59,7 +59,8 @@ $positon = $params->position;
 $mod_show = count($modules);
 
 $module_tag = $params->module_tag ?: 'div';
-$moduleclass_sfx = in_array($param->style, ['',0,NULL,'none','System-none','Cassiopeia-no'],true)? '': $param->moduleclass_sfx;//***
+$moduleclass_sfx = in_array($param->style, ['',0,NULL,'none','System-none','Cassiopeia-no'],true)? '': $param->moduleclass_sfx;
+//***
 
 $showtitle = $param->showtitle;
 

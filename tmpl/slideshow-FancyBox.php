@@ -129,7 +129,7 @@ $style=$params->get('style');//***
 $mod_show = count($modules);
 
 $module_tag = $params->get('module_tag', 'div');
-$moduleclass_sfx = in_array($style, ['',0,NULL,'none','System-none','Cassiopeia-no'])? '': $params->get('moduleclass_sfx');//***
+$moduleclass_sfx = in_array($style, ['',0,NULL,'none','System-none','Cassiopeia-no'],true)? '': $params->get('moduleclass_sfx');//***
 
 $showtitle = $params->get('showtitle');
 //$title = htmlspecialchars($params->get('title'));
@@ -218,12 +218,12 @@ if($showtitle):
     $titlea = "";
     if($link_show == 'ha')
         $titlea = "<$header_tag class='$header_class'><a href='$link' title='".strip_tags($title)."' class='id$param->id multiheadera'>$title</a></$header_tag>";
-    elseif($link_show || $link_show == 'ah')// && in_array($style, ['System-none','none','no',''])  && $module_tag2
+    elseif($link_show || $link_show == 'ah')// && in_array($style, ['System-none','none','no',''],true)  && $module_tag2
         $titlea = "<a href='$link' title='".strip_tags($title)."' class='id$param->id multiheadera' ><$header_tag class=\"$header_class\">$title</$header_tag></a>";
     elseif(empty($link_show))//$module_tag2 &&
         $titlea =  "<$header_tag class='$header_class'>$title</$header_tag>";
 
-    if(in_array($style, ['System-none','none','no','0',0,'']))
+    if(in_array($style, ['System-none','none','no','0',0,''],true))
         echo $titlea;
     else
         $$mod->title = $titlea;
@@ -375,7 +375,7 @@ JHtml::stylesheet("modules/mod_multi/media/fancybox_3/jquery.fancybox.min.css");
 
 $json_layout = $param->json_layout ?? '';
 
-$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'])? '': '- '.basename (__FILE__,'.php');
+$style_layout = in_array(JFactory::getConfig()->get('error_reporting'), [0,NULL,'','none','default'],true)? '': '- '.basename (__FILE__,'.php');
 //https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html  #multislideshowid$param->id .slider.items.id$param->id
 $script = <<< script
 

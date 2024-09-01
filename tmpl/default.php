@@ -102,39 +102,43 @@ else
 //	toPrint($param->style, '$param->style', 0, 'message', true);
 //toPrint(null, '', 0, '', false);
 //if($param->id == 112)
-//toPrint($showtitle, '$showtitle', 0, 'message', true);
+//toPrint($module->showtitle, '$module->showtitle', 0, 'message', true);
 //if($param->id == 116)
 //	toPrint($modules, '$modules', 0, 'message', true);
 
 
-if($showtitle):
+if($module->showtitle):
     $titlea = "";
-    if($link_show == 'ha')
-        $titlea = "<$header_tag class='$header_class '><a href='$link' title='".strip_tags($title)."' class='id$id multiheadera'>$title</a></$header_tag>";
-    elseif($link_show == 'ah')
-        $titlea = "<a  href='$link' title='".strip_tags($title)."' class='id$id multiheadera'><$header_tag class='$header_class'>$title</$header_tag></a>";
-    elseif($link_show == 'h')
-        $titlea = "<$header_tag class='$header_class id$id multiheadera' title='".strip_tags($title)."' >$title</$header_tag>";
-    elseif($link_show == 'a')
-        $titlea = "<a href='$link'  title='".strip_tags($title)."' class='id$id multiheadera $header_class'>$title</a>";
+	
+    if($param->link_show == 'ha')
+        $titlea = "<$header_tag class='$header_class '><a href='$link' title='".strip_tags($param->title)."' class='id$id multiheadera'>$param->title</a></$header_tag>";
+    elseif($param->link_show == 'ah')
+        $titlea = "<a  href='$link' title='".strip_tags($param->title)."' class='id$id multiheadera'><$header_tag class='$header_class'>$param->title</$header_tag></a>";
+    elseif($param->link_show == 'h')
+        $titlea = "<$header_tag class='$header_class id$id multiheadera' title='".strip_tags($param->title)."'>$param->title</$header_tag>";
+    elseif($param->link_show == 'a')
+        $titlea = "<a href='$link'  title='".strip_tags($param->title)."' class='id$id multiheadera $header_class'>$param->title</a>";
     else
-        $titlea =  "<$header_tag class='$header_class'>$title</$header_tag>";
+        $titlea =  "<$header_tag class='$header_class'>$param->title</$header_tag>";
 
 
-    if(in_array($param->style, ['System-none','none','no','0',0,''])) //System-html5
+    if(in_array($param->style, ['System-none','none','no','0',0,''],true)) //System-html5
         echo $titlea;
-    elseif(in_array($link_show, ['ha','ah','a'])){
-        $$mod->title = "<a href='$link' title='".strip_tags($title)."' class='id$id multiheadera'>$title</a>";
-		$$mod->header_class .= "id$id multiheadera";
+    elseif(in_array($param->link_show, ['ha','ah','a'])){
+        ${$mod}->title = "<a href='$link' title='".strip_tags($param->title)."' class='id$id multiheadera'>$param->title</a>";
+		${$mod}->header_class .= "id$id multiheadera";
+		if($param->link_show == 'a'){
+//			${$mod}->params->header_tag	= 'span';
+			$module->params->header_tag = 'span';
+		}
 	}
-    elseif(in_array($link_show, ['h'])){
-        $$mod->title = $title;
-		$$mod->header_class .= "id$id multiheadera";
+    elseif(in_array($param->link_show, ['h'])){
+        ${$mod}->title = $param->title;
+		${$mod}->header_class .= "id$id multiheadera";
 	}
 	else
-        $$mod->title = $titlea;
+        ${$mod}->title = $titlea;
 endif;
-
 
 //toPrint(null,'',0, 'pre',true);
 
@@ -169,7 +173,6 @@ foreach ($items as $id => & $module){
     $module->text = $module->content = $prepare($module->content ?? '');
 
     $i++;
-
 	
 	
 	if($param->item_tag)
@@ -340,4 +343,6 @@ endforeach; // foreach $modules as $type => $items
 if($module_tag2)
     echo "</$module_tag2>";
 
+
+$module = &${$mod};
 ?>
