@@ -193,7 +193,7 @@ abstract class ModMultiHelper
 
         $files;
 
-        $sortFonts = ['eot' => 'embedded-opentype','woff' => 'woff','ttf' => 'truetype','otf' => '','svg' => 'svg'];
+        $sortFonts = ['eot' => 'embedded-opentype','woff' => 'woff','woff2' => 'woff2','ttf' => 'truetype','otf' => '','svg' => 'svg'];
 
         $fonts = [];
 
@@ -204,29 +204,29 @@ abstract class ModMultiHelper
         }
 
         foreach ($fonts as $filename => $font){
-            $style = " /* Module ID: $moduleid */ \n";
-            $style .= "@font-face {\n font-family: '$filename' ;\n";
-            $style .= "src: ";
-            $style .= "local($filename),";
-            $fnt = str_replace(' ', '', $filename);
-            if(strpos($filename, ' '))
-                $style .= $fnt = "local(\"$fnt\"),";
-            $count = count($font);
+		if(! in_array($font[$ext], $sortFonts))
+			continue;
+		
+		$style = " /* Module ID: $moduleid */ \n";
+		$style .= "@font-face {\n font-family: '$filename' ;\n";
+		$style .= "src: ";
+		$style .= "local($filename),";
+		$fnt = str_replace(' ', '', $filename);
+		if(strpos($filename, ' '))
+                	$style .= $fnt = "local(\"$fnt\"),";
+		$count = count($font);
 
-            foreach ($sortFonts as $ext => $format ){
-                if(empty($font[$ext]))
-                    continue;
+		foreach ($sortFonts as $ext => $format ){
+			if(empty($font[$ext]))
+				continue;
 
-                $style .= "\nurl(\"{$font[$ext]['path']}\")  format('$format')";
+			$style .= "\nurl(\"{$font[$ext]['path']}\")  format('$format')";
+			$style .= (--$count)?',':'';
+            	}
+		$style .= ";\n}\n";
+		$style .= ".$fnt{font-family: '$filename';}\n";
 
-                $style .= (--$count)?',':'';
-
-            }
-            $style .= ";\n}\n";
-            $style .= ".$fnt{font-family: '$filename';}\n";
-
-            JFactory::getDocument()->addStyleDeclaration($style);
-
+		JFactory::getDocument()->addStyleDeclaration($style);
         }
     }
 	
