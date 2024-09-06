@@ -228,7 +228,7 @@ abstract class ModMultiHelper
 			if(empty($font[$ext]['path']) || empty($format))
 				continue;
 
-			$style .= "\nurl(\"{$uriRoot}{$font[$ext][path]}\")  format('$format')";
+			$style .= "\nurl(\"{$uriRoot}{$font[$ext]['path']}\")  format('$format')";
 			$style .= (--$count)?',':'';
 		}
 		$style .= ";\n}\n";
