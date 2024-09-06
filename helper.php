@@ -193,7 +193,7 @@ abstract class ModMultiHelper
 
         $files;
 
-        $sortFonts = ['eot' => 'embedded-opentype','woff' => 'woff','woff2' => 'woff2','ttf' => 'truetype','otf' => '','svg' => 'svg'];
+        $sortFontsFormats = ['eot' => 'embedded-opentype','woff' => 'woff','woff2' => 'woff2','ttf' => 'truetype','otf' => '','svg' => 'svg'];
 
         $fonts = [];
 
@@ -209,7 +209,7 @@ abstract class ModMultiHelper
 		if(empty($font))
 			continue;
 		
-		$types = array_intersect_key($font, $sortFonts);
+		$types = array_intersect_key($font, $sortFontsFormats);
 		
 		if(empty($types))
 			continue;
@@ -224,11 +224,11 @@ abstract class ModMultiHelper
 			
 		$count = count($types);
 		
-		foreach ($types as $ext ){ // $sortFonts as $ext => $format
-			if(empty($font[$ext]))
+		foreach ($types as $ext => $format){
+			if(empty($font[$ext]['path']) || empty($format))
 				continue;
 
-			$style .= "\nurl(\"{$uriRoot}{$font[$ext]['path']}\")  format('$sortFonts[$ext]')";
+			$style .= "\nurl(\"{$uriRoot}{$font[$ext][path]}\")  format('$format')";
 			$style .= (--$count)?',':'';
 		}
 		$style .= ";\n}\n";
