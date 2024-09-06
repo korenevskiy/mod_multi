@@ -203,8 +203,15 @@ abstract class ModMultiHelper
             $fonts[$fileInfo['filename']][$fileInfo['extension']] = $fileInfo;
         }
 
+		$uriRoot = trim(CMS\Uri\Uri::root(),'/');
+		
         foreach ($fonts as $filename => $font){
-		if(! in_array($font[$ext], $sortFonts))
+		if(empty($font))
+			continue;
+		
+		$types = array_intersect_key(array_keys($font), array_keys($sortFonts));
+		
+		if(empty($types))
 			continue;
 		
 		$style = " /* Module ID: $moduleid */ \n";
@@ -213,16 +220,17 @@ abstract class ModMultiHelper
 		$style .= "local($filename),";
 		$fnt = str_replace(' ', '', $filename);
 		if(strpos($filename, ' '))
-                	$style .= $fnt = "local(\"$fnt\"),";
-		$count = count($font);
-
-		foreach ($sortFonts as $ext => $format ){
+			$style .= $fnt = "local(\"$fnt\"),";
+			
+		$count = count($types);
+		
+		foreach ($types as $ext ){ // $sortFonts as $ext => $format
 			if(empty($font[$ext]))
 				continue;
 
-			$style .= "\nurl(\"{$font[$ext]['path']}\")  format('$format')";
+			$style .= "\nurl(\"{$uriRoot}{$font[$ext]['path']}\")  format('$sortFonts[$ext]')";
 			$style .= (--$count)?',':'';
-            	}
+		}
 		$style .= ";\n}\n";
 		$style .= ".$fnt{font-family: '$filename';}\n";
 
