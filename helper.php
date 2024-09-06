@@ -209,7 +209,7 @@ abstract class ModMultiHelper
 		if(empty($font))
 			continue;
 		
-		$types = array_intersect_key(array_keys($font), array_keys($sortFonts));
+		$types = array_intersect_key($font, $sortFonts);
 		
 		if(empty($types))
 			continue;
