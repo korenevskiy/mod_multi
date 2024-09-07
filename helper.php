@@ -193,7 +193,7 @@ abstract class ModMultiHelper
 
         $files;
 
-        $sortFontsFormats = ['eot' => 'embedded-opentype','woff' => 'woff','woff2' => 'woff2','ttf' => 'truetype','otf' => '','svg' => 'svg'];
+        static $sortFontsFormats = ['eot' => 'embedded-opentype','woff' => 'woff','woff2' => 'woff2','ttf' => 'truetype','otf' => '','svg' => 'svg'];
 
         $fonts = [];
 
@@ -202,39 +202,41 @@ abstract class ModMultiHelper
             $fileInfo['path']= $file;
             $fonts[$fileInfo['filename']][$fileInfo['extension']] = $fileInfo;
         }
-
+		
 		$uriRoot = trim(CMS\Uri\Uri::root(),'/');
 		
         foreach ($fonts as $filename => $font){
-		if(empty($font))
-			continue;
-		
-		$types = array_intersect_key($font, $sortFontsFormats);
-		
-		if(empty($types))
-			continue;
-		
-		$style = " /* Module ID: $moduleid */ \n";
-		$style .= "@font-face {\n font-family: '$filename' ;\n";
-		$style .= "src: ";
-		$style .= "local($filename),";
-		$fnt = str_replace(' ', '', $filename);
-		if(strpos($filename, ' '))
-			$style .= $fnt = "local(\"$fnt\"),";
-			
-		$count = count($types);
-		
-		foreach ($types as $ext => $format){
-			if(empty($font[$ext]['path']) || empty($format))
+			if(empty($font))
 				continue;
+			
+			$types = array_intersect_key($sortFontsFormats, $font);
+			
+			if(empty($types))
+				continue;
+			
+			
+            $style = " /* Module ID: $moduleid */ \n";
+            $style .= "@font-face {\n font-family: '$filename' ;\n";
+            $style .= "src: ";
+            $style .= "local($filename),";
+            $fnt = str_replace(' ', '', $filename);
+            if(strpos($filename, ' '))
+                $style .= $fnt = "local(\"$fnt\"),";
+			
+            $count = count($types);
+			
+            foreach ($types as $ext => $format){
+                if(empty($font[$ext]['path']) || empty($format))
+                    continue;
 
-			$style .= "\nurl(\"{$uriRoot}{$font[$ext]['path']}\")  format('$format')";
-			$style .= (--$count)?',':'';
-		}
-		$style .= ";\n}\n";
-		$style .= ".$fnt{font-family: '$filename';}\n";
+                $style .= "\nurl(\"{$uriRoot}{$font[$ext]['path']}\")  format('$format')";
+                $style .= (--$count)?',':'';
 
-		JFactory::getDocument()->addStyleDeclaration($style);
+            }
+            $style .= ";\n}\n";
+            $style .= ".$fnt{font-family: '$filename';}\n";
+
+            JFactory::getDocument()->addStyleDeclaration($style);
         }
     }
 	

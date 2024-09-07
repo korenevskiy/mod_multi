@@ -52,7 +52,7 @@ $moduleclass_sfx 	= $param->moduleclass_sfx;
 //$showtitle = $params->get('showtitle');
 $showtitle = $module->showtitle;
 
-$title = $param->title ?? '';
+$param_title = strip_tags($param->title ?? '');
 
 $header_tag = $param->header_tag ?? 'h3';
 $header_class = htmlspecialchars($param->header_class ?? 'module-header');
@@ -111,13 +111,13 @@ if($module->showtitle):
     $titlea = "";
 	
     if($param->link_show == 'ha')
-        $titlea = "<$header_tag class='$header_class '><a href='$link' title='".strip_tags($param->title)."' class='id$id multiheadera'>$param->title</a></$header_tag>";
+        $titlea = "<$header_tag class='$header_class '><a href='$link' title='$param_title' class='id$id multiheadera'>$param->title</a></$header_tag>";
     elseif($param->link_show == 'ah')
-        $titlea = "<a  href='$link' title='".strip_tags($param->title)."' class='id$id multiheadera'><$header_tag class='$header_class'>$param->title</$header_tag></a>";
+        $titlea = "<a  href='$link' title='$param_title' class='id$id multiheadera'><$header_tag class='$header_class'>$param->title</$header_tag></a>";
     elseif($param->link_show == 'h')
-        $titlea = "<$header_tag class='$header_class id$id multiheadera' title='".strip_tags($param->title)."'>$param->title</$header_tag>";
+        $titlea = "<$header_tag class='$header_class id$id multiheadera' title='$param_title'>$param->title</$header_tag>";
     elseif($param->link_show == 'a')
-        $titlea = "<a href='$link'  title='".strip_tags($param->title)."' class='id$id multiheadera $header_class'>$param->title</a>";
+        $titlea = "<a href='$link'  title='$param_title' class='id$id multiheadera $header_class'>$param->title</a>";
     else
         $titlea =  "<$header_tag class='$header_class'>$param->title</$header_tag>";
 
@@ -125,7 +125,7 @@ if($module->showtitle):
     if(in_array($param->style, ['System-none','none','no','0',0,''],true)) //System-html5
         echo $titlea;
     elseif(in_array($param->link_show, ['ha','ah','a'])){
-        ${$mod}->title = "<a href='$link' title='".strip_tags($param->title)."' class='id$id multiheadera'>$param->title</a>";
+        ${$mod}->title = "<a href='$link' title='$param_title' class='id$id multiheadera'>$param->title</a>";
 		${$mod}->header_class .= "id$id multiheadera";
 		if($param->link_show == 'a'){
 //			${$mod}->params->header_tag	= 'span';
@@ -203,7 +203,7 @@ else:
 
     $link = $link_ = "";
 
-    $module_title = $module->title;
+	$module_title = strip_tags($module->title);
 
     $isImage = function($url){
         $ext = strtolower(substr($url, strrpos($url, '.') + 1)) ;
@@ -242,23 +242,23 @@ else:
 //toPrint($title_tag,'$title_tag', 0, 'pre',true);
 	
 	if($title_tag && $module->title){
-		$module_title = $module->title;//'';// $module->title;
+//		$module_title = strip_tags($module->title);//$module->title;//'';// $module->title;
 
 		if($param->items_link == 'ha'){
-			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $module->header_class'><a href='$module->link' class='$class $link_class' _title='$module->title' >$module->title</a></$title_tag>";
+			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $module->header_class'><a href='$module->link' class='$class $link_class' _title='$module_title'>$module->title</a></$title_tag>";
 		}
 		if($param->items_link == 'ah'){
-			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title' _title='$module->title' ><$title_tag class='  $module->header_class'>$module->title</$title_tag></a>";
+			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title' _title='$module_title' ><$title_tag class='$module->header_class'>$module->title</$title_tag></a>";
 		}
 		if($param->items_link == 'h'){
 			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id item_title $class $module->header_class'>$module->title</$title_tag>";
 		}
 		if($param->items_link == 'a'){
-			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</a>";
+			$module_title = "<a href='$module->link' class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module_title' >$module->title</a>";
 		}
 		if($param->items_link == '0'){
 			$module_title = '';
-//			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module->title' >$module->title</$title_tag>";
+//			$module_title = "<$title_tag class=' $param->item_class_sfx$param->id $class $link_class item_title $module->header_class' _title='$module_title' >$module->title</$title_tag>";
 		}
 		echo $prepare($module_title);
 	}
@@ -276,11 +276,11 @@ else:
 
     if($param->items_image && $module->image):
     if($param->items_image == 'ai')
-        echo $prepare("<a class='$class image'  target='_blank' href='$module->link'  _title='$module->title'
+        echo $prepare("<a class='$class image'  target='_blank' href='$module->link'  _title='".strip_tags($module->title)."'
             data-toggle='lightbox'   data-gallery='gallery_$id' data-type='image' onclick='return true;'>
             <img class=' item_image $module->moduleclass_sfx '   src='$base$module->image'></a>");
     if($param->items_image == 'ii')
-        echo $prepare("<a class='$class image'  target='_blank' href='$base$module->image'  _title='$module->title'
+        echo $prepare("<a class='$class image'  target='_blank' href='$base$module->image'  _title='".strip_tags($module->title)."'
             data-toggle='lightbox'   data-gallery='gallery_$id' data-type='image' onclick='return true;'>
             <img class=' item_image $module->moduleclass_sfx '  src='$base$module->image'></a>");
     if($param->items_image == 'di') {
@@ -308,10 +308,10 @@ else:
 //    }
 	
 	if($param->articles_more && $type == 'articles'){
-		echo "<a href='$module->link' class='link_more item_more' aria-label='$module->title'>$param->articles_more</a>";
+		echo "<a href='$module->link' class='link_more item_more' aria-label='".strip_tags($module->title)."'>$param->articles_more</a>";
 	}
 	if($param->article_more && $type  == 'article'){
-		echo "<a href='$module->link' class='link_more item_more' aria-label='$module->title'>$param->article_more</a>";
+		echo "<a href='$module->link' class='link_more item_more' aria-label='".strip_tags($module->title)."'>$param->article_more</a>";
 	}
 
     if($param->items_tag == 'default' && $module->module_tag && $module->style){
