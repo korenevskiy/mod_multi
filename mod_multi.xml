@@ -362,7 +362,8 @@
 					<field
 						name="style_tag3"
 						type="chromestyle"
-						default="System-none"
+						default="inset"
+						_default="System-none"
 						label="[[%1:]] ↓,COM_MODULES_FIELD_MODULE_STYLE_LABEL"
 						description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
 					>
