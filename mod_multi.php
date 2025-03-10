@@ -23,6 +23,8 @@ if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/modules/mod_multi_f
 if(!function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php'))
 	require_once  JPATH_ROOT . '/functions.php';
 
+
+require_once MULTIMOD_PATH . '/libraries/reg.php';
 require_once MULTIMOD_PATH . '/helper.php';
 
 $params = new Reg($params);
