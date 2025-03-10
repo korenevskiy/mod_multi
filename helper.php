@@ -20,6 +20,10 @@ use Joomla\CMS\Factory as JFactory;
 
 jimport('joomla.application.module.helper');
 
+if(empty(class_exists('\Reg'))){
+	include_once MULTIMOD_PATH . "/libraries/reg.php";
+}
+
 //ModMultiHelper::getAjax
 abstract class ModMultiHelper
 {
