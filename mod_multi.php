@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');
-/*------------------------------------------------------------------------
+/** ----------------------------------------------------------------------
 # mod_multi - Modules Conatinier
 # ------------------------------------------------------------------------
 # author    Sergei Borisovich Korenevskiy
@@ -8,7 +8,8 @@
 # Websites: https://explorer-office.ru/download/joomla/category/view/1
 # Technical Support:  Forum - https://fb.com/groups/multimodule
 # Technical Support:  Forum - https://vk.com/multimodule
--------------------------------------------------------------------------*/
+# ------------------------------------------------------------------------
+*/
 
 use \Joomla\CMS\Factory as JFactory;
 use \Joomla\CMS\HTML\HTMLHelper as JHtml;
@@ -28,17 +29,19 @@ if(empty(class_exists('\Reg'))){
 }
 require_once MULTIMOD_PATH . '/helper.php';
 
-$params = new Reg($params);
+if( ! $params instanceof Reg)
+	$params = (new Reg())->merge($params);
+
 
 $param = &$params; // $params->toObject();
 $module->params = &$params;
 $param->id = $module->id;
 
+
 $module->ajax = $module->ajax ?? false;
 
-/* Проверка условий показов */
+/** Проверка условий показов */
 // <editor-fold defaultstate="collapsed" desc="Проверка условий показов">
-
 if($module->position && $module->id):
 
 if(empty($module->ajax) && !ModMultiHelper::requireWork($param)){
@@ -514,7 +517,7 @@ if( $param->image_show   && $param->image){
 }
 /* Images */
 if($rnd = $param->images_show){
-	
+
     foreach ((array)$param->images_folder as $i => $fold){
         if($fold==-1){
             unset($param->images_folder[$i]);
