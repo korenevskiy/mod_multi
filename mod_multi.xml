@@ -23,6 +23,7 @@
 		<filename>index.html</filename>
 		<folder>fields</folder>
 		<folder>language</folder>
+		<folder>libraries</folder>
 		<folder>media</folder>
 		<folder>tmpl</folder>
 	</files>
