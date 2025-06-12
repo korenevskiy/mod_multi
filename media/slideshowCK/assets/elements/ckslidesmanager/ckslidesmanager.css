@@ -3,7 +3,6 @@
  * https://www.joomlack.fr
  * @license		GNU/GPL
  * */
-
 #ckslideslist * {
 	box-sizing: border-box;
 }
@@ -21,7 +20,6 @@
 	list-style: none;
 }
 /* fin override */
-
 #ckslideslist {
 	position: relative;
 	padding: 0;
@@ -33,7 +31,7 @@
 }
 
 #options-styles {
-	position:relative;
+	position: relative;
 }
 
 .ckaddslide {
@@ -123,7 +121,7 @@
 	color: #b94a48;
 }
 
-.ckslidetoggle[data-state="0"] + .ckslidecontainer {
+.ckslidetoggle[data-state="0"]+.ckslidecontainer {
 	opacity: 0.3;
 }
 
@@ -136,7 +134,7 @@
 	margin-left: 5px;
 }
 
-.ckslideimgname + a.ckbutton {
+.ckslideimgname+a.ckbutton {
 	margin-left: -1px;
 }
 
@@ -160,7 +158,7 @@
 	z-index: 1;
 }
 
-.ckslidedelete:hover > i{
+.ckslidedelete:hover>i {
 	color: red;
 }
 
@@ -169,9 +167,9 @@
 }
 
 .ckslideimgcontainer {
-	float:left;
-	height:64px;
-	width:64px;
+	float: left;
+	height: 64px;
+	width: 64px;
 	border: none;
 	box-shadow: 0px 0px 1px #333;
 	border-radius: 0px;
@@ -180,8 +178,8 @@
 
 .ckslideimgcontainer img {
 	margin: 0 !important;
-	height:64px;
-	width:64px;
+	height: 64px;
+	width: 64px;
 	box-shadow: #888 0 0 4px;
 	cursor: pointer;
 }
@@ -215,7 +213,8 @@
 	cursor: pointer;
 }
 
-#ckslideslist .ckslideaccordeonbutton:hover, #ckslideslist .ckslideaccordeonbutton.open {
+#ckslideslist .ckslideaccordeonbutton:hover, #ckslideslist .ckslideaccordeonbutton.open
+	{
 	background: #eee;
 	color: #0080ff;
 }
@@ -252,10 +251,10 @@
 
 /* for Joomla 4 */
 /* set 1 column in the options */
-#fieldset-editionfieldset > div {
+#fieldset-editionfieldset>div {
 	column-count: 1;
 }
 
-#fieldset-editionfieldset > div .control-group:not(.hidden) {
+#fieldset-editionfieldset>div .control-group:not(.hidden) {
 	display: block;
 }

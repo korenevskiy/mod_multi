@@ -1,25 +1,24 @@
 <?php
 /**------------------------------------------------------------------------
-# mod_multi - Modules Conatinier
-# ------------------------------------------------------------------------
-# author    Sergei Borisovich Korenevskiy
-# Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
-# @package  mod_multi
-# @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
-# Websites: //explorer-office.ru/download/joomla/category/view/1
-# Technical Support:  Forum - //fb.com/groups/multimodule
-# Technical Support:  Forum - //vk.com/multimodule
--------------------------------------------------------------------------*/
+ # mod_multi - Modules Conatinier
+ # ------------------------------------------------------------------------
+ # author    Sergei Borisovich Korenevskiy
+ # Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
+ # @package  mod_multi
+ # @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ # Websites: //explorer-office.ru/download/joomla/category/view/1
+ # Technical Support:  Forum - //fb.com/groups/multimodule
+ # Technical Support:  Forum - //vk.com/multimodule
+ -------------------------------------------------------------------------*/
+defined('_JEXEC') or die();
 
-defined('_JEXEC') or die;
+$param = $params; // *** new \Reg($params)->toObject()
 
-$param = new \Reg($params);//*** ->toObject()
+$id = $params->get('id');
+$positon = $params->get('position');
 
-$id         = $params->get('id');
-$positon    = $params->get('position');
-
-$style      = $params->get('style');
-$mod_show   = count($modules);
+$style = $params->get('style');
+$mod_show = count($modules);
 
 $module_tag = $params->get('module_tag', 'div');
 $moduleclass_sfx = $params->get('moduleclass_sfx');
@@ -45,23 +44,23 @@ $modules_tag = $params->get('modules_tag');
 $modules_showtitle = $params->get('modules_showtitle');
 $type_module = $params->get('type_module');
 
-$style=$params->get('style');
-$module_tag2 = $params->get('module_tag2','div')?:'div';
-if($module_tag2)
-    echo "<$module_tag2  id='myModal".$module->id."'  class=\"multimodule$moduleclass_sfx id$id  $style ".$params->get('moduleclass_sfx2')."   $moduleClass\"  >";
+$style = $params->get('style');
+$module_tag2 = $params->get('module_tag2', 'div') ?: 'div';
+if ($module_tag2)
+    echo "<$module_tag2  id='myModal" . $module->id . "'  class=\"multimodule$moduleclass_sfx id$id  $style " . $params->get('moduleclass_sfx2') . "   $moduleClass\"  >";
 
 $html_before = '';
 $html_after = [];
-foreach ($modules as $id=>$item){
-    if(is_string($item))
+foreach ($modules as $id => $item) {
+    if (is_string($item))
         $html_before .= $item;
     else
         break;
 }
 $keys = array_keys($modules);
 $keys = array_reverse($keys);
-foreach ($keys as $key){
-    if(is_string($modules[$key]))
+foreach ($keys as $key) {
+    if (is_string($modules[$key]))
         $html_after[$key] = $item;
     else
         break;
@@ -167,91 +166,109 @@ echo <<<VIEW
        <input class="modalInput" type="checkbox" '.$moduleBackShow.' id="modal$module->id">
 VIEW;
 
-    $item_tag = $params->get('item_tag','div')?:'div';
+$item_tag = $params->get('item_tag', 'div') ?: 'div';
 
-    if($params->get('item_tag')== 'default' && $module->module_tag && $module->style){
-        echo "<div class='$module->moduleclass_sfx modalWindow".$module->id." modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx'   tabindex='-1'>"
-           . "< $module->module_tagclass='modal-dialog'><div class='modal-content'>";
-        $item_tag = '';
-    }
-    elseif($params->get('item_tag')== 'item' && $module->module_tag){
-        echo "<div  class='$module->moduleclass_sfx modalWindow".$module->id." modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx'   tabindex='-1'>"
-           . "<$module->module_tag class='modal-dialog'><div class='modal-content'>";
-        $item_tag = '';
-    }
-    elseif($params->get('item_tag','div') != 'none' && $item_tag)
-        echo "<div class=\" item_content  $module->moduleclass_sfx modalWindow".$module->id." modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx\"  tabindex='-1'>"
-           . "<$item_tag class='modal-dialog'><div class='modal-content'>";
+if ($params->get('item_tag') == 'default' && $module->module_tag && $module->style) {
+    echo "<div class='$module->moduleclass_sfx modalWindow" . $module->id . " modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx'   tabindex='-1'>" . "< $module->module_tagclass='modal-dialog'><div class='modal-content'>";
+    $item_tag = '';
+} elseif ($params->get('item_tag') == 'item' && $module->module_tag) {
+    echo "<div  class='$module->moduleclass_sfx modalWindow" . $module->id . " modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx'   tabindex='-1'>" . "<$module->module_tag class='modal-dialog'><div class='modal-content'>";
+    $item_tag = '';
+} elseif ($params->get('item_tag', 'div') != 'none' && $item_tag)
+    echo "<div class=\" item_content  $module->moduleclass_sfx modalWindow" . $module->id . " modalWindow modal -modal-sm   moduleModal$module->moduleclass_sfx\"  tabindex='-1'>" . "<$item_tag class='modal-dialog'><div class='modal-content'>";
 
-                        echo "<div class=\"modal-header\">";
-                        echo "<label class=\"modalX icon-delete\" for=\"modal$module->id\"></label>";
-                    if ($link_show || $self_module_tag && $showtitle)
-                    {
-                        if ($link_show)  echo "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">";
-                        echo "<$header_tag class=\"$header_class modal-title \">".strip_tags($title)."</$header_tag>";
-                        if ($link_show)  echo "</a>";
-                    }
-                        echo "</div>";
+echo "<div class=\"modal-header\">";
+echo "<label class=\"modalX icon-delete\" for=\"modal$module->id\"></label>";
+if ($link_show || $self_module_tag && $showtitle) {
+    if ($link_show)
+        echo "<a href=\"$link\" title=\"" . strip_tags($title) . "\" class=\"id$id multiheadera\">";
+    echo "<$header_tag class=\"$header_class modal-title \">" . strip_tags($title) . "</$header_tag>";
+    if ($link_show)
+        echo "</a>";
+}
+echo "</div>";
 
 echo "<div class='modal-body multimodules modules count$mod_show $emptystyle $style '>";
 
-foreach ($modules as $id=>$item){
-    if(is_string($item)) {
+foreach ($modules as $id => $item) {
+    if (is_string($item)) {
 
         continue;
     }
-foreach ($item as  $i=>$module){
+    foreach ($item as $i => $module) {
 
-    if($modules_tag == 'ul')            echo "<li class=\"moduletable$module->moduleclass_sfx id$module->id $module->module\">";
-    else if ($modules_tag == 'table')    echo "<tr class=\" id$module->id $module->module \">";
-    else if ($modules_tag=='div div')   echo "<div class=\" id$module->id $module->module moduletable$module->moduleclass_sfx\">";
-	else if ($modules_tag=='dl')        echo "";
-	else if ($module->module_tag=='')   echo "";
-    else                                echo "<$module->module_tag class=\"moduletable$module->moduleclass_sfx id$module->id $module->module\">";
+        if ($modules_tag == 'ul')
+            echo "<li class=\"moduletable$module->moduleclass_sfx id$module->id $module->module\">";
+        else if ($modules_tag == 'table')
+            echo "<tr class=\" id$module->id $module->module \">";
+        else if ($modules_tag == 'div div')
+            echo "<div class=\" id$module->id $module->module moduletable$module->moduleclass_sfx\">";
+        else if ($modules_tag == 'dl')
+            echo "";
+        else if ($module->module_tag == '')
+            echo "";
+        else
+            echo "<$module->module_tag class=\"moduletable$module->moduleclass_sfx id$module->id $module->module\">";
 
-    if($modules_showtitle){
-        if($modules_tag == 'dl')            echo "<dt class=\"$module->header_class\">";
-        else if($modules_tag == 'table')    echo "<td class=\"$module->header_class\">";
-        else                                echo "<$module->header_tag  class=\"$module->header_class\">";
-      echo $module->title;
-        if($modules_tag == 'dl')            echo "</dt>";
-        else if($modules_tag == 'table')    echo "</td>";
-        else                                echo "</$module->header_tag>";
+        if ($modules_showtitle) {
+            if ($modules_tag == 'dl')
+                echo "<dt class=\"$module->header_class\">";
+            else if ($modules_tag == 'table')
+                echo "<td class=\"$module->header_class\">";
+            else
+                echo "<$module->header_tag  class=\"$module->header_class\">";
+            echo $module->title;
+            if ($modules_tag == 'dl')
+                echo "</dt>";
+            else if ($modules_tag == 'table')
+                echo "</td>";
+            else
+                echo "</$module->header_tag>";
+        }
+
+        if ($modules_tag == 'dl')
+            echo "<dd class=\"moduletable$module->moduleclass_sfx\">";
+        if ($modules_tag == 'table')
+            echo "<td class=\"moduletable$module->moduleclass_sfx\">";
+
+        echo $module->content ?? '';
+        if ($modules_tag == 'dl')
+            echo '</dd>';
+        if ($modules_tag == 'table')
+            echo '</td>';
+
+        if ($modules_tag == 'ul')
+            echo "</li>";
+        else if ($modules_tag == 'table')
+            echo "</tr>";
+        else if ($modules_tag == 'div div')
+            echo "</div>";
+        else if ($modules_tag == 'dl')
+            echo "";
+        else if ($module->module_tag == '')
+            echo "";
+        else
+            echo "</$module->module_tag>";
     }
-
-    if($modules_tag == 'dl')                echo "<dd class=\"moduletable$module->moduleclass_sfx\">";
-    if($modules_tag == 'table')             echo "<td class=\"moduletable$module->moduleclass_sfx\">";
-
-											echo  $module->content ?? '';
-    if($modules_tag == 'dl')                echo '</dd>';
-    if($modules_tag == 'table')             echo '</td>';
-
-    if($modules_tag == 'ul')            echo "</li>";
-    else if($modules_tag == 'table')    echo "</tr>";
-    else if ($modules_tag=='div div')   echo "</div>";
-	else if ($modules_tag=='dl')        echo "";
-	else if ($module->module_tag=='')   echo "";
-    else 								echo "</$module->module_tag>";
-
-}}
+}
 
 echo "</div>";
 
 echo implode('', $html_after);
 
-    if($params->get('item_tag','div') != 'none' && $item_tag)
-        echo "</$item_tag>";
+if ($params->get('item_tag', 'div') != 'none' && $item_tag)
+    echo "</$item_tag>";
 
-    if($params->get('item_tag')== 'default' && $module->module_tag && $module->style){
-        echo "</$module->module_tag>";
-    }
-    if($params->get('item_tag')== 'item' && $module->module_tag){
-        echo "</$module->module_tag>";
-    }
+if ($params->get('item_tag') == 'default' && $module->module_tag && $module->style) {
+    echo "</$module->module_tag>";
+}
+if ($params->get('item_tag') == 'item' && $module->module_tag) {
+    echo "</$module->module_tag>";
+}
 
 echo "</div>";
 
- if($module_tag2)
- echo "</$module_tag2>";
+if ($module_tag2)
+    echo "</$module_tag2>";
 ?>
 

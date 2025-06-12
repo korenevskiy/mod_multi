@@ -1,26 +1,30 @@
-<?php defined('_JEXEC') or die;
-/**------------------------------------------------------------------------
-# mod_multi - Modules Conatinier
-# ------------------------------------------------------------------------
-# author    Sergei Borisovich Korenevskiy
-# Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
-# @package  mod_multi
-# @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
-# Websites: //explorer-office.ru/download/joomla/category/view/1
-# Technical Support:  Forum - //fb.com/groups/multimodule
-# Technical Support:  Forum - //vk.com/multimodule
--------------------------------------------------------------------------*/
+<?php
+
+defined('_JEXEC') or die();
+/**
+ * ------------------------------------------------------------------------
+ * # mod_multi - Modules Conatinier
+ * # ------------------------------------------------------------------------
+ * # author Sergei Borisovich Korenevskiy
+ * # Copyright (C) 2010 www./explorer-office.ru. All Rights Reserved.
+ * # @package mod_multi
+ * # @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * # Websites: //explorer-office.ru/download/joomla/category/view/1
+ * # Technical Support: Forum - //fb.com/groups/multimodule
+ * # Technical Support: Forum - //vk.com/multimodule
+ * -------------------------------------------------------------------------
+ */
 
 /*
-*** ------------------------ Карусель с вращающимся фотками/карточками  -------------------------------------------- ***
-*/
+ * ** ------------------------ Карусель с вращающимся фотками/карточками -------------------------------------------- ***
+ */
 
-$param = new \Reg($params);//*** ->toObject()
+$param = $params; // *** new \Reg($params)->toObject()
 
-$id      = $params->get('id');
+$id = $params->get('id');
 $positon = $params->get('position');
 
-$style=$params->get('style');
+$style = $params->get('style');
 $mod_show = count($modules);
 
 $module_tag = $params->get('module_tag', 'div');
@@ -39,31 +43,37 @@ $link = $params->get('link');
 $modules;
 $modules_tag = $params->get('modules_tag');
 
-if($module_tag2 = $params->get('module_tag2'))
-    echo "<$module_tag2 class=\"multimodule".$params->get('moduleclass_sfx2')." count$mod_show id$id $style\"  >";
+if ($module_tag2 = $params->get('module_tag2'))
+    echo "<$module_tag2 class=\"multimodule" . $params->get('moduleclass_sfx2') . " count$mod_show id$id $style\"  >";
 
-if($showtitle):
+if ($showtitle) :
     $titlea = "";
-    if($link_show == 'ha')
-        $titlea = "<$header_tag class=\"$header_class\"><a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\">$title</a></$header_tag>";
-    elseif($link_show || $link_show == 'ah')
-        $titlea = "<a href=\"$link\" title=\"".strip_tags($title)."\" class=\"id$id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
-    elseif(empty($link_show))
-        $titlea =  "<$header_tag class=\"$header_class\">$title</$header_tag>";
+    if ($link_show == 'ha')
+        $titlea = "<$header_tag class=\"$header_class\"><a href=\"$link\" title=\"" . strip_tags($title) . "\" class=\"id$id multiheadera\">$title</a></$header_tag>";
+    elseif ($link_show || $link_show == 'ah')
+        $titlea = "<a href=\"$link\" title=\"" . strip_tags($title) . "\" class=\"id$id multiheadera\"><$header_tag class=\"$header_class\">$title</$header_tag></a>";
+    elseif (empty($link_show))
+        $titlea = "<$header_tag class=\"$header_class\">$title</$header_tag>";
 
-    if(in_array($style, ['System-none','none','no','0',0,''],true))
+    if (in_array($style, [
+        'System-none',
+        'none',
+        'no',
+        '0',
+        0,
+        ''
+    ], true))
         echo $titlea;
     else
-        $$mod->title = $titlea;
+        ${$mod}->title = $titlea;
 endif;
 
-if($tag = $params->get('modules_tag3')){
+if ($tag = $params->get('modules_tag3')) {
     $tgs = explode('/', $tag);
     $tag_title = $tgs[0] ?? FALSE;
     $tag_block = $tgs[1] ?? FALSE;
     $tag_container = $tgs[2] ?? FALSE;
-    $tag_item  = $tgs[3] ?? FALSE;
-
+    $tag_item = $tgs[3] ?? FALSE;
 }
 
 $elements = [];
@@ -73,24 +83,24 @@ echo "</div>";
 
 $images = [];
 
-foreach ($modules as $type => $items){
-    $order =  substr($type, 0, 2);
+foreach ($modules as $type => $items) {
+    $order = substr($type, 0, 2);
     $type = substr($type, 2);
-    if(is_string($items)){
+    if (is_string($items)) {
         echo $items;
         continue;
     }
     $count = count($items);
-    foreach ($items as $id => $module){
-        $module->moduleclass_sfx = $module->moduleclass_sfx??'';
+    foreach ($items as $id => $module) {
+        $module->moduleclass_sfx = $module->moduleclass_sfx ?? '';
         $module->moduleclass_sfx .= "  countype$count order$order $type  ";
         $elements[] = $module;
-        $images[] = "'".$module->image."'";
+        $images[] = "'" . $module->image . "'";
     }
 }
 
 ?>
-<script type='text/javascript' >
+<script type='text/javascript'>
 
 var canvas<?=$param->id?>, ctx<?=$param->id?>;
 var aImages<?=$param->id?> = [];
@@ -307,27 +317,26 @@ function drawScene<?=$param->id?>() {
 
 $count = count($elements);
 
-if($module_tag2)
+if ($module_tag2)
     echo "</$module_tag2>";
 
 static $script;
 
 // <editor-fold defaultstate="collapsed" desc="Scrypt Carousel for count 5">
-if(empty($script)) {
+if (empty($script)) {
 
     $mod_path = Juri::base() . "modules/mod_multi/media/carousel-Animated-3D-Cube-Slideshow/";
 
-$script = <<< script
+    $script = <<< script
+    
+    /* MultiModule ModuleID:$param->id - $style_layout */
+    jQuery(function($){
+    
+    });
+    
+    script;
 
-/* MultiModule ModuleID:$param->id - $style_layout */
-jQuery(function($){
-
-});
-
-script;
-
-JFactory::getDocument()->addScriptDeclaration($script);
-
+    JFactory::getDocument()->addScriptDeclaration($script);
 }
 // </editor-fold>
 ?> 

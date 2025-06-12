@@ -7,3 +7,4 @@ or copy link to download module
 ```HTML
 https://github.com/korenevskiy/mod_multi/zipball/master
 ```
+

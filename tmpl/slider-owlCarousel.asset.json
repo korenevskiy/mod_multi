@@ -1,0 +1,86 @@
+{
+	"$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+	"name": "mod_multi",
+	"version": "5.4.0",
+	"description": "Multi module OWL-Carousel",
+	"license": "GPL-2.0+",
+	"assets": [
+	{
+		"name": "mod_multi.owlCarousel",
+		"type": "style",
+		"uri": "modules/mod_multi/media/OwlCarousel/owl.carousel.css",
+		"version": "2.3.4",
+		"attributes": {
+			"defer": true
+		},
+		"dependencies": [
+			"jquery-ui",
+			"jquery"
+		]
+	},	
+	{
+		"name": "mod_multi.owlCarousel",
+		"type": "script",
+		"uri": "modules/mod_multi/media/OwlCarousel/owl.carousel.js",
+		"version": "2.3.4",
+		"attributes": {
+			"defer": true
+		},
+		"dependencies": [
+			"mod_multi.owlCarousel",
+			"mod_multi.owlCarousel.theme-default",
+			"jquery-ui",
+			"jquery"
+		]
+	},
+		
+			
+				
+	{
+		"name": "mod_multi.owlCarousel.theme-default",
+		"type": "style",
+		"uri": "modules/mod_multi/media/OwlCarousel/owl.theme.default.css",
+		"attributes": {
+			"defer": true
+		}
+	},
+	{
+		"name": "mod_multi.owlCarousel.style",
+		"type": "style",
+		"uri": "modules/mod_multi/media/OwlCarousel/style.css",
+		"dependencies": [
+			"mod_multi.owlCarousel",
+			"mod_multi.owlCarousel.theme-default"
+		],
+		"attributes": {
+			"defer": true
+		}
+	},
+	
+	
+	
+	
+	{
+		"name": "jquery-ui",
+		"type": "style",
+		"uri": "modules/mod_multi/media/jquery/jquery-ui-1.14.1/jquery-ui.min.css",
+		"version": "1.14.1",
+		"dependencies": [
+			"mod_multi.owlCarousel",
+			"mod_multi.owlCarousel.theme-default"
+		],
+		"attributes": {
+			"defer": true
+		}
+	},
+	{
+		"name": "jquery-ui",
+		"type": "style",
+		"uri": "modules/mod_multi/media/jquery/jquery-ui-1.14.1/jquery-ui.min.js",
+		"version": "1.14.1",
+		"attributes": {
+			"defer": true
+		}
+	}
+	]
+}

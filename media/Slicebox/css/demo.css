@@ -1,8 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=PT+Sans+Narrow|Volkhov:400italic,700);
+@import
+	url(http://fonts.googleapis.com/css?family=PT+Sans+Narrow|Volkhov:400italic,700)
+	;
 
-*,
-*:after,
-*:before {
+*, *:after, *:before {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -24,9 +24,9 @@ body {
 	font-family: "PT Sans Narrow", Arial, sans-serif;
 	font-size: 13px;
 	font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    min-width: 320px;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+	min-width: 320px;
 }
 
 a {
@@ -71,7 +71,7 @@ h1 span, h5 {
 	z-index: 9999;
 	position: relative;
 	font-family: Cambria, Georgia, serif;
-	box-shadow: 1px 0px 2px rgba(0,0,0,0.2);
+	box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
 }
 
 .codrops-top a {
@@ -82,7 +82,7 @@ h1 span, h5 {
 }
 
 .codrops-top a:hover {
-	background: rgba(255,255,255,0.6);
+	background: rgba(255, 255, 255, 0.6);
 }
 
 .codrops-top span.right {
@@ -95,7 +95,6 @@ h1 span, h5 {
 }
 
 /* More examples buttons */
-
 .more {
 	position: relative;
 	clear: both;
@@ -106,7 +105,7 @@ h1 span, h5 {
 	content: "";
 	position: absolute;
 	background-color: #ddd1b6;
-	box-shadow: 0 1px 0 rgba(255,255,255,0.8);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 	height: 1px;
 	width: 440px;
 	left: 50%;
@@ -125,8 +124,7 @@ h1 span, h5 {
 	line-height: 24px;
 }
 
-.more ul li.selected a,
-.more ul li.selected a:hover {
+.more ul li.selected a, .more ul li.selected a:hover {
 	background: #ae997a;
 	color: #fff;
 	text-shadow: none;
@@ -140,7 +138,7 @@ h1 span, h5 {
 	margin: 0 2px;
 	line-height: 18px;
 	display: inline-block;
-	box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .more ul li a:hover {

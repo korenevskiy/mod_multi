@@ -5,7 +5,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @author		Cedric Keiflin - https://www.template-creator.com - https://www.joomlack.fr
  */
-
 .animate {
 	transition: all 0.5s ease;
 }
@@ -16,6 +15,7 @@
 
 .styleswizard_options {
 	/*margin-top: 20px;*/
+	
 }
 
 .styleswizard label {
@@ -51,11 +51,11 @@
 	min-width: 30px;
 }
 
-.btn-group > .btn {
+.btn-group>.btn {
 	vertical-align: top;
 }
 
-.btn-group > input + .btn {
+.btn-group>input+.btn {
 	margin-left: -1px;
 }
 
@@ -63,17 +63,25 @@
 	display: none !important;
 }
 
-.styleswizard input[type=radio].radiobutton:checked + label {
+.styleswizard input[type=radio].radiobutton:checked+label {
 	background: #2e9fd2; /* Old browsers */
-	background: -moz-linear-gradient(top,  #2e9fd2 0%, #21759b 100%, #21759b 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2e9fd2), color-stop(100%,#21759b), color-stop(100%,#21759b)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #2e9fd2 0%,#21759b 100%,#21759b 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e9fd2', endColorstr='#21759b',GradientType=0 ); /* IE6-9 */
+	background: -moz-linear-gradient(top, #2e9fd2 0%, #21759b 100%, #21759b 100%);
+	/* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e9fd2),
+		color-stop(100%, #21759b), color-stop(100%, #21759b));
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #2e9fd2 0%, #21759b 100%, #21759b 100%);
+	/* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #2e9fd2 0%, #21759b 100%, #21759b 100%);
+	/* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #2e9fd2 0%, #21759b 100%, #21759b 100%);
+	/* IE10+ */
+	background: linear-gradient(to bottom, #2e9fd2 0%, #21759b 100%, #21759b 100%);
+	/* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e9fd2',
+		endColorstr='#21759b', GradientType=0); /* IE6-9 */
 	color: #FFFFFF;
-	border: 1px solid #21759b ;
+	border: 1px solid #21759b;
 }
 
 #previewarea .swiper-container {
@@ -97,7 +105,6 @@
 /*------------------------
 	Wait icon
 --------------------------*/
-
 .ckwait {
 	background-image: url(../images/ajax-loader.gif) !important;
 	min-height: 16px;
@@ -114,7 +121,6 @@
 /*------------------------
 	Presets
 --------------------------*/
-
 .themethumb, .layoutthumb {
 	float: left;
 	padding: 3px;
@@ -130,11 +136,12 @@
 	overflow: hidden;
 }
 
-.themethumb:hover, .themethumb.selected,
-.layoutthumb:hover, .layoutthumb.selected {
+.themethumb:hover, .themethumb.selected, .layoutthumb:hover,
+	.layoutthumb.selected {
 	border: 1px solid #3399ff;
 	box-shadow: 0 0 5px #3399ff;
 }
+
 .themename, .layoutname {
 	text-align: center;
 	text-transform: uppercase;
@@ -143,8 +150,8 @@
 }
 
 .ckinfo {
-	position:relative;
-	background:#efefef;
+	position: relative;
+	background: #efefef;
 	border: none;
 	border-radius: 0px;
 	color: #333;
@@ -156,7 +163,7 @@
 	text-decoration: none;
 }
 
-.ckinfo > .fas {
+.ckinfo>.fas {
 	font-size: 15px;
 	padding: 3px 5px;
 	background: rgba(0, 0, 0, 0.1);
@@ -168,6 +175,7 @@
 	width: 20px;
 	text-align: center;
 }
+
 .ckinfo img {
 	margin: 0 10px 0 0;
 }

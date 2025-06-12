@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <updates>
-    <update>
-       <name>_ Multi module</name>
-       <description>MOD_MULTIMODULE_XML_DESCRIPTION</description>
-       <element>mod_multi</element>
-       <type>module</type>
-       <version>5.3</version>
-       <downloads>
-           <downloadurl type="full" format="zip">https://github.com/korenevskiy/mod_multi/zipball/master</downloadurl>
-           <downloadurl type="full" format="zip">http://www.explorer-office.ru/files/mod_multi.zip</downloadurl>
-       </downloads>
-       <maintainer>web-studio "Explorer Office"</maintainer>
-       <maintainerurl>http://www.explorer-office.ru/</maintainerurl>
-       <targetplatform name="joomla" version="4.0"/>
-       <client>site</client>
-       <client_id>0</client_id>
-    </update>
+	<update>
+		<name>_ Multi module</name>
+		<description>MOD_MULTIMODULE_XML_DESCRIPTION</description>
+		<element>mod_multi</element>
+		<type>module</type>
+		<version>5.4</version>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/korenevskiy/mod_multi/archive/refs/tags/V5.zip</downloadurl>
+			<!-- <downloadurl type="full" format="zip">http://www.explorer-office.ru/files/mod_multi.zip</downloadurl> -->
+		</downloads>
+		<maintainer>web-studio "Explorer Office"</maintainer>
+		<maintainerurl>http://www.explorer-office.ru/</maintainerurl>
+		<targetplatform name="joomla" version="4.0" />
+		<client>site</client>
+		<client_id>0</client_id>
+	</update>
 </updates>
