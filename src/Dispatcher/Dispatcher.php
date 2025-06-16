@@ -122,6 +122,8 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['par'] = "params" . $this->module->id;
         $data[$mod] = &$this->module;
         $data[$par] = &$param;
+		
+//return $data;
 
         $helper = $this->getHelperFactory()->getHelper('MultiHelper');
 
@@ -179,6 +181,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $data['modules'] = $helper::moduleLayoutData($param, $this->module, $this->app);
 
+//return $data;
         $module = &$data['module'];
 
         $count_items = array_map(fn ($mods) => is_array($mods) ? count($mods) : 0, $data['modules']);

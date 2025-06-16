@@ -42,6 +42,9 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
 
     public function __construct()
     {
+		
+        defined('MULTIMOD_PATH') || define('MULTIMOD_PATH', realpath(__DIR__ . '/../../'));
+		
         if (empty(class_exists('\Reg')))
             @include_once MULTIMOD_PATH . "/libraries/reg.php";
 
@@ -705,6 +708,7 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
 
     public static function getAjax()
     {
+
         jimport('joomla.application.module.helper'); /* подключаем хелпер для модуля */
 
         $input = [
@@ -731,12 +735,39 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
 
         $params = new \Reg($module->params);
 
-        $content = '';
-        ob_start();
-        require JPATH_ROOT . '/modules/mod_multi/mod_multi.php';
-        $content = ob_get_clean() . $content;
+		
 
-        return $content;
+		
+		
+//		$module->contentRendered = true;
+		
+		
+		$file = JPATH_SITE . "/modules/$module->module/$module->module.php";
+//		$file = JPATH_ROOT . '/modules/mod_multi/mod_multi.php';
+
+		$attrib = [];
+//		$attrib['contentOnly'] = true;
+
+		if (file_exists($file)) {
+
+			$content = '';
+			ob_start();
+			require $file;
+			return ob_get_clean() . $content;
+		} else {
+			// $module->content = JModuleHelper::renderRawModule($module, $params, $attrib);
+			// $module->content = JModHelp::renderModule($module, $attrib);
+			// if($parentId == 311)
+			// $module->content = '!:'. $module->id.':'. $chromestyle.':'.$params->style.' -- '.JModHelp::renderModule($module, $attrib);
+			// else
+			return JModHelp::renderModule($module, $attrib);
+		}
+
+		
+//        $content = '';
+//        ob_start();
+//        require $file;
+//        return ob_get_clean() . $content;
     }
 
     /**
@@ -1624,79 +1655,79 @@ ORDER BY $order  LIMIT $maximum ;
         // }
         foreach ($multi_items as $multi_module_id => &$module) {
 
-            JFactory::getLanguage()->load($module->module);
+		JFactory::getLanguage()->load($module->module);
 
-            $params = $module->params = new \Reg($module->params);
+		$params = $module->params = new \Reg($module->params);
 
-            $module->module_tag = $params->module_tag;
-            $module->header_tag = $params->header_tag;
-            $module->parentId = $parentId;
-            $module->style = $params->style;
-            $module->moduleclass_sfx = $params->moduleclass_sfx;
-            $module->header_class = $params->header_class;
-            $module->link = $params->link;
-            $module->type = 'modules';
-            $module->image = $params->image ?: $params->backgroundimage;
-            $module->style = $params->style;
+		$module->module_tag = $params->module_tag;
+		$module->header_tag = $params->header_tag;
+		$module->parentId = $parentId;
+		$module->style = $params->style;
+		$module->moduleclass_sfx = $params->moduleclass_sfx;
+		$module->header_class = $params->header_class;
+		$module->link = $params->link;
+		$module->type = 'modules';
+		$module->image = $params->image ?: $params->backgroundimage;
+		$module->style = $params->style;
 
-            if ($chromestyle && $chromestyle != '0')
-                $params->style = $chromestyle;
+		if ($chromestyle && $chromestyle != '0')
+			$params->style = $chromestyle;
 
-            $file = JPATH_SITE . "/modules/$module->module/$module->module.php";
+		$file = JPATH_SITE . "/modules/$module->module/$module->module.php";
 
-            $attrib = [];
-            // $attrib['contentOnly'] = true;
+		$attrib = [];
+//		$attrib['contentOnly'] = true;
 
-            if (file_exists($file)) {
-                // if($parentId == 311)
-                // $content = '!!:'.$chromestyle.':'. $params->style;
-                // else
-                $content = '';
+		if (file_exists($file)) {
+			// if($parentId == 311)
+			// $content = '!!:'.$chromestyle.':'. $params->style;
+			// else
+			$content = '';
 
-                ob_start();
+			ob_start();
 
-                require $file;
+			require $file;
 
-                $module->content = ob_get_clean() . $content;
-            } else {
+			$module->content = ob_get_clean() . $content;
+		} else {
 
-                // $module->content = JModuleHelper::renderRawModule($module, $params, $attrib);
-                // $module->content = JModHelp::renderModule($module, $attrib);
-                // if($parentId == 311)
-                // $module->content = '!:'. $module->id.':'. $chromestyle.':'.$params->style.' -- '.JModHelp::renderModule($module, $attrib);
-                // else
-                $module->content = JModHelp::renderModule($module, $attrib);
-            }
+//			 $module->content = JModuleHelper::renderRawModule($module, $params, $attrib);
+//			 $module->content = JModHelp::renderModule($module, $attrib);
+//			 if($parentId == 311)
+//			 $module->content = '!:'. $module->id.':'. $chromestyle.':'.$params->style.' -- '.JModHelp::renderModule($module, $attrib);
+//			 else
+			$module->content = JModHelp::renderModule($module, $attrib);
+		}
 
-            $module->contentRendered = true;
+		$module->contentRendered = true;
 
-            if (empty($module->published) || $module->published < 0 || empty($module->content))
-                unset($multi_items[$multi_module_id]);
-        }
-        return $multi_items;
-    }
+		if (empty($module->published) || $module->published < 0 || empty($module->content))
+			unset($multi_items[$multi_module_id]);
+	}
+	return $multi_items;
+	}
 
-    public static function getModulesLegacy($multi_items, $chromestyle = '', $parentId = 0)
-    {
+	public static function getModulesLegacy($multi_items, $chromestyle = '', $parentId = 0)
+	{
         $app = JFactory::getApplication();
 
         foreach ($multi_items as $multi_module_id => &$module) {
 
-            $module->params = new \Reg($module->params);
+			$module->params = new \Reg($module->params);
 
-            if ($chromestyle && $chromestyle != '0')
-                $module->params->style = $chromestyle;
+			if ($chromestyle && $chromestyle != '0')
+				$module->params->style = $chromestyle;
 
-            $module->image = $params->image ?: $params->backgroundimage;
+			$module->image = $params->image ?: $params->backgroundimage;
 
-            $module->content = JModuleHelper::renderModule($module);
-            $module->type = 'modules';
+			$module->content = JModuleHelper::renderModule($module);
+			$module->type = 'modules';
 
-            if (empty($module->published))
-                unset($multi_items[$multi_module_id]);
-        }
-        return $multi_items;
-    }
+			if (empty($module->published))
+			unset($multi_items[$multi_module_id]);
+		}
+		return $multi_items;
+	}
 
     /**
      * Split string

@@ -391,7 +391,7 @@ foreach ($modules as $type => $items) :
 
     // if($isConatinString && $param->items_tag)
     if (isset($param->items_tag) && $param->items_tag && empty($countModulesTypes[$ii]))
-        echo "</$param->items_tag>";
+        echo "\n</$param->items_tag>";
 endforeach
 ; // foreach $modules as $type => $items
 
