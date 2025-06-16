@@ -3,6 +3,7 @@
  * http://www.joomlack.fr
  * @license		GNU/GPL
  * */
+
 .ckboxmodal {
 	border: #666 1px solid;
 	box-shadow: #000 0px 0px 5px;
@@ -10,7 +11,7 @@
 	background: #fff;
 	padding: 0;
 	left: 50%;
-	top: 10px;
+	top: 10px;   
 	padding-bottom: 50px;
 	z-index: 100000;
 	height: 500px;
@@ -31,7 +32,8 @@
 	height: auto;
 }
 
-.ckboxmodal iframe, .ckboxmodal .ckboxmodal-body {
+.ckboxmodal iframe,
+.ckboxmodal .ckboxmodal-body {
 	width: 100%;
 	height: 100%;
 	border: none;
@@ -57,8 +59,9 @@
 	opacity: 0.6;
 }
 
-.ckboxmodal-header:empty, .ckboxmodal-footer:empty, .ckboxmodal-button:empty
-	{
+.ckboxmodal-header:empty,
+.ckboxmodal-footer:empty,
+.ckboxmodal-button:empty {
 	display: none !important;
 }
 
@@ -91,10 +94,9 @@
 	box-shadow: 0 0 15px #b5b5b5 inset !important;
 	text-align: center !important;
 	cursor: pointer !important;
-	font-weight: normal !important;
+	font-weight: normal  !important;
 	border-radius: 0;
 }
-
 .ckboxmodal-footer .ckboxmodal-button:hover {
 	text-decoration: underline;
 	background: #bbb;

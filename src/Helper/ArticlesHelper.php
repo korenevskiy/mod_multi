@@ -7,6 +7,7 @@
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Articles\Site\Helper;
 
 use Joomla\CMS\Access\Access;
@@ -27,14 +28,13 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die();
-
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_articles
  *
- * @since 5.2.0
+ * @since  5.2.0
  */
 class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInterface
 {
@@ -43,26 +43,22 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
     /**
      * Retrieve a list of articles
      *
-     * @param Registry $params
-     *            The module parameters.
-     * @param SiteApplication $app
-     *            The current application.
-     *            
-     * @return object[]
+     * @param   Registry         $params  The module parameters.
+     * @param   SiteApplication  $app     The current application.
      *
-     * @since 5.2.0
+     * @return  object[]
+     *
+     * @since   5.2.0
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
         $factory = $app->bootComponent('com_content')->getMVCFactory();
 
         // Get an instance of the generic articles model
-        $articles = $factory->createModel('Articles', 'Site', [
-            'ignore_request' => true
-        ]);
+        $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
-        $input = $app->getInput();
+        $input     = $app->getInput();
         $appParams = $app->getParams();
         $articles->setState('params', $appParams);
 
@@ -77,7 +73,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
         $user = $app->getIdentity();
 
         // Access filter
-        $access = ! ComponentHelper::getParams('com_content')->get('show_noauth');
+        $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
         $authorised = Access::getAuthorisedViewLevels($user->id);
         $articles->setState('filter.access', $access);
 
@@ -87,38 +83,30 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
         switch ($mode) {
             case 'dynamic':
                 $option = $input->get('option');
-                $view = $input->get('view');
+                $view   = $input->get('view');
 
                 if ($option === 'com_content') {
                     switch ($view) {
                         case 'category':
                         case 'categories':
-                            $catids = [
-                                $input->getInt('id')
-                            ];
+                            $catids = [$input->getInt('id')];
                             break;
                         case 'article':
                             if ($params->get('show_on_article_page', 1)) {
                                 $article_id = $input->getInt('id');
-                                $catid = $input->getInt('catid');
+                                $catid      = $input->getInt('catid');
 
-                                if (! $catid) {
+                                if (!$catid) {
                                     // Get an instance of the generic article model
-                                    $article = $factory->createModel('Article', 'Site', [
-                                        'ignore_request' => true
-                                    ]);
+                                    $article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
 
                                     $article->setState('params', $appParams);
                                     $article->setState('filter.published', 1);
                                     $article->setState('article.id', (int) $article_id);
-                                    $item = $article->getItem();
-                                    $catids = [
-                                        $item->catid
-                                    ];
+                                    $item   = $article->getItem();
+                                    $catids = [$item->catid];
                                 } else {
-                                    $catids = [
-                                        $catid
-                                    ];
+                                    $catids = [$catid];
                                 }
                             } else {
                                 // Return right away if show_on_article_page option is off
@@ -147,9 +135,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
         if ($catids) {
             if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
                 // Get an instance of the generic categories model
-                $categories = $factory->createModel('Categories', 'Site', [
-                    'ignore_request' => true
-                ]);
+                $categories = $factory->createModel('Categories', 'Site', ['ignore_request' => true]);
                 $categories->setState('params', $appParams);
                 $levels = $params->get('levels', 1) ?: 9999;
                 $categories->setState('filter.get_children', $levels);
@@ -160,7 +146,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 foreach ($catids as $catid) {
                     $categories->setState('filter.parentId', $catid);
                     $recursive = true;
-                    $items = $categories->getItems($recursive);
+                    $items     = $categories->getItems($recursive);
 
                     if ($items) {
                         foreach ($items as $category) {
@@ -184,9 +170,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', $this->getDatabase()
-                    ->getQuery(true)
-                    ->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
                 break;
 
             case 'rating_count':
@@ -194,7 +178,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 $articles->setState('list.ordering', $ordering);
                 $articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
 
-                if (! PluginHelper::isEnabled('content', 'vote')) {
+                if (!PluginHelper::isEnabled('content', 'vote')) {
                     $articles->setState('list.ordering', 'a.ordering');
                 }
 
@@ -214,9 +198,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
 
         // Filter by author
         if ($params->get('author_filtering_type', 1) === 2) {
-            $articles->setState('filter.author_id', [
-                $user->id
-            ]);
+            $articles->setState('filter.author_id', [$user->id]);
         } else {
             $articles->setState('filter.author_id', $params->get('created_by', []));
             $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
@@ -232,11 +214,13 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
 
         // Check if we include or exclude articles and process data
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
-        $filterInclude = true;
-        $articlesList = [];
-        $currentArticleId = $input->get('id', 0, 'UINT');
+        $filterInclude          = true;
+        $articlesList           = [];
+        $currentArticleId       = $input->get('id', 0, 'UINT');
 
-        $isArticleAndShouldExcluded = $params->get('exclude_current', 1) === 1 && $input->get('option') === 'com_content' && $input->get('view') === 'article';
+        $isArticleAndShouldExcluded = $params->get('exclude_current', 1) === 1
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article';
 
         $articlesListToProcess = $params->get('included_articles', '');
 
@@ -251,7 +235,11 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
         }
 
         foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
-            if ($ex_or_include_articles === 1 && $isArticleAndShouldExcluded && (int) $article['id'] === $currentArticleId) {
+            if (
+                $ex_or_include_articles === 1
+                && $isArticleAndShouldExcluded
+                && (int) $article['id'] === $currentArticleId
+            ) {
                 continue;
             }
 
@@ -260,12 +248,16 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
 
         // Edge case when the user select include mode but didn't add an article,
         // we might have to exclude the current article
-        if ($ex_or_include_articles === 1 && $isArticleAndShouldExcluded && empty($articlesList)) {
-            $filterInclude = false;
+        if (
+            $ex_or_include_articles === 1
+            && $isArticleAndShouldExcluded
+            && empty($articlesList)
+        ) {
+            $filterInclude  = false;
             $articlesList[] = $currentArticleId;
         }
 
-        if (! empty($articlesList)) {
+        if (!empty($articlesList)) {
             $articles->setState('filter.article_id', $articlesList);
             $articles->setState('filter.article_id.include', $filterInclude);
         }
@@ -286,19 +278,19 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
         $items = $articles->getItems();
 
         // Display options
-        $show_date = $params->get('show_date', 0);
-        $show_date_field = $params->get('show_date_field', 'created');
-        $show_date_format = $params->get('show_date_format', 'Y-m-d H:i:s');
-        $show_category = $params->get('show_category', 0);
+        $show_date          = $params->get('show_date', 0);
+        $show_date_field    = $params->get('show_date_field', 'created');
+        $show_date_format   = $params->get('show_date_format', 'Y-m-d H:i:s');
+        $show_category      = $params->get('show_category', 0);
         $show_category_link = $params->get('show_category_link', 0);
-        $show_hits = $params->get('show_hits', 0);
-        $show_author = $params->get('show_author', 0);
-        $show_introtext = $params->get('show_introtext', 0);
-        $introtext_limit = $params->get('introtext_limit', 100);
+        $show_hits          = $params->get('show_hits', 0);
+        $show_author        = $params->get('show_author', 0);
+        $show_introtext     = $params->get('show_introtext', 0);
+        $introtext_limit    = $params->get('introtext_limit', 100);
 
         // Find current Article ID if on an article page
         $option = $input->get('option');
-        $view = $input->get('view');
+        $view   = $input->get('view');
 
         if ($option === 'com_content' && $view === 'article') {
             $active_article_id = $input->getInt('id');
@@ -316,7 +308,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 // We know that user has the privilege to view the article
                 $item->link = $articleLink;
             } else {
-                $menu = $app->getMenu();
+                $menu      = $app->getMenu();
                 $menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 
                 if (isset($menuitems[0])) {
@@ -331,7 +323,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid . '&return=' . $return);
             }
 
-            $item->event = new \stdClass();
+            $item->event   = new \stdClass();
 
             // Check if we should trigger additional plugin events
             if ($params->get('trigger_events', 0)) {
@@ -343,31 +335,30 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 $contentEventArguments = [
                     'context' => 'com_content.article',
                     'subject' => $item,
-                    'params' => $item->params
+                    'params'  => $item->params,
                 ];
 
                 // Extra content from events
 
                 $contentEvents = [
-                    'afterDisplayTitle' => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                    'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                     'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
-                    'afterDisplayContent' => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments)
+                    'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
                 ];
 
                 foreach ($contentEvents as $resultKey => $event) {
-                    $results = $dispatcher->dispatch($event->getName(), $event)
-                        ->getArgument('result', []);
+                    $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
 
                     $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
                 }
             } else {
-                $item->event->afterDisplayTitle = '';
+                $item->event->afterDisplayTitle    = '';
                 $item->event->beforeDisplayContent = '';
-                $item->event->afterDisplayContent = '';
+                $item->event->afterDisplayContent  = '';
             }
 
             // Used for styling the active article
-            $item->active = $item->id == $active_article_id ? 'active' : '';
+            $item->active      = $item->id == $active_article_id ? 'active' : '';
 
             if ($show_date) {
                 $item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
@@ -381,22 +372,19 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 $item->displayCategoryLink = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
             }
 
-            $item->displayAuthorName = $show_author ? $item->author : '';
+            $item->displayAuthorName    = $show_author ? $item->author : '';
             $item->displayCategoryTitle = $show_category ? $item->category_title : '';
-            $item->displayCategoryLink = $show_category_link ? $item->displayCategoryLink : '';
-            $item->displayDate = $show_date ? $item->displayDate : '';
-            $item->displayHits = $show_hits ? $item->hits : '';
+            $item->displayCategoryLink  = $show_category_link ? $item->displayCategoryLink : '';
+            $item->displayDate          = $show_date ? $item->displayDate : '';
+            $item->displayHits          = $show_hits ? $item->hits : '';
 
             if ($show_introtext) {
                 $item->displayIntrotext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');
 
                 // Remove any images belongs to the text
-                if (! $params->get('image')) {
+                if (!$params->get('image')) {
                     // Remove any images and empty links from the intro text
-                    $item->displayIntrotext = preg_replace([
-                        '/\\<img[^>]*>/',
-                        '/<a[^>]*><\\/a>/'
-                    ], '', $item->displayIntrotext);
+                    $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->displayIntrotext);
                 }
 
                 if ($introtext_limit != 0) {
@@ -406,33 +394,39 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images = (new Registry($item->images))->toObject();
-                $item->imageSrc = '';
+                $images             = (new Registry($item->images))->toObject();
+                $item->imageSrc     = '';
 
-                if ($params->get('img_intro_full') === 'intro' && ! empty($images->image_intro)) {
-                    $item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+                if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
+                    $item->imageSrc      = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
                     $images->float_intro = 'mod-articles-image';
-                } elseif ($params->get('img_intro_full') === 'full' && ! empty($images->image_fulltext)) {
-                    $item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+                } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
+                    $item->imageSrc         = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
                     $images->float_fulltext = 'mod-articles-image';
                 }
 
                 $item->images = json_encode($images);
             }
 
-            $item->displayReadmore = $item->alternative_readmore;
+            $item->displayReadmore  = $item->alternative_readmore;
         }
 
         // Check if items need be grouped
-        $article_grouping = $params->get('article_grouping', 'none');
+        $article_grouping           = $params->get('article_grouping', 'none');
         $article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-        $grouped = $article_grouping !== 'none';
+        $grouped                    = $article_grouping !== 'none';
 
         if ($items && $grouped) {
             switch ($article_grouping) {
                 case 'year':
                 case 'month_year':
-                    $items = ArticlesHelper::groupByDate($items, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'), $params->get('date_grouping_field', 'created'));
+                    $items = ArticlesHelper::groupByDate(
+                        $items,
+                        $article_grouping_direction,
+                        $article_grouping,
+                        $params->get('month_year_format', 'F Y'),
+                        $params->get('date_grouping_field', 'created')
+                    );
                     break;
                 case 'author':
                 case 'category_title':
@@ -450,35 +444,29 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
     /**
      * Groups items by field
      *
-     * @param array $list
-     *            list of items
-     * @param string $fieldName
-     *            name of field that is used for grouping
-     * @param string $direction
-     *            ordering direction
-     * @param null $fieldNameToKeep
-     *            field name to keep
-     *            
-     * @return array
+     * @param   array   $list             list of items
+     * @param   string  $fieldName        name of field that is used for grouping
+     * @param   string  $direction        ordering direction
+     * @param   null    $fieldNameToKeep  field name to keep
      *
-     * @since 5.2.0
+     * @return  array
+     *
+     * @since   5.2.0
      */
     public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
         $grouped = [];
 
-        if (! \is_array($list)) {
+        if (!\is_array($list)) {
             if ($list === '') {
                 return $grouped;
             }
 
-            $list = [
-                $list
-            ];
+            $list = [$list];
         }
 
         foreach ($list as $key => $item) {
-            if (! isset($grouped[$item->$fieldName])) {
+            if (!isset($grouped[$item->$fieldName])) {
                 $grouped[$item->$fieldName] = [];
             }
 
@@ -499,33 +487,26 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
     /**
      * Groups items by date
      *
-     * @param array $list
-     *            list of items
-     * @param string $direction
-     *            ordering direction
-     * @param string $type
-     *            type of grouping
-     * @param string $monthYearFormat
-     *            date format to use
-     * @param string $field
-     *            date field to group by
-     *            
-     * @return array
+     * @param   array   $list             list of items
+     * @param   string  $direction        ordering direction
+     * @param   string  $type             type of grouping
+     * @param   string  $monthYearFormat  date format to use
+     * @param   string  $field            date field to group by
      *
-     * @since 5.2.0
+     * @return  array
+     *
+     * @since   5.2.0
      */
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
         $grouped = [];
 
-        if (! \is_array($list)) {
+        if (!\is_array($list)) {
             if ($list === '') {
                 return $grouped;
             }
 
-            $list = [
-                $list
-            ];
+            $list = [$list];
         }
 
         foreach ($list as $key => $item) {
@@ -533,7 +514,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 case 'month_year':
                     $month_year = StringHelper::substr($item->$field, 0, 7);
 
-                    if (! isset($grouped[$month_year])) {
+                    if (!isset($grouped[$month_year])) {
                         $grouped[$month_year] = [];
                     }
 
@@ -543,7 +524,7 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
                 default:
                     $year = StringHelper::substr($item->$field, 0, 4);
 
-                    if (! isset($grouped[$year])) {
+                    if (!isset($grouped[$year])) {
                         $grouped[$year] = [];
                     }
 
@@ -558,8 +539,8 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
 
         if ($type === 'month_year') {
             foreach ($grouped as $group => $items) {
-                $date = new Date($group);
-                $formatted_group = $date->format($monthYearFormat);
+                $date                      = new Date($group);
+                $formatted_group           = $date->format($monthYearFormat);
                 $grouped[$formatted_group] = $items;
 
                 unset($grouped[$group]);
@@ -572,21 +553,19 @@ class ArticlesHelper implements DatabaseAwareInterface // , BootableExtensionInt
     /**
      * Groups items by tags
      *
-     * @param array $list
-     *            list of items
-     * @param string $direction
-     *            ordering direction
-     *            
-     * @return array
+     * @param   array   $list       list of items
+     * @param   string  $direction  ordering direction
      *
-     * @since 5.2.0
+     * @return  array
+     *
+     * @since   5.2.0
      */
     public static function groupByTags($list, $direction = 'ksort')
     {
-        $grouped = [];
+        $grouped  = [];
         $untagged = [];
 
-        if (! $list) {
+        if (!$list) {
             return $grouped;
         }
 

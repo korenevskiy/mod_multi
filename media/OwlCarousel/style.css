@@ -8,88 +8,88 @@ and open the template in the editor.
     Author     : Korenevskiy Sergei Borisofich
     Email      : info@explorer-office.ru
 */
-.owl-carousel .item {
-	/*height: 180px;*/
-	/*width: 100%;*/
-	height: 0px;
-	padding-bottom: 75%;
-	padding-bottom: 66.66%;
-	padding-bottom: 70%;
-	margin: 1px 4px 10px;
-	position: relative;
-	overflow: hidden;
-}
 
-.owl-carousel .image, .owl-carousel a.image {
-	display: block;
-	/*height: 180px;*/
-	overflow: hidden;
-	/*margin: 0 3px 10px;*/
-	/*margin: 1px 4px 10px;*/
-	position: relative;
-	box-sizing: border-box;
-	overflow: hidden;
-	position: absolute;
-	/*width: 100%;*/
-	top: 1px;
-	bottom: 10px;
-	left: 4px;
-	right: 4px;
-	-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-	-border: 1px solid #eee;
-}
 
-.owl-carousel  .title {
-	z-index: 6;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	/*top: 1px;*/
-	/*bottom: 20px;*/
-	left: 4px;
-	right: 4px;
-	background-color: #0000006e;
-	box-sizing: border-box;
-	padding: 5px;
-	margin: 0 4px 10px;
-	color: white;
+.owl-carousel .item{  
+    /*height: 180px;*/ 
+    /*width: 100%;*/ 
+    height: 0px;
+    padding-bottom: 75%; 
+    padding-bottom: 66.66%; 
+	padding-bottom: 70%; 
+    margin: 1px 4px 10px;
+    position:  relative;
+    overflow: hidden;
 }
-
+.owl-carousel .image,
+.owl-carousel a.image{
+    display: block;
+    /*height: 180px;*/
+    overflow: hidden;
+    /*margin: 0 3px 10px;*/
+    /*margin: 1px 4px 10px;*/
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    
+    
+    position: absolute;
+    /*width: 100%;*/
+    top: 1px; 
+    bottom: 10px; 
+    left: 4px; 
+    right: 4px;
+    
+    
+    -box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+    -border: 1px solid #eee;
+}
+.owl-carousel  .title{ 
+    z-index: 6;
+    position: absolute ;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*top: 1px;*/
+    /*bottom: 20px;*/
+    left: 4px; 
+    right: 4px;
+    background-color: #0000006e;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 0 4px 10px;
+    color: white;
+}
 .owl-carousel  .info {
-	z-index: 4;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: 1px 4px 1px;
-	background-color: #0000006e;
-	box-sizing: border-box;
-	padding: 5px;
-	color: white;
-	transition: .7s 0.1s;
+    z-index: 4;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 1px 4px 1px;
+    background-color: #0000006e;
+    box-sizing: border-box;
+    padding: 5px;
+    color: white;
+    transition: .7s 0.1s; 
+} 
+.owl-carousel  a.url{  
+    display: block;
+    -text-decoration: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
 }
-
-.owl-carousel  a.url {
-	display: block;
-	-text-decoration: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 5;
-}
-
 .owl-carousel  a.urls.url {
-	display: none;
+    display: none;
+} 
+.owl-carousel  .fields{
+    display: none;
 }
-
-.owl-carousel  .fields {
-	display: none;
-}
-
-.owl-carousel  p {
-	display: none;
+.owl-carousel  p{
+    display: none;
 }

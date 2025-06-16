@@ -5,6 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @author		Cedric Keiflin - http://www.template-creator.com - http://www.joomlack.fr
  */
+
+
 .clr {
 	clear: both;
 }
@@ -23,8 +25,7 @@
 }
 
 .ckwait {
-	background: #fff url(../images/ajax-loader.gif) center center no-repeat
-		!important;
+	background: #fff url(../images/ajax-loader.gif) center center no-repeat !important;
 }
 
 #ckbrowse {
@@ -90,7 +91,7 @@
 	border: 1px solid #3071a9;
 }
 
-#ckfoldertreelist .ckfoldertree.ckcurrent>.ckfoldertreename {
+#ckfoldertreelist .ckfoldertree.ckcurrent > .ckfoldertreename {
 	border: 1px solid #3071a9;
 	color: #3071a9;
 }
@@ -106,8 +107,7 @@
 	padding: 3px 5px;
 	background-color: #5F9EA0;
 	background-image: none;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px
-		rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.15);
 	color: #fff;
 	font-size: 1em;
 	line-height: 18px;
@@ -119,6 +119,7 @@
 	vertical-align: middle;
 	left: calc(100% + 5px);
 }
+
 
 #ckfoldertreelist .cksubfolder {
 	padding: 0 0.6em;
@@ -144,6 +145,7 @@
 	height: 120px;
 	float: left;
 	text-align: center;*/
+	
 	border: 1px solid transparent;
 	float: left;
 	background-color: #f4f4f4;
@@ -199,16 +201,18 @@
 	padding: 0 2px;
 }
 
-#ckfoldertreelist .parent:not(.ckopened)>.cksubfolder, #ckfoldertreelist .ckfoldertree:not(.ckcurrent)>.ckfoldertreefiles
-	{
+#ckfoldertreelist .parent:not(.ckopened) > .cksubfolder,
+#ckfoldertreelist .ckfoldertree:not(.ckcurrent) > .ckfoldertreefiles {
 	display: none;
 }
+
 
 /*#ckfoldertreelist .ckfoldertree.ckcurrent > .ckfoldertreefiles {
 	visibility: visible;
 	opacity: 1;
 }*/
-#ckfoldertreelist .ckfoldertree>.ckfoldertreetoggler {
+
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler {
 	display: inline-block;
 	position: relative;
 	width: 30px;
@@ -217,13 +221,12 @@
 	padding: 4px 6px;
 }
 
-#ckfoldertreelist .ckfoldertree>.ckfoldertreetoggler {
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler {
 	border: #bbb 1px solid;
 	border-color: #bbb #bbb #a2a2a2;
 	background-color: #e6e6e6;
 	background-image: none;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px
-		rgba(0, 0, 0, 0.05);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
 	color: #333;
 	cursor: pointer;
 	font-size: 13px;
@@ -235,7 +238,7 @@
 	opacity: 0;
 }
 
-#ckfoldertreelist .ckfoldertree>.ckfoldertreetoggler:after {
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler:after {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -247,22 +250,21 @@
 	line-height: 100%;
 }
 
-#ckfoldertreelist .ckfoldertree.ckopened>.ckfoldertreetoggler:after {
+#ckfoldertreelist .ckfoldertree.ckopened > .ckfoldertreetoggler:after {
 	content: "-";
 }
 
-#ckfoldertreelist .ckfoldertree.parent>.ckfoldertreetoggler {
-	/* #ckfoldertreelist .ckfoldertree.hasfiles > .ckfoldertreetoggler { */
+#ckfoldertreelist .ckfoldertree.parent > .ckfoldertreetoggler {
+/* #ckfoldertreelist .ckfoldertree.hasfiles > .ckfoldertreetoggler { */
 	visibility: visible;
 	opacity: 1;
 }
 
-#ckfoldertreelist .ckfoldertree>.ckfoldertreetoggler.empty {
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler.empty {
 	display: none;
 }
 
-#ckfoldertreelist .ckfoldertree>.ckfoldertreetoggler.empty+.ckfoldertreename
-	{
+#ckfoldertreelist .ckfoldertree > .ckfoldertreetoggler.empty + .ckfoldertreename {
 	margin-left: 43px;
 }
 
@@ -273,6 +275,7 @@
 /*#ckfoldertreepreview > .inner {
 	position: fixed;
 }*/
+
 #ckfoldertreepreview img {
 	max-width: 650px;
 	height: auto;
@@ -281,6 +284,7 @@
 /*------------------------------------------------------
  * Styles for the image drag and drop upload
  *-----------------------------------------------------*/
+
 #ckfolderupload.ckdndhover {
 	border: 4px dashed #0c0;
 	background: rgba(0, 204, 0, 0.12);
@@ -300,24 +304,25 @@ progress.progress {
 	margin-bottom: 5px;
 }
 
-.ckfoldertreepath:before, .ckfoldertreepathwayfoldername:before {
+.ckfoldertreepath:before,
+.ckfoldertreepathwayfoldername:before {
 	padding: 4px;
 	color: black;
 	content: "/\00a0";
 }
 
-.ckcurrent .ckfoldertreepathwayfoldername, .ckcurrent .ckfoldertreepathwaycreatefolder
-	{
+.ckcurrent .ckfoldertreepathwayfoldername,
+.ckcurrent .ckfoldertreepathwaycreatefolder {
 	display: none;
 }
 
-.ckcurrent .ckfoldertreepathwayfoldername.ckshow, .ckcurrent .ckfoldertreepathwaycreatefolder.ckshow
-	{
+.ckcurrent .ckfoldertreepathwayfoldername.ckshow,
+.ckcurrent .ckfoldertreepathwaycreatefolder.ckshow {
 	display: inline-block;
 }
 
-.ckcurrent .ckfoldertreepathwayfoldername input[type="text"], .ckcurrent .ckfoldertreepathwaycreatefolder
-	{
+.ckcurrent .ckfoldertreepathwayfoldername input[type="text"],
+.ckcurrent .ckfoldertreepathwaycreatefolder {
 	margin: -3px;
 }
 
@@ -336,7 +341,7 @@ span.ckfoldertreepathwayaddfolder {
 	right: 0;
 	bottom: 0;
 	text-align: center;
-	background: rgba(0, 0, 0, 0.1);
+	background: rgba(0,0,0, 0.1);
 	z-index: 10;
 }
 

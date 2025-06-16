@@ -6,12 +6,8 @@ body, html {
 	font-family: Helvetica, arial, sans-serif;
 	font-size: 13px;
 }
-
 #main {
 	max-width: 1170px;
 	margin: 150px auto;
 }
-
-img {
-	max-width: 100%;
-}
+img { max-width:100%;}
