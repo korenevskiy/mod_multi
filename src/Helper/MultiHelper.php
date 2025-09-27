@@ -20,6 +20,7 @@ use Joomla\CMS;
 use Joomla\CMS\Date\Date as JDate;
 use Joomla\CMS\HTML;
 use Joomla\CMS\HTML\HTMLHelper as JHtml;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route as JRoute;
 use Joomla\CMS\Uri\Uri as JUri;
 use Joomla\Registry\Registry as JRegistry;
@@ -29,7 +30,10 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Filesystem\Folder as JFolder;
 // use Joomla\CMS\Helper\ModuleHelper as JModuleHelper;
 use Joomla\Module\Multi\Site\Helper\JModHelp as JModuleHelper;
-defined('_JEXEC') or die();
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
 
 jimport('joomla.application.module.helper');
 
@@ -40,9 +44,7 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
 
     public static $params;
 
-    public function __construct()
-    {
-		
+    public function __construct() {
         defined('MULTIMOD_PATH') || define('MULTIMOD_PATH', realpath(__DIR__ . '/../../'));
 		
         if (empty(class_exists('\Reg')))
@@ -53,7 +55,7 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
 
         if (! function_exists('toPrint') && file_exists(JPATH_ROOT . '/functions.php'))
             require_once JPATH_ROOT . '/functions.php';
-
+	
         JLoader::register('Joomla\Module\Multi\Site\Helper\JModHelp', MULTIMOD_PATH . '/libraries/ModuleHelper.php');
 
         // require_once MULTIMOD_PATH . '/libraries/ModuleHelper.php';
@@ -64,7 +66,7 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
         $params = &$param;
         $module->params = &$params;
         $param->id = $module->id;
-
+	
         // if($module->id == 311){
         // echo "<pre> ModID:";
         // echo print_r($module->id,true);
@@ -235,8 +237,36 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
             if ($fontsGoogle)
                 static::fontsGoogle($fontsGoogle, $module->id);
 
-            if ($param->stylesheetFiles ?? [])
-                foreach ($param->stylesheetFiles as $key => $value) {
+            if ($param->libsFiles){
+				
+				/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+				$wa = JFactory::getApplication()->getDocument()->getWebAssetManager();
+				
+				foreach ((array)$param->libsFiles as $libs) {
+					
+					foreach (str_getcsv($libs) as $lib){
+						[$type, $lib] = explode(':', $lib);
+
+						if($type == 'js'){
+							if(str_ends_with($lib, '.js'))
+								$wa->registerScript(basename($lib, '.js'), $lib);
+							else
+								$wa->useScript($lib);
+						}
+						
+						if($type == 'css'){
+							if(str_ends_with($lib, '.css'))
+								$wa->registerStyle(basename($lib, '.css'), $lib);
+							else
+								$wa->useStyle($lib);
+						}
+					}
+                }
+		}
+			
+			
+            if ($param->stylesheetFiles)
+                foreach ((array)$param->stylesheetFiles as $key => $value) {
                     JHtml::stylesheet(trim($value, " /\\"), [], [
                         'moduleid' => $module->id
                     ]);
@@ -246,8 +276,8 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
             if ($param->stylesheetTag ?? '')
                 $html .= "<style type='text/css' module='$module->id'>$param->stylesheetTag</style>";
 
-            if ($param->scryptFiles ?? [])
-                foreach ($param->scryptFiles as $key => $value) {
+            if ($param->scryptFiles)
+                foreach ((array)$param->scryptFiles as $key => $value) {
                     JHtml::script(trim($value, " /\\"), [], [
                         'module' => $module->id
                     ]);

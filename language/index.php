@@ -86,8 +86,9 @@ class HelperMinification{
 				$text = str_replace("]\n", "][{<!>}]", $text);			//	]\n		-
 				$text = str_replace("]\r", "][{<!>}]", $text);			//	]\r		-
 				$text = str_replace(";\r\n", ";[{<!>}]", $text);		//	;\r\n	-
-				$text = str_replace(";\n", ";[{<!>}]", $text);		//	;\n	-
-				$text = str_replace(";\r", ";[{<!>}]", $text);		//	;\r	-
+				$text = str_replace(";\n", ";[{<!>}]", $text);			//	;\n	-
+				$text = str_replace(";\r", ";[{<!>}]", $text);			//	;\r	-
+				$text = str_replace(";;", "[{<!>}]", $text);			//	;;		-
 				
 				$text = str_replace("\"\r\n", "\"[{<!>}]", $text);		//	"\r\n	-
 				$text = str_replace("\"\n", "\"[{<!>}]", $text);		//	"\n		-

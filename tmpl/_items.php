@@ -15,16 +15,15 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if(empty($item->items))
-{
+if (empty($item->items)) {
 	return;
 }
-
+$items = $item->items;
 ?>
 <ul>
-	<?php foreach ($item->items as $item):
-		$title = htmlspecialchars( $item->link_title ?? $item->title, ENT_COMPAT, 'UTF-8');
-		if(!isset($item->cat_id))
+	<?php foreach ($items as $item):
+		$title = htmlspecialchars($item->link_title ?? $item->title, ENT_COMPAT, 'UTF-8');
+		if (! isset($item->cat_id))
 			$item->cat_id = 0;
 		$cat_id = $item->cat_id ? "id=$item->cat_id" : '';
 		

@@ -24,24 +24,27 @@ if(JVersion::MAJOR_VERSION == 3){
 }
 else{
 
-//$wa = new \Joomla\CMS\WebAsset\WebAssetManager;
+/** @var  \Joomla\CMS\WebAsset\WebAssetManager  $wa  */
 $wa = JFactory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('jquery')->useScript('jquery-noconflict')->useScript('jquery-migrate'); /** Вместо JHtml::_('jquery.framework', true, TRUE, true) */
+//$wa->useStyle('jquery.ui')->useScript('jquery.ui');
+
 //$wa->registerAndUseScript('Instascan', 'https://rawgit.com/schmich/instascan-builds/master/instascan.min.js', [], ['defer' => true]);
 
-$wa->registerScript('jquery','modules/mod_multi/media/jquery/jquery-3.7.0.min.js',
-		['version'=>'3.6.0']);
+//$wa->registerScript('jquery','modules/mod_multi/media/jquery/jquery-3.7.0.min.js',
+//		['version'=>'3.6.0']);
 
 $wa->registerScript('jquery-migrate-old','modules/mod_multi/media/jquery/jquery-migrate-1.4.1.min.js',
 		['version'=>'1.4.1','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery']);
 
-$wa->registerScript('jquery-migrate','modules/mod_multi/media/jquery/jquery.migrate-3.4.1.min.js',
-		['version'=>'3.4.0','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate-old']);
+//$wa->registerScript('jquery-migrate','modules/mod_multi/media/jquery/jquery.migrate-3.4.1.min.js',
+//		['version'=>'3.4.0','dependencies' => ['jquery']],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate-old']);
 
-$wa->registerScript('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js',
-		['version'=>'1.13.2'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate']);
+$wa->registerScript('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.14.1/query-ui.min.js',
+		['version'=>'1.14.1'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate-old','jquery-migrate']);
 
-$wa->registerStyle('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css',
-		['version'=>'1.13.2'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate']);
+$wa->registerStyle('jquery-ui','modules/mod_multi/media/jquery/jquery-ui-1.14.1/jquery-ui.min.css',
+		['version'=>'1.14.1'],['defer' => false, 'nomodule' => false],['jquery','jquery-migrate']);
 
 //$wa->registerScript('jquery-ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.js');
 //$wa->registerStyle('jquery-ui', 'modules/mod_multi/media/jquery/jquery-ui-1.13.2/jquery-ui.min.css');

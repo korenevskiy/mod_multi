@@ -24,8 +24,9 @@ use Joomla\Registry\Registry as JRegistry;
 //JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 //
 //JHtml::_('bootstrap.framework');
-JHtml::_('jquery.framework', true, TRUE, true); // load jquery
-JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui'); // load jquery ui from Joomla
+//JHtml::_('jquery.framework', true, TRUE, true); // load jquery
+
+
 //JHtml::_('formbehavior.chosen', 'select');
 //JHtml::_('bootstrap.tooltip');
 
@@ -368,7 +369,12 @@ if($module_tag2)
 
 
 // <editor-fold defaultstate="collapsed" desc="Scrypt Carousel for count 5">
-JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
+//JFactory::getApplication()->getDocument()->getWebAssetManager()->useStyle('jquery.ui')->useScript('jquery.ui');
+
+/** @var  \Joomla\CMS\WebAsset\WebAssetManager  $wa  */
+$wa = JFactory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('jquery')->useScript('jquery-noconflict')->useScript('jquery-migrate'); /** Вместо JHtml::_('jquery.framework', true, TRUE, true) */
+$wa->useStyle('jquery.ui')->useScript('jquery.ui'); // load jquery ui from Joomla
 
 JHtml::script("modules/mod_multi/media/fancybox_3/jquery.fancybox.min.js"); 
 JHtml::stylesheet("modules/mod_multi/media/fancybox_3/jquery.fancybox.min.css"); 
