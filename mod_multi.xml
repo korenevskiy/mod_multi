@@ -128,7 +128,7 @@
 					
 		<field name="translate" 
 			label="&lt;hr>" 
-			type="translate" _
+			type="translate" 
 			addfieldprefix="Joomla\Module\Multi\Administrator\Fields" />
 					
                     <field
