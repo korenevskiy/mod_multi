@@ -22,11 +22,11 @@
 		<filename>mod_multi.xml</filename>
 		<!--<filename>helper.php</filename>-->
 		<filename>index.html</filename>
-		<folder>fields</folder>
+		<!--<folder>fields</folder>-->
 		<folder>language</folder>
 		<folder>libraries</folder>
 		<folder>media</folder>
-		<folder>src</folder>
+		<folder>services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
