@@ -37,46 +37,46 @@
 		<language tag="ru-RU">language/ru-RU/mod_multi.sys.ini</language>
 		
 		
-		<language tag="ru-RU">language/be-BY/mod_multi.ini</language>
-		<language tag="ru-RU">language/be-BY/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/cy-GB/mod_multi.ini</language>
-		<language tag="ru-RU">language/cy-GB/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/de-DE/mod_multi.ini</language>
-		<language tag="ru-RU">language/de-DE/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/en-US/mod_multi.ini</language>
-		<language tag="ru-RU">language/en-US/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/es-ES/mod_multi.ini</language>
-		<language tag="ru-RU">language/es-ES/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/fr-FR/mod_multi.ini</language>
-		<language tag="ru-RU">language/fr-FR/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/hi-IN/mod_multi.ini</language>
-		<language tag="ru-RU">language/hi-IN/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/id-ID/mod_multi.ini</language>
-		<language tag="ru-RU">language/id-ID/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/it-IT/mod_multi.ini</language>
-		<language tag="ru-RU">language/it-IT/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/ja-JP/mod_multi.ini</language>
-		<language tag="ru-RU">language/ja-JP/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/ko-KR/mod_multi.ini</language>
-		<language tag="ru-RU">language/ko-KR/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/nl-NL/mod_multi.ini</language>
-		<language tag="ru-RU">language/nl-NL/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/pl-PL/mod_multi.ini</language>
-		<language tag="ru-RU">language/pl-PL/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/pt-PT/mod_multi.ini</language>
-		<language tag="ru-RU">language/pt-PT/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/sv-SE/mod_multi.ini</language>
-		<language tag="ru-RU">language/sv-SE/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/ta-IN/mod_multi.ini</language>
-		<language tag="ru-RU">language/ta-IN/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/tr-TR/mod_multi.ini</language>
-		<language tag="ru-RU">language/tr-TR/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/uk-UA/mod_multi.ini</language>
-		<language tag="ru-RU">language/uk-UA/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/vi-VN/mod_multi.ini</language>
-		<language tag="ru-RU">language/vi-VN/mod_multi.sys.ini</language>
-		<language tag="ru-RU">language/zh-CN/mod_multi.ini</language>
-		<language tag="ru-RU">language/zh-CN/mod_multi.sys.ini</language>
+		<language tag="be-BY">language/be-BY/mod_multi.ini</language>
+		<language tag="be-BY">language/be-BY/mod_multi.sys.ini</language>
+		<language tag="cy-GB">language/cy-GB/mod_multi.ini</language>
+		<language tag="cy-GB">language/cy-GB/mod_multi.sys.ini</language>
+		<language tag="de-DE">language/de-DE/mod_multi.ini</language>
+		<language tag="de-DE">language/de-DE/mod_multi.sys.ini</language>
+		<language tag="en-US">language/en-US/mod_multi.ini</language>
+		<language tag="en-US">language/en-US/mod_multi.sys.ini</language>
+		<language tag="es-ES">language/es-ES/mod_multi.ini</language>
+		<language tag="es-ES">language/es-ES/mod_multi.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR/mod_multi.ini</language>
+		<language tag="fr-FR">language/fr-FR/mod_multi.sys.ini</language>
+		<language tag="hi-IN">language/hi-IN/mod_multi.ini</language>
+		<language tag="hi-IN">language/hi-IN/mod_multi.sys.ini</language>
+		<language tag="id-ID">language/id-ID/mod_multi.ini</language>
+		<language tag="id-ID">language/id-ID/mod_multi.sys.ini</language>
+		<language tag="it-IT">language/it-IT/mod_multi.ini</language>
+		<language tag="it-IT">language/it-IT/mod_multi.sys.ini</language>
+		<language tag="ja-JP">language/ja-JP/mod_multi.ini</language>
+		<language tag="ja-JP">language/ja-JP/mod_multi.sys.ini</language>
+		<language tag="ko-KR">language/ko-KR/mod_multi.ini</language>
+		<language tag="ko-KR">language/ko-KR/mod_multi.sys.ini</language>
+		<language tag="nl-NL">language/nl-NL/mod_multi.ini</language>
+		<language tag="nl-NL">language/nl-NL/mod_multi.sys.ini</language>
+		<language tag="pl-PL">language/pl-PL/mod_multi.ini</language>
+		<language tag="pl-PL">language/pl-PL/mod_multi.sys.ini</language>
+		<language tag="pt-PT">language/pt-PT/mod_multi.ini</language>
+		<language tag="pt-PT">language/pt-PT/mod_multi.sys.ini</language>
+		<language tag="sv-SE">language/sv-SE/mod_multi.ini</language>
+		<language tag="sv-SE">language/sv-SE/mod_multi.sys.ini</language>
+		<language tag="ta-IN">language/ta-IN/mod_multi.ini</language>
+		<language tag="ta-IN">language/ta-IN/mod_multi.sys.ini</language>
+		<language tag="tr-TR">language/tr-TR/mod_multi.ini</language>
+		<language tag="tr-TR">language/tr-TR/mod_multi.sys.ini</language>
+		<language tag="uk-UA">language/uk-UA/mod_multi.ini</language>
+		<language tag="uk-UA">language/uk-UA/mod_multi.sys.ini</language>
+		<language tag="vi-VN">language/vi-VN/mod_multi.ini</language>
+		<language tag="vi-VN">language/vi-VN/mod_multi.sys.ini</language>
+		<language tag="zh-CN">language/zh-CN/mod_multi.ini</language>
+		<language tag="zh-CN">language/zh-CN/mod_multi.sys.ini</language>
 	</languages>
 	<updateservers>
 		<server type="extension" name="mod_multi" priority="1">https://korenevskiy.github.io/mod_multi/mod_multi_update.xml</server>
@@ -128,7 +128,7 @@
 					
 		<field name="translate" 
 			label="&lt;hr>" 
-			type="translate" 
+			type="translate"
 			addfieldprefix="Joomla\Module\Multi\Administrator\Fields" />
 					
                     <field
