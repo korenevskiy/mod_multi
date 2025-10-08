@@ -244,7 +244,7 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
 				
 				foreach ((array)$param->libsFiles as $libs) {
 					
-					foreach (str_getcsv($libs) as $lib){
+					foreach (str_getcsv($libs, escape: '\\) as $lib){
 						[$type, $lib] = explode(':', $lib);
 
 						if($type == 'js'){
