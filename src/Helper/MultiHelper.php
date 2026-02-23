@@ -1256,7 +1256,7 @@ class MultiHelper implements DatabaseAwareInterface // abstract class ModMultiHe
         $tags_join_tags = '';
 
         if ($tags) {
-            $tags_join_tags = " INNER JOIN joom_contentitem_tag_map m ON m.content_item_id = a.id AND m.tag_id IN ($tags) ";
+            $tags_join_tags = " INNER JOIN #__contentitem_tag_map m ON m.content_item_id = a.id AND m.tag_id IN ($tags) ";
         }
 
         if ($sorting && $sorting != 'rand()') {
